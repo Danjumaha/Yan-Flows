@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coin System | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - COINS PAGE STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --coral-hover: #EE5A5A;
+      --teal: #4ECDC4; --teal-hover: #3DBDB4;
+      --gold: #FFD93D; --danger: #FF4757;
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-sm: 8px; --radius-md: 16px;
+      --space-sm: 1rem; --space-md: 2rem;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    /* ===== NAVBAR ===== */
+    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+    .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { color: var(--navy); }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1200px; margin: 0 auto; width: 100%; }
+    
+    .page-header { margin-bottom: var(--space-md); }
+    .page-header h1 { font-size: 1.75rem; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .page-header p { color: var(--gray); font-size: 0.95rem; }
+
+    /* Balance Card */
+    .balance-card {      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      margin-bottom: var(--space-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .balance-info h2 { font-size: 1rem; font-weight: 500; opacity: 0.9; margin-bottom: 0.5rem; }
+    .balance-amount { font-size: 2.5rem; font-weight: 800; display: flex; align-items: center; gap: 0.75rem; }
+    .coin-icon { font-size: 2rem; color: var(--gold); }
+    .balance-status { text-align: right; }
+    .status-badge { padding: 0.5rem 1rem; border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 600; background: rgba(255,255,255,0.15); }
+    .status-badge.active { background: rgba(46,213,115,0.2); color: #2ED573; }
+    .status-badge.low { background: rgba(255,71,87,0.2); color: #FF4757; }
+
+    /* Packages Grid */
+    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy-dark); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+    .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: var(--space-md); }
+    .package-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 1.5rem;
+      text-align: center;
+      border: 2px solid transparent;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .package-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--teal); }
+    .package-card.popular { border-color: var(--coral); }
+    .package-card.popular::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: 12px; right: -30px;
+      background: var(--coral);
+      color: white;
+      padding: 0.25rem 2rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      transform: rotate(45deg);
+    }
+    .package-coins { font-size: 2rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .package-label { font-size: 0.9rem; color: var(--gray); margin-bottom: 1rem; }
+    .package-price { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 1.25rem; }    .buy-btn {
+      width: 100%; padding: 0.875rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.95rem;
+      background: var(--navy); color: var(--white); transition: var(--transition);
+    }
+    .buy-btn:hover { background: var(--coral); }
+
+    /* Transaction History */
+    .history-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: var(--space-md); }
+    .history-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .history-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem; border-radius: var(--radius-sm); background: var(--light-bg);
+      transition: var(--transition);
+    }
+    .history-item:hover { background: #EDF2F7; }
+    .item-left { display: flex; align-items: center; gap: 1rem; }
+    .item-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .icon-purchase { background: rgba(46,213,115,0.15); color: #2ED573; }
+    .icon-deduction { background: rgba(255,107,107,0.15); color: var(--coral); }
+    .icon-bonus { background: rgba(78,205,196,0.15); color: var(--teal); }
+    .item-details h4 { font-size: 0.95rem; font-weight: 600; color: var(--navy-dark); }
+    .item-details p { font-size: 0.8rem; color: var(--gray); }
+    .item-right { text-align: right; }
+    .item-amount { font-weight: 700; color: var(--navy-dark); }
+    .item-date { font-size: 0.8rem; color: var(--gray); }
+
+    .empty-history { text-align: center; padding: 2rem; color: var(--gray); }
+
+    /* Toast */
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--white); padding: 1rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.75rem; min-width: 280px; transform: translateX(120%); transition: transform 0.3s ease; border-left: 4px solid var(--coral); }
+    .toast.success { border-left-color: var(--teal); }
+    .toast.show { transform: translateX(0); }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .balance-card { flex-direction: column; text-align: center; }
+      .balance-amount { justify-content: center; }
+      .packages-grid { grid-template-columns: 1fr; }
+      .history-item { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+      .item-right { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="dashboard.html" class="logo">        <div class="logo-icon">YF</div>
+        YAN-FLOWS
+      </a>
+      <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <header class="page-header">
+      <h1>Coin System</h1>
+      <p>Manage your platform credits and purchase more to keep your store active</p>
+    </header>
+
+    <!-- Balance Display -->
+    <div class="balance-card">
+      <div class="balance-info">
+        <h2>Your Coin Balance</h2>
+        <div class="balance-amount">
+          <i class="fas fa-coins coin-icon"></i>
+          <span id="currentBalance">0</span>
+        </div>
+      </div>
+      <div class="balance-status">
+        <div class="status-badge" id="statusBadge">Checking...</div>
+        <p style="font-size:0.8rem; margin-top:0.5rem; opacity:0.8;">Each successful order deducts 1 coin</p>
+      </div>
+    </div>
+
+    <!-- Packages -->
+    <h2 class="section-title"><i class="fas fa-gem"></i> Coin Packages</h2>
+    <div class="packages-grid" id="packagesGrid">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- History -->
+    <div class="history-card">
+      <h2 class="section-title"><i class="fas fa-history"></i> Transaction History</h2>
+      <div class="history-list" id="historyList">
+        <div class="empty-history">Loading transactions...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Paystack SDK -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <!-- Core Engine -->  <script src="app.js"></script>
+
+  <!-- Page Script -->
+  <script>
+    // ===== DOM ELEMENTS =====
+    const balanceEl = document.getElementById('currentBalance');
+    const statusBadge = document.getElementById('statusBadge');
+    const packagesGrid = document.getElementById('packagesGrid');
+    const historyList = document.getElementById('historyList');
+    const toastContainer = document.getElementById('toastContainer');
+
+    // State
+    let currentUser = null;
+    let userCoins = 0;
+
+    // Coin Packages Config
+    const PACKAGES = [
+      { price: 5000, coins: 50, label: 'Starter' },
+      { price: 10000, coins: 120, label: 'Basic' },
+      { price: 20000, coins: 260, label: 'Pro', popular: true },
+      { price: 50000, coins: 700, label: 'Business' },
+      { price: 100000, coins: 1500, label: 'Enterprise' }
+    ];
+
+    // ===== AUTH GUARD =====
+    YF.requireAuth('login.html');
+
+    // Initialize
+    firebase.auth().onAuthStateChanged(async user => {
+      if (!user) return;
+      currentUser = user;
+      await loadBalance();
+      renderPackages();
+      loadHistory();
+    });
+
+    // ===== LOAD BALANCE =====
+    async function loadBalance() {
+      if (!currentUser) return;
+      try {
+        const doc = await firebase.firestore().collection('users').doc(currentUser.uid).get();
+        if (doc.exists) {
+          userCoins = doc.data().coins || 0;
+          updateBalanceUI();
+        }
+      } catch (err) {
+        console.error('Balance load error:', err);
+        YF.ui.toast('Failed to load balance.', 'error');
+      }
+    }
+    function updateBalanceUI() {
+      balanceEl.textContent = userCoins;
+      if (userCoins <= 0) {
+        statusBadge.textContent = ' Store Paused (0 Coins)';
+        statusBadge.className = 'status-badge low';
+      } else if (userCoins < 10) {
+        statusBadge.textContent = '⚠️ Low Balance';
+        statusBadge.className = 'status-badge low';
+      } else {
+        statusBadge.textContent = '✅ Active';
+        statusBadge.className = 'status-badge active';
+      }
+    }
+
+    // ===== RENDER PACKAGES =====
+    function renderPackages() {
+      packagesGrid.innerHTML = PACKAGES.map(pkg => `
+        <div class="package-card ${pkg.popular ? 'popular' : ''}">
+          <div class="package-coins">${pkg.coins}</div>
+          <div class="package-label">Coins</div>
+          <div class="package-price">${YF.ui.formatNaira(pkg.price)}</div>
+          <button class="buy-btn" onclick="purchaseCoins(${pkg.price}, ${pkg.coins}, '${pkg.label}')">
+            Buy ${pkg.coins} Coins
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // ===== PURCHASE COINS (PAYSTACK) =====
+    window.purchaseCoins = async (amount, coins, label) => {
+      if (!currentUser) return;
+      
+      try {
+        const userEmail = currentUser.email || 'customer@email.com';
+        const metadata = { userId: currentUser.uid, packageLabel: label, coinsAmount: coins };
+
+        YF.pay(amount, userEmail, metadata, 
+          async (response) => {
+            // Payment Successful
+            try {
+              // 1. Update User Coins
+              await firebase.firestore().collection('users').doc(currentUser.uid).update({
+                coins: firebase.firestore.FieldValue.increment(coins)
+              });
+              
+              // 2. Log Transaction
+              await firebase.firestore().collection('coin_transactions').add({
+                userId: currentUser.uid,
+                type: 'purchase',                coins: coins,
+                amount: amount,
+                packageLabel: label,
+                reference: response.reference,
+                status: 'success',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+
+              // 3. Update UI
+              userCoins += coins;
+              updateBalanceUI();
+              loadHistory(); // Refresh history
+              YF.ui.toast(`Successfully purchased ${coins} coins! `, 'success');
+            } catch (dbErr) {
+              console.error('DB Update Error:', dbErr);
+              YF.ui.toast('Payment successful but balance update failed. Contact support.', 'error');
+            }
+          },
+          () => {
+            // Payment Closed
+            YF.ui.toast('Payment cancelled.', 'info');
+          }
+        );
+      } catch (err) {
+        console.error('Paystack Init Error:', err);
+        YF.ui.toast('Failed to initialize payment.', 'error');
+      }
+    };
+
+    // ===== LOAD HISTORY =====
+    async function loadHistory() {
+      if (!currentUser) return;
+      historyList.innerHTML = '<div class="empty-history"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+      
+      try {
+        const snapshot = await firebase.firestore().collection('coin_transactions')
+          .where('userId', '==', currentUser.uid)
+          .orderBy('createdAt', 'desc')
+          .limit(20)
+          .get();
+
+        if (snapshot.empty) {
+          historyList.innerHTML = '<div class="empty-history">No transactions yet. Purchase coins to get started.</div>';
+          return;
+        }
+
+        historyList.innerHTML = snapshot.docs.map(doc => {
+          const t = doc.data();
+          const date = t.createdAt ? YF.ui.formatDate(t.createdAt) : 'Just now';
+          let iconClass = 'icon-purchase';          let sign = '+';
+          if (t.type === 'deduction') { iconClass = 'icon-deduction'; sign = '-'; }
+          if (t.type === 'bonus') { iconClass = 'icon-bonus'; sign = '+'; }
+          
+          return `
+            <div class="history-item">
+              <div class="item-left">
+                <div class="item-icon ${iconClass}"><i class="fas fa-${t.type === 'purchase' ? 'credit-card' : t.type === 'deduction' ? 'minus' : 'gift'}"></i></div>
+                <div class="item-details">
+                  <h4>${t.packageLabel || t.type.charAt(0).toUpperCase() + t.type.slice(1)}</h4>
+                  <p>${t.reference || 'System'}</p>
+                </div>
+              </div>
+              <div class="item-right">
+                <div class="item-amount" style="color: ${t.type === 'deduction' ? 'var(--coral)' : '#2ED573'}">${sign}${t.coins} coins</div>
+                <div class="item-date">${date}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('History load error:', err);
+        historyList.innerHTML = '<div class="empty-history">Failed to load history.</div>';
+      }
+    }
+
+    console.log('✅ Coins Page Loaded');
+    console.log('💳 Paystack Integration Active');
+    console.log(' Real-time Balance & History Synced');
+  </script>
+<script src="app.js"></script>
+</body>
+</html>

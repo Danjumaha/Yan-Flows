@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - CHECKOUT PAGE STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --coral-hover: #EE5A5A;
+      --teal: #4ECDC4; --teal-hover: #3DBDB4;
+      --gold: #FFD93D; --danger: #FF4757;
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-sm: 8px; --radius-md: 16px;
+      --space-sm: 1rem; --space-md: 2rem;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+    input, textarea, select { font-family: inherit; }
+
+    /* ===== NAVBAR ===== */
+    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+    .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { color: var(--navy); }
+
+    /* ===== MAIN LAYOUT ===== */
+    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--space-md); align-items: start; }
+    @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; } }
+
+    .page-header { grid-column: 1 / -1; margin-bottom: 1rem; }
+    .page-header h1 { font-size: 1.75rem; color: var(--navy-dark); }
+    .page-header p { color: var(--gray); }
+    /* Forms */
+    .checkout-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-md); }
+    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy-dark); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-title i { color: var(--teal); }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group.full { grid-column: span 2; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .form-group.full { grid-column: span 1; } }
+
+    .form-label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--navy); }
+    .form-input, .form-textarea {
+      width: 100%; padding: 0.875rem 1rem; border: 2px solid #E2E8F0; border-radius: var(--radius-sm);
+      font-size: 1rem; transition: var(--transition); background: var(--light-bg);
+    }
+    .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--teal); background: var(--white); box-shadow: 0 0 0 4px rgba(78,205,196,0.15); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+
+    /* Payment Section */
+    .payment-methods { display: flex; gap: 1rem; margin-bottom: 1.25rem; }
+    .payment-option {
+      flex: 1; border: 2px solid #E2E8F0; border-radius: var(--radius-sm); padding: 1rem;
+      text-align: center; cursor: pointer; transition: var(--transition);
+    }
+    .payment-option.active { border-color: var(--teal); background: rgba(78,205,196,0.05); }
+    .payment-option i { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; color: var(--navy); }
+    .payment-option span { font-weight: 600; font-size: 0.9rem; }
+
+    /* Order Summary (Right Side) */
+    .summary-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-md); position: sticky; top: 90px; }
+    .summary-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #F1F5F9; }
+    
+    .summary-items { max-height: 300px; overflow-y: auto; margin-bottom: 1rem; }
+    .summary-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; font-size: 0.9rem; }
+    .item-info { flex: 1; }
+    .item-name { font-weight: 600; color: var(--navy-dark); }
+    .item-qty { color: var(--gray); font-size: 0.8rem; }
+    .item-total { font-weight: 600; color: var(--navy); }
+
+    .summary-rows { border-top: 1px solid #F1F5F9; padding-top: 1rem; }
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--gray); }
+    .summary-row.total { font-size: 1.25rem; font-weight: 800; color: var(--navy-dark); margin-top: 0.75rem; border-top: 2px dashed #E2E8F0; padding-top: 0.75rem; }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%; padding: 1rem; background: #25D366; color: var(--white); border-radius: var(--radius-sm);
+      font-weight: 700; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+      transition: var(--transition); margin-top: 1.25rem;
+    }
+    .submit-btn:hover { background: #128C7E; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }    .submit-btn:disabled { background: var(--gray); cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* Toast */
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--white); padding: 1rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.75rem; min-width: 280px; transform: translateX(120%); transition: transform 0.3s ease; border-left: 4px solid var(--coral); }
+    .toast.success { border-left-color: var(--teal); }
+    .toast.show { transform: translateX(0); }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">YF</div>
+        YAN-FLOWS
+      </a>
+      <a href="cart.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Cart</a>
+    </div>
+  </nav>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <header class="page-header">
+      <h1>Checkout</h1>
+      <p>Complete your order details below</p>
+    </header>
+
+    <!-- Left Column: Forms -->
+    <div class="left-column">
+      <!-- Delivery Info -->
+      <div class="checkout-card" style="margin-bottom: var(--space-md);">
+        <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Delivery Information</h2>
+        <form id="checkoutForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input type="text" id="fullName" class="form-input" placeholder="John Doe" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" id="phone" class="form-input" placeholder="08012345678" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Alternative Phone</label>
+              <input type="tel" id="altPhone" class="form-input" placeholder="09012345678"/>            </div>
+            <div class="form-group">
+              <label class="form-label">City *</label>
+              <input type="text" id="city" class="form-input" placeholder="e.g. Lagos" required/>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Full Address *</label>
+              <input type="text" id="address" class="form-input" placeholder="House No, Street Name, Landmark" required/>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Delivery Note (Optional)</label>
+              <textarea id="note" class="form-textarea" placeholder="e.g. Call before delivery, Leave at gate..."></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Summary -->
+    <aside class="summary-card">
+      <h2 class="summary-title">Order Summary</h2>
+      
+      <div class="summary-items" id="summaryItems">
+        <!-- Injected by JS -->
+      </div>
+
+      <div class="summary-rows">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="subtotalAmount">₦0</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery Fee</span>
+          <span id="deliveryAmount">₦1,500</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total to Pay</span>
+          <span id="totalAmount">₦0</span>
+        </div>
+      </div>
+
+      <div style="background: var(--light-bg); padding: 0.75rem; border-radius: var(--radius-sm); margin-top: 1rem; font-size: 0.85rem; color: var(--gray);">
+        <i class="fas fa-info-circle"></i> You will receive bank details for payment via WhatsApp after submitting.
+      </div>
+
+      <button class="submit-btn" id="submitOrderBtn">
+        <i class="fab fa-whatsapp"></i> Submit Order on WhatsApp
+      </button>
+    </aside>
+  </main>
+  <!-- Core Engine -->
+  <script src="app.js"></script>
+
+  <!-- Page Script -->
+  <script>
+    // ===== DOM ELEMENTS =====
+    const form = document.getElementById('checkoutForm');
+    const submitBtn = document.getElementById('submitOrderBtn');
+    const summaryItems = document.getElementById('summaryItems');
+    const subtotalEl = document.getElementById('subtotalAmount');
+    const totalEl = document.getElementById('totalAmount');
+
+    // State
+    const cart = JSON.parse(localStorage.getItem('yf_cart') || '[]');
+    const deliveryFee = 1500;
+    let sellerId = null; // We will try to get this from the first product or config
+
+    // ===== INITIALIZATION =====
+    document.addEventListener('DOMContentLoaded', () => {
+      if (cart.length === 0) {
+        window.location.href = 'storefront.html';
+        return;
+      }
+
+      renderSummary();
+      
+      // Try to identify seller from cart items (assuming single seller checkout for now)
+      if (cart.length > 0 && cart[0].sellerId) {
+        sellerId = cart[0].sellerId;
+      }
+    });
+
+    // ===== RENDER SUMMARY =====
+    function renderSummary() {
+      summaryItems.innerHTML = '';
+      let subtotal = 0;
+
+      cart.forEach(item => {
+        const total = item.price * item.qty;
+        subtotal += total;
+
+        const div = document.createElement('div');
+        div.className = 'summary-item';
+        div.innerHTML = `
+          <div class="item-info">
+            <div class="item-name">${item.name}</div>
+            <div class="item-qty">Qty: ${item.qty} x ${YF.ui.formatNaira(item.price)}</div>
+          </div>
+          <div class="item-total">${YF.ui.formatNaira(total)}</div>        `;
+        summaryItems.appendChild(div);
+      });
+
+      subtotalEl.textContent = YF.ui.formatNaira(subtotal);
+      totalEl.textContent = YF.ui.formatNaira(subtotal + deliveryFee);
+    }
+
+    // ===== SUBMIT ORDER =====
+    submitBtn.addEventListener('click', async () => {
+      // Validation
+      const fullName = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const note = document.getElementById('note').value.trim();
+
+      if (!fullName || !phone || !city || !address) {
+        YF.ui.toast('Please fill in all required delivery fields.', 'error');
+        return;
+      }
+
+      // UI Loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Order...';
+
+      try {
+        // 1. Create Order Object
+        const orderData = {
+          items: cart,
+          customer: {
+            name: fullName,
+            phone: phone,
+            altPhone: document.getElementById('altPhone').value.trim(),
+            city: city,
+            address: address,
+            note: note
+          },
+          totals: {
+            subtotal: cart.reduce((sum, i) => sum + (i.price * i.qty), 0),
+            delivery: deliveryFee,
+            grandTotal: cart.reduce((sum, i) => sum + (i.price * i.qty), 0) + deliveryFee
+          },
+          sellerId: sellerId || 'unknown',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'pending'
+        };
+
+        // 2. Save to Firestore
+        const docRef = await firebase.firestore().collection('orders').add(orderData);        const orderId = docRef.id;
+
+        // 3. Generate WhatsApp Message
+        const message = generateWhatsAppMessage(orderData, orderId);
+        
+        // 4. Clear Cart
+        localStorage.removeItem('yf_cart');
+
+        // 5. Success Feedback
+        YF.ui.toast('Order placed successfully! Redirecting to WhatsApp...', 'success');
+
+        // 6. Redirect to WhatsApp
+        // Note: We need the seller's phone number. 
+        // Since we don't have it in the cart item directly (only ID), 
+        // in a real app we'd query the seller doc. 
+        // For this demo, we'll assume a placeholder or fetch it.
+        // Let's fetch it quickly:
+        
+        let sellerPhone = "2348000000000"; // Fallback
+        if (sellerId && sellerId !== 'unknown') {
+           const bizDoc = await firebase.firestore().collection('business_profiles').doc(sellerId).get();
+           if (bizDoc.exists) {
+             sellerPhone = bizDoc.data().whatsappNumber.replace(/\D/g, '');
+           }
+        }
+
+        const whatsappUrl = `https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`;
+        
+        setTimeout(() => {
+          window.location.href = whatsappUrl;
+        }, 1500);
+
+      } catch (err) {
+        console.error('Checkout Error:', err);
+        YF.ui.toast('Failed to place order. Please try again.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Submit Order on WhatsApp';
+      }
+    });
+
+    // ===== WHATSAPP MESSAGE GENERATOR =====
+    function generateWhatsAppMessage(order, id) {
+      const date = new Date().toLocaleDateString('en-NG');
+      let itemsList = order.items.map(i => `• ${i.name} (x${i.qty}) - ${YF.ui.formatNaira(i.price * i.qty)}`).join('\n');
+      
+      return `
+*🛒 NEW ORDER: #${id.substring(0, 6)}*
+ Date: ${date}
+
+👤 *Customer Details:*Name: ${order.customer.name}
+Phone: ${order.customer.phone}
+City: ${order.customer.city}
+Address: ${order.customer.address}
+${order.customer.note ? `Note: ${order.customer.note}` : ''}
+
+ *Order Items:*
+${itemsList}
+
+💰 *Totals:*
+Subtotal: ${YF.ui.formatNaira(order.totals.subtotal)}
+Delivery: ${YF.ui.formatNaira(order.totals.delivery)}
+*Total: ${YF.ui.formatNaira(order.totals.grandTotal)}*
+
+Please confirm availability and provide payment details. Thank you! 
+      `.trim();
+    }
+
+    console.log('✅ Checkout Page Loaded');
+  </script>
+</body>
+<script src="app.js"></script>
+</html>

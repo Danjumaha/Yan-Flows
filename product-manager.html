@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Manager | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - PRODUCT MANAGER STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --coral-hover: #EE5A5A;
+      --teal: #4ECDC4; --teal-hover: #3DBDB4;
+      --gold: #FFD93D; --danger: #FF4757;
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-sm: 8px; --radius-md: 16px;
+      --space-sm: 1rem; --space-md: 2rem;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+    input, textarea, select { font-family: inherit; }
+
+    /* ===== NAVBAR ===== */
+    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+    .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { color: var(--navy); }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1200px; margin: 0 auto; width: 100%; }
+    
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); flex-wrap: wrap; gap: 1rem; }
+    .page-title h1 { font-size: 1.75rem; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .page-title p { color: var(--gray); font-size: 0.95rem; }
+
+    /* Buttons */    .btn { padding: 0.75rem 1.5rem; font-weight: 600; font-size: 0.95rem; border-radius: var(--radius-sm); transition: var(--transition); display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary { background: var(--coral); color: var(--white); box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
+    .btn-primary:hover { background: var(--coral-hover); transform: translateY(-2px); }
+    .btn-secondary { background: var(--teal); color: var(--navy-dark); }
+    .btn-secondary:hover { background: var(--teal-hover); }
+    .btn-danger { background: var(--danger); color: var(--white); }
+    .btn-danger:hover { background: #D93040; }
+    .btn-outline { background: transparent; border: 1px solid #E2E8F0; color: var(--navy); }
+    .btn-outline:hover { background: var(--light-bg); }
+    .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; }
+    .btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none !important; }
+
+    /* Product Form Card */
+    .form-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-md); margin-bottom: var(--space-md); display: none; }
+    .form-card.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid #F1F5F9; }
+    .form-title { font-size: 1.25rem; font-weight: 700; color: var(--navy-dark); }
+    .close-form { color: var(--gray); font-size: 1.25rem; cursor: pointer; transition: var(--transition); }
+    .close-form:hover { color: var(--danger); }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group.full-width { grid-column: span 2; }
+    .form-label { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
+    .form-input, .form-textarea, .form-select {
+      padding: 0.875rem 1rem; border: 2px solid #E2E8F0; border-radius: var(--radius-sm);
+      font-size: 1rem; transition: var(--transition); background: var(--light-bg); width: 100%;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus { outline: none; border-color: var(--teal); background: var(--white); box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.15); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+
+    /* Image Upload */
+    .upload-area { border: 2px dashed #CBD5E1; border-radius: var(--radius-sm); padding: 1.5rem; text-align: center; cursor: pointer; transition: var(--transition); background: var(--light-bg); position: relative; }
+    .upload-area:hover { border-color: var(--teal); background: rgba(78,205,196,0.05); }
+    .upload-area.has-image { padding: 0; border-style: solid; border-color: var(--teal); overflow: hidden; }
+    .upload-icon { font-size: 2rem; color: var(--gray); margin-bottom: 0.5rem; }
+    .upload-text { color: var(--gray); font-size: 0.9rem; }
+    .upload-preview { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .upload-area.has-image .upload-preview { display: block; }
+    .upload-area.has-image .upload-overlay { display: flex; }
+    .upload-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; color: white; flex-direction: column; }
+    .change-btn { margin-top: 0.5rem; background: var(--teal); padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; }
+
+    /* Products Grid */
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .product-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; transition: var(--transition); position: relative; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .product-image { width: 100%; height: 200px; object-fit: cover; background: #E2E8F0; }    .product-content { padding: 1rem; }
+    .product-name { font-weight: 700; font-size: 1.1rem; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .product-desc { color: var(--gray); font-size: 0.85rem; margin-bottom: 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .product-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .product-price { font-size: 1.25rem; font-weight: 800; color: var(--navy); }
+    .stock-badge { padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600; }
+    .stock-in { background: rgba(78,205,196,0.15); color: #1A8A7D; }
+    .stock-out { background: rgba(255,71,87,0.15); color: var(--danger); }
+    .product-actions { display: flex; gap: 0.5rem; }
+    .product-actions button { flex: 1; }
+
+    /* Empty State */
+    .empty-state { text-align: center; padding: 3rem 1rem; color: var(--gray); }
+    .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+    .empty-state h3 { color: var(--navy); margin-bottom: 0.5rem; }
+
+    /* Toast Container */
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--white); padding: 1rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.75rem; min-width: 280px; transform: translateX(120%); transition: transform 0.3s ease; border-left: 4px solid var(--coral); }
+    .toast.success { border-left-color: var(--teal); }
+    .toast.show { transform: translateX(0); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full-width { grid-column: span 1; }
+      .page-header { flex-direction: column; align-items: flex-start; }
+      .products-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="dashboard.html" class="logo">
+        <div class="logo-icon">YF</div>
+        YAN-FLOWS
+      </a>
+      <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <header class="page-header">      <div class="page-title">
+        <h1>Product Manager</h1>
+        <p>Add, edit, and manage your store inventory</p>
+      </div>
+      <button class="btn btn-primary" id="addProductBtn">
+        <i class="fas fa-plus"></i> Add New Product
+      </button>
+    </header>
+
+    <!-- Product Form -->
+    <div class="form-card" id="productForm">
+      <div class="form-header">
+        <h2 class="form-title" id="formTitle">Add New Product</h2>
+        <i class="fas fa-times close-form" id="closeForm"></i>
+      </div>
+      <form id="productFormEl" novalidate>
+        <input type="hidden" id="editProductId"/>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label class="form-label">Product Image *</label>
+            <div class="upload-area" id="uploadArea">
+              <i class="fas fa-cloud-upload-alt upload-icon"></i>
+              <div class="upload-text">Click to upload image (JPG, PNG)</div>
+              <img class="upload-preview" id="imagePreview"/>
+              <div class="upload-overlay">
+                <i class="fas fa-camera" style="font-size:1.5rem;"></i>
+                <div class="change-btn">Change Image</div>
+              </div>
+              <input type="file" id="imageInput" accept="image/*" style="display:none;"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Product Name *</label>
+            <input type="text" id="productName" class="form-input" placeholder="e.g. Premium Leather Bag" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price (₦) *</label>
+            <input type="number" id="productPrice" class="form-input" placeholder="e.g. 15000" min="0" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Stock Quantity *</label>
+            <input type="number" id="productStock" class="form-input" placeholder="e.g. 50" min="0" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="productCategory" class="form-select">
+              <option value="General">General</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Beauty">Beauty & Health</option>              <option value="Food">Food & Grocery</option>
+              <option value="Home">Home & Living</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Description</label>
+            <textarea id="productDesc" class="form-textarea" placeholder="Describe your product features, benefits, and specifications..."></textarea>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem; display:flex; gap:1rem; justify-content:flex-end;">
+          <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="submitProductBtn">
+            <i class="fas fa-save"></i> <span>Save Product</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="productsContainer">
+      <div class="empty-state" id="emptyState">
+        <i class="fas fa-box-open"></i>
+        <h3>No products yet</h3>
+        <p>Click "Add New Product" to start building your inventory.</p>
+      </div>
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+  </main>
+
+  <!-- Core Engine -->
+  <script src="app.js"></script>
+
+  <!-- Page Script -->
+  <script>
+    // ===== DOM ELEMENTS =====
+    const addBtn = document.getElementById('addProductBtn');
+    const formCard = document.getElementById('productForm');
+    const closeForm = document.getElementById('closeForm');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const productForm = document.getElementById('productFormEl');
+    const submitBtn = document.getElementById('submitProductBtn');
+    const formTitle = document.getElementById('formTitle');
+    const editIdInput = document.getElementById('editProductId');
+    
+    const uploadArea = document.getElementById('uploadArea');
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+    
+    const productsGrid = document.getElementById('productsGrid');
+    const emptyState = document.getElementById('emptyState');
+    // State
+    let currentImageFile = null;
+    let isEditing = false;
+    let currentUser = null;
+
+    // ===== AUTH GUARD =====
+    YF.requireAuth('login.html');
+
+    // Initialize Auth & Load Data
+    firebase.auth().onAuthStateChanged(async user => {
+      if (!user) return;
+      currentUser = user;
+      await renderProducts();
+    });
+
+    // ===== FORM TOGGLE =====
+    function openForm(editMode = false) {
+      formCard.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!editMode) {
+        resetForm();
+      }
+    }
+
+    function closeFormAction() {
+      formCard.classList.remove('active');
+      resetForm();
+    }
+
+    function resetForm() {
+      productForm.reset();
+      editIdInput.value = '';
+      currentImageFile = null;
+      imagePreview.src = '';
+      uploadArea.classList.remove('has-image');
+      isEditing = false;
+      formTitle.textContent = 'Add New Product';
+      submitBtn.innerHTML = '<i class="fas fa-save"></i> <span>Save Product</span>';
+    }
+
+    addBtn.addEventListener('click', () => openForm(false));
+    closeForm.addEventListener('click', closeFormAction);
+    cancelBtn.addEventListener('click', closeFormAction);
+
+    // ===== IMAGE UPLOAD HANDLING =====
+    uploadArea.addEventListener('click', () => imageInput.click());
+    
+    imageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];      if (!file) return;
+      
+      if (!file.type.startsWith('image/')) {
+        YF.ui.toast('Please select a valid image file.', 'error');
+        return;
+      }
+
+      currentImageFile = file;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        imagePreview.src = ev.target.result;
+        uploadArea.classList.add('has-image');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // ===== RENDER PRODUCTS =====
+    async function renderProducts() {
+      if (!currentUser) return;
+      
+      productsGrid.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray);"><i class="fas fa-spinner fa-spin"></i> Loading products...</div>';
+      emptyState.style.display = 'none';
+
+      try {
+        const snapshot = await firebase.firestore().collection('products')
+          .where('sellerId', '==', currentUser.uid)
+          .orderBy('createdAt', 'desc')
+          .get();
+
+        if (snapshot.empty) {
+          productsGrid.innerHTML = '';
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        productsGrid.innerHTML = '';
+        snapshot.forEach(doc => {
+          const p = doc.data();
+          const stockClass = p.stock > 0 ? 'stock-in' : 'stock-out';
+          const stockText = p.stock > 0 ? `In Stock (${p.stock})` : 'Out of Stock';
+          
+          const card = document.createElement('div');
+          card.className = 'product-card';
+          card.innerHTML = `
+            <img src="${p.imageUrl || 'https://via.placeholder.com/400x300/E2E8F0/6C757D?text=No+Image'}" class="product-image" alt="${p.name}"/>
+            <div class="product-content">
+              <div class="product-name">${p.name}</div>
+              <div class="product-desc">${p.description || 'No description'}</div>
+              <div class="product-meta">
+                <div class="product-price">${YF.ui.formatNaira(p.price)}</div>                <span class="stock-badge ${stockClass}">${stockText}</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn btn-secondary btn-sm" onclick="editProduct('${doc.id}')"><i class="fas fa-edit"></i> Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('${doc.id}')"><i class="fas fa-trash"></i> Delete</button>
+              </div>
+            </div>
+          `;
+          productsGrid.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Render error:', err);
+        YF.ui.toast('Failed to load products.', 'error');
+        productsGrid.innerHTML = '';
+        emptyState.style.display = 'block';
+      }
+    }
+
+    // ===== ADD / UPDATE PRODUCT =====
+    productForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Validation
+      const name = document.getElementById('productName').value.trim();
+      const price = parseFloat(document.getElementById('productPrice').value);
+      const stock = parseInt(document.getElementById('productStock').value);
+      
+      if (!name || isNaN(price) || isNaN(stock)) {
+        YF.ui.toast('Please fill all required fields correctly.', 'error');
+        return;
+      }
+      if (price < 0 || stock < 0) {
+        YF.ui.toast('Price and stock cannot be negative.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Saving...</span>';
+
+      try {
+        let imageUrl = '';
+        
+        // Upload image if new or changed
+        if (currentImageFile) {
+          imageUrl = await YF.uploadImage(currentImageFile);
+        } else if (!isEditing) {
+          YF.ui.toast('Please select a product image.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-save"></i> <span>Save Product</span>';
+          return;        } else {
+          // Keep existing image if editing and no new file
+          const existingDoc = await firebase.firestore().collection('products').doc(editIdInput.value).get();
+          imageUrl = existingDoc.data().imageUrl || '';
+        }
+
+        const productData = {
+          sellerId: currentUser.uid,
+          name,
+          description: document.getElementById('productDesc').value.trim(),
+          price,
+          stock,
+          category: document.getElementById('productCategory').value,
+          imageUrl,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        if (isEditing) {
+          await firebase.firestore().collection('products').doc(editIdInput.value).update(productData);
+          YF.ui.toast('Product updated successfully! ✅', 'success');
+        } else {
+          productData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+          await firebase.firestore().collection('products').add(productData);
+          YF.ui.toast('Product added successfully! 🚀', 'success');
+        }
+
+        closeFormAction();
+        await renderProducts();
+
+      } catch (err) {
+        console.error('Save error:', err);
+        YF.ui.toast('Failed to save product. Check connection.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> <span>Save Product</span>';
+      }
+    });
+
+    // ===== EDIT PRODUCT =====
+    window.editProduct = async (id) => {
+      try {
+        const doc = await firebase.firestore().collection('products').doc(id).get();
+        if (!doc.exists) return;
+        
+        const p = doc.data();
+        isEditing = true;
+        editIdInput.value = id;
+        formTitle.textContent = 'Edit Product';
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> <span>Update Product</span>';
+                document.getElementById('productName').value = p.name;
+        document.getElementById('productPrice').value = p.price;
+        document.getElementById('productStock').value = p.stock;
+        document.getElementById('productCategory').value = p.category || 'General';
+        document.getElementById('productDesc').value = p.description || '';
+        
+        if (p.imageUrl) {
+          imagePreview.src = p.imageUrl;
+          uploadArea.classList.add('has-image');
+          currentImageFile = null; // Flag to keep existing unless changed
+        }
+        
+        openForm(true);
+      } catch (err) {
+        console.error('Edit load error:', err);
+        YF.ui.toast('Failed to load product for editing.', 'error');
+      }
+    };
+
+    // ===== DELETE PRODUCT =====
+    window.deleteProduct = async (id) => {
+      if (!confirm('Are you sure you want to delete this product? This cannot be undone.')) return;
+      
+      try {
+        await firebase.firestore().collection('products').doc(id).delete();
+        YF.ui.toast('Product deleted.', 'success');
+        await renderProducts();
+      } catch (err) {
+        console.error('Delete error:', err);
+        YF.ui.toast('Failed to delete product.', 'error');
+      }
+    };
+
+    console.log('✅ Product Manager Loaded');
+  </script>
+<script src="app.js"></script>
+</body>
+</html>

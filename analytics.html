@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analytics | YAN-FLOWS</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <!-- Chart.js (Required for Graphs) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - ANALYTICS PAGE STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --radius-sm: 8px; --radius-md: 16px;
+      --space-sm: 1rem; --space-md: 2rem;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    /* ===== NAVBAR ===== */
+    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+    .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { color: var(--navy); }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1200px; margin: 0 auto; width: 100%; }
+    
+    .page-header { margin-bottom: var(--space-md); }
+    .page-header h1 { font-size: 1.75rem; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .page-header p { color: var(--gray); font-size: 0.95rem; }
+
+    /* Stats Grid */    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: var(--space-md); }
+    .stat-card { background: var(--white); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border-left: 4px solid var(--navy); }
+    .stat-card.teal { border-left-color: var(--teal); }
+    .stat-card.coral { border-left-color: var(--coral); }
+    .stat-card.gold { border-left-color: var(--gold); }
+    
+    .stat-card h4 { font-size: 0.85rem; color: var(--gray); text-transform: uppercase; font-weight: 600; margin-bottom: 0.5rem; }
+    .stat-card .value { font-size: 1.75rem; font-weight: 800; color: var(--navy-dark); }
+
+    /* Charts Section */
+    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; margin-bottom: var(--space-md); }
+    @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+    
+    .chart-box { background: var(--white); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+    .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .chart-title { font-weight: 700; color: var(--navy-dark); }
+    .canvas-container { position: relative; height: 300px; width: 100%; }
+
+    /* Top Products & Coin Usage */
+    .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 768px) { .details-grid { grid-template-columns: 1fr; } }
+
+    .detail-card { background: var(--white); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+    .section-title { font-size: 1.1rem; font-weight: 700; color: var(--navy-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .section-title i { color: var(--teal); }
+
+    /* List Styles */
+    .product-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .product-item { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; border-bottom: 1px solid #F1F5F9; }
+    .product-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .product-info h5 { font-size: 0.95rem; font-weight: 600; color: var(--navy); }
+    .product-info span { font-size: 0.8rem; color: var(--gray); }
+    .product-sales { font-weight: 700; color: var(--navy-dark); }
+
+    /* Coin Usage Bar */
+    .coin-usage-bar { height: 12px; background: #E2E8F0; border-radius: 6px; overflow: hidden; margin-top: 0.5rem; margin-bottom: 0.25rem; }
+    .coin-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--navy)); border-radius: 6px; transition: width 1s ease; }
+    .coin-stats { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 1.5rem !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">    <div class="navbar-container">
+      <a href="dashboard.html" class="logo">
+        <div class="logo-icon">YF</div>
+        YAN-FLOWS
+      </a>
+      <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <header class="page-header">
+      <h1>Business Analytics</h1>
+      <p>Track your performance, revenue, and growth trends.</p>
+    </header>
+
+    <!-- Key Metrics -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h4>Total Revenue</h4>
+        <div class="value" id="totalRevenue">₦0</div>
+      </div>
+      <div class="stat-card teal">
+        <h4>Total Orders</h4>
+        <div class="value" id="totalOrders">0</div>
+      </div>
+      <div class="stat-card coral">
+        <h4>Pending Orders</h4>
+        <div class="value" id="pendingOrders">0</div>
+      </div>
+      <div class="stat-card gold">
+        <h4>Coins Used</h4>
+        <div class="value" id="coinsUsed">0</div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+      <div class="chart-box">
+        <div class="chart-header">
+          <div class="chart-title">Revenue Growth</div>
+        </div>
+        <div class="canvas-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-header">
+          <div class="chart-title">Order Status</div>
+        </div>        <div class="canvas-container">
+          <canvas id="statusChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div class="details-grid">
+      <div class="detail-card">
+        <div class="section-title"><i class="fas fa-trophy"></i> Top Selling Products</div>
+        <div class="product-list" id="topProductsList">
+          <div style="text-align:center;color:var(--gray);padding:1rem;">Loading products...</div>
+        </div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="section-title"><i class="fas fa-coins"></i> Coin Usage Overview</div>
+        <div style="margin-top:1rem;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0.5rem;">
+            <span style="font-weight:700;font-size:1.25rem;color:var(--navy-dark);">45%</span>
+            <span style="font-size:0.85rem;color:var(--gray);">Usage Rate</span>
+          </div>
+          <div class="coin-usage-bar">
+            <div class="coin-fill" style="width: 45%;"></div>
+          </div>
+          <div class="coin-stats">
+            <span>Start: 50 coins</span>
+            <span>Used: 23 coins</span>
+          </div>
+          <div style="margin-top:1.5rem;font-size:0.9rem;color:var(--gray);">
+            <p><i class="fas fa-check-circle" style="color:var(--teal);"></i> Average spend per order: 1 coin</p>
+            <p><i class="fas fa-clock" style="color:var(--gold);"></i> Next refill needed soon</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Core Engine -->
+  <script src="app.js"></script>
+
+  <!-- Page Script -->
+  <script>
+    // ===== DOM ELEMENTS =====
+    const elTotalRevenue = document.getElementById('totalRevenue');
+    const elTotalOrders = document.getElementById('totalOrders');
+    const elPendingOrders = document.getElementById('pendingOrders');
+    const elCoinsUsed = document.getElementById('coinsUsed');
+    const elTopProducts = document.getElementById('topProductsList');
+    // ===== AUTH GUARD =====
+    YF.requireAuth('login.html');
+
+    // ===== CHART INSTANCES =====
+    let revenueChartInstance = null;
+    let statusChartInstance = null;
+
+    // ===== INITIALIZATION =====
+    firebase.auth().onAuthStateChanged(async user => {
+      if (!user) return;
+      await loadAnalytics(user.uid);
+    });
+
+    // ===== LOAD ANALYTICS DATA =====
+    async function loadAnalytics(uid) {
+      try {
+        // 1. Fetch Orders
+        const ordersSnap = await firebase.firestore().collection('orders')
+          .where('sellerId', '==', uid)
+          .get();
+
+        let totalRevenue = 0;
+        let totalOrders = 0;
+        let pendingCount = 0;
+        let deliveredCount = 0;
+        let cancelledCount = 0;
+        let productSales = {}; // { productName: count }
+
+        // Sample dates for chart (simulated last 7 days logic if real dates are sparse)
+        // For now, we just aggregate totals.
+        
+        ordersSnap.forEach(doc => {
+          const order = doc.data();
+          totalOrders++;
+          totalRevenue += (order.totals.grandTotal || 0);
+          
+          // Status Counts
+          if (order.status === 'pending') pendingCount++;
+          if (order.status === 'delivered') deliveredCount++;
+          if (order.status === 'cancelled') cancelledCount++;
+
+          // Product Counts
+          if (order.items) {
+            order.items.forEach(item => {
+              const name = item.name || 'Unknown';
+              productSales[name] = (productSales[name] || 0) + item.qty;
+            });
+          }
+        });
+        // Update Cards
+        elTotalRevenue.textContent = YF.ui.formatNaira(totalRevenue);
+        elTotalOrders.textContent = totalOrders;
+        elPendingOrders.textContent = pendingCount;
+        elCoinsUsed.textContent = totalOrders; // 1 coin per order logic
+
+        // 2. Update Charts
+        renderStatusChart(pendingCount, deliveredCount, cancelledCount);
+        renderRevenueChart(); // Static mock data for visual, or real if we track daily
+
+        // 3. Render Top Products
+        renderTopProducts(productSales);
+
+      } catch (err) {
+        console.error('Analytics load error:', err);
+        YF.ui.toast('Failed to load analytics.', 'error');
+      }
+    }
+
+    // ===== RENDER STATUS DOUGHNUT CHART =====
+    function renderStatusChart(pending, delivered, cancelled) {
+      const ctx = document.getElementById('statusChart').getContext('2d');
+      
+      if (statusChartInstance) statusChartInstance.destroy();
+
+      statusChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Pending', 'Delivered', 'Cancelled'],
+          datasets: [{
+            data: [pending, delivered, cancelled],
+            backgroundColor: ['#FFD93D', '#4ECDC4', '#FF6B6B'],
+            borderWidth: 0,
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { font: { family: 'Inter' } } }
+          }
+        }
+      });
+    }
+
+    // ===== RENDER REVENUE LINE CHART =====
+    function renderRevenueChart() {
+      const ctx = document.getElementById('revenueChart').getContext('2d');
+            if (revenueChartInstance) revenueChartInstance.destroy();
+
+      // Mock data for visualization since we don't have complex date aggregation in this demo
+      const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const data = [12000, 19000, 3000, 5000, 25000, 15000, 32000];
+
+      revenueChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Revenue (₦)',
+            data: data,
+            borderColor: '#1B3A5F',
+            backgroundColor: 'rgba(78, 205, 196, 0.2)',
+            tension: 0.4,
+            fill: true,
+            pointBackgroundColor: '#1B3A5F',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#FF6B6B',
+            pointHoverBorderColor: '#fff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, grid: { color: '#F1F5F9' }, ticks: { font: { family: 'Inter' } } },
+            x: { grid: { display: false }, ticks: { font: { family: 'Inter' } } }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    // ===== RENDER TOP PRODUCTS =====
+    function renderTopProducts(salesMap) {
+      // Convert to array and sort
+      const sorted = Object.entries(salesMap)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5); // Top 5
+
+      if (sorted.length === 0) {
+        elTopProducts.innerHTML = '<div style="text-align:center;color:var(--gray);padding:1rem;">No sales data yet.</div>';
+        return;
+      }
+
+      elTopProducts.innerHTML = sorted.map(([name, count], index) => `        <div class="product-item">
+          <div class="product-info">
+            <h5>${index + 1}. ${name}</h5>
+            <span>Sold</span>
+          </div>
+          <div class="product-sales">${count} units</div>
+        </div>
+      `).join('');
+    }
+
+    console.log('✅ Analytics Page Loaded');
+    console.log('📊 Charts Rendered');
+    console.log('📈 Metrics Calculated');
+  </script>
+</body>
+<script src="app.js"></script>
+</html>

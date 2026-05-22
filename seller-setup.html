@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Seller Setup | YAN-FLOWS Commerce Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - SELLER SETUP STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --coral-hover: #EE5A5A;
+      --teal: #4ECDC4; --teal-hover: #3DBDB4;
+      --gold: #FFD93D;
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-sm: 8px; --radius-md: 16px;
+      --space-sm: 1rem; --space-md: 2rem;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+    input, textarea, select { font-family: inherit; }
+
+    /* ===== NAVBAR ===== */
+    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+    .navbar-container { max-width: 900px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { color: var(--navy); }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 900px; margin: 0 auto; width: 100%; }
+    
+    .setup-header { text-align: center; margin-bottom: var(--space-md); }
+    .setup-header h1 { font-size: 2rem; color: var(--navy-dark); margin-bottom: 0.5rem; }
+    .setup-header p { color: var(--gray); max-width: 600px; margin: 0 auto; }
+
+    /* Progress Bar */    .progress-container { margin-bottom: var(--space-md); }
+    .progress-bar { height: 6px; background: #E2E8F0; border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--navy)); width: 0%; transition: width 0.5s ease; }
+    .progress-labels { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: var(--gray); font-weight: 500; }
+
+    /* Form Sections */
+    .setup-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-md); margin-bottom: 1.5rem; }
+    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy-dark); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+    .section-title i { color: var(--teal); }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group.full-width { grid-column: span 2; }
+    .form-label { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
+    .form-input, .form-textarea {
+      padding: 0.875rem 1rem;
+      border: 2px solid #E2E8F0;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      transition: var(--transition);
+      background: var(--light-bg);
+    }
+    .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--teal); background: var(--white); box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.15); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-hint { font-size: 0.8rem; color: var(--gray); }
+
+    /* Submit Area */
+    .submit-area { text-align: center; margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid #F1F5F9; }
+    .btn {
+      padding: 1rem 2.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-primary { background: var(--coral); color: var(--white); box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
+    .btn-primary:hover { background: var(--coral-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,107,107,0.4); }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+    /* Toast */
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--white); padding: 1rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.75rem; min-width: 280px; transform: translateX(120%); transition: transform 0.3s ease; border-left: 4px solid var(--coral); }
+    .toast.success { border-left-color: var(--teal); }
+    .toast.show { transform: translateX(0); }
+
+    /* Responsive */
+    @media (max-width: 640px) {      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full-width { grid-column: span 1; }
+      h1 { font-size: 1.5rem !important; }
+      .setup-card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">YF</div>
+        YAN-FLOWS
+      </a>
+      <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <div class="setup-header">
+      <h1>Activate Your Business</h1>
+      <p>Complete your store profile to start receiving orders, manage payments, and automate WhatsApp messages.</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-container">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-labels">
+        <span>Business Info</span>
+        <span>Payment Details</span>
+        <span>Messaging & Policies</span>
+      </div>
+    </div>
+
+    <form id="sellerSetupForm" novalidate>
+      <!-- Section 1: Business Information -->
+      <div class="setup-card" id="section1">
+        <h2 class="section-title"><i class="fas fa-store"></i> Business Information</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Company / Store Name *</label>
+            <input type="text" id="companyName" class="form-input" placeholder="e.g. Zuri Fashion Hub" required/>
+          </div>
+          <div class="form-group">            <label class="form-label">Business Title / Tagline</label>
+            <input type="text" id="businessTitle" class="form-input" placeholder="e.g. Premium Affordable Fashion"/>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Business Description</label>
+            <textarea id="businessDesc" class="form-textarea" placeholder="Tell customers what you sell and why they should buy from you..."></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">WhatsApp Hotline *</label>
+            <input type="tel" id="whatsappNumber" class="form-input" placeholder="e.g. +2348012345678" required/>
+            <span class="form-hint">This number will receive automated order notifications.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Payment Details -->
+      <div class="setup-card" id="section2">
+        <h2 class="section-title"><i class="fas fa-university"></i> Bank & Payment Details</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Bank Name *</label>
+            <input type="text" id="bankName" class="form-input" placeholder="e.g. Access Bank, GTBank" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Account Number *</label>
+            <input type="text" id="accountNumber" class="form-input" placeholder="10-digit account number" maxlength="10" required/>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Account Name *</label>
+            <input type="text" id="accountName" class="form-input" placeholder="Name on the bank account" required/>
+            <span class="form-hint">Customers will see this name on payment instructions.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Messaging & Policies -->
+      <div class="setup-card" id="section3">
+        <h2 class="section-title"><i class="fas fa-comment-dots"></i> Messaging & Policies</h2>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label class="form-label">Delivery Disclaimer</label>
+            <textarea id="deliveryDisclaimer" class="form-textarea" placeholder="e.g. Delivery takes 2-4 business days. Nationwide shipping available."></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Thank-You Message</label>
+            <textarea id="thankYouMessage" class="form-textarea" placeholder="e.g. Thank you for shopping with us! Your order will be processed within 24 hours."></textarea>
+            <span class="form-hint">Shown to customers after successful checkout.</span>
+          </div>
+        </div>
+      </div>
+      <!-- Submit -->
+      <div class="submit-area">
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <i class="fas fa-check-circle"></i>
+          <span>Activate Business & Go to Dashboard</span>
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Core Engine -->
+  <script src="app.js"></script>
+
+  <!-- Page Script -->
+  <script>
+    // ===== DOM ELEMENTS =====
+    const form = document.getElementById('sellerSetupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressFill = document.getElementById('progressFill');
+    const toastContainer = document.getElementById('toastContainer');
+    
+    const inputs = {
+      companyName: document.getElementById('companyName'),
+      businessTitle: document.getElementById('businessTitle'),
+      businessDesc: document.getElementById('businessDesc'),
+      whatsappNumber: document.getElementById('whatsappNumber'),
+      bankName: document.getElementById('bankName'),
+      accountNumber: document.getElementById('accountNumber'),
+      accountName: document.getElementById('accountName'),
+      deliveryDisclaimer: document.getElementById('deliveryDisclaimer'),
+      thankYouMessage: document.getElementById('thankYouMessage')
+    };
+
+    // ===== AUTH GUARD =====
+    YF.requireAuth('login.html');
+
+    // ===== PROGRESS TRACKER =====
+    function updateProgress() {
+      let filled = 0;
+      const total = Object.keys(inputs).length;
+      Object.values(inputs).forEach(input => {
+        if (input.value.trim() !== '') filled++;
+      });
+      const percent = Math.round((filled / total) * 100);      progressFill.style.width = `${percent}%`;
+    }
+
+    // Attach listeners to all inputs
+    Object.values(inputs).forEach(input => {
+      input.addEventListener('input', updateProgress);
+    });
+
+    // ===== LOAD EXISTING DATA (Edit Mode) =====
+    async function loadBusinessProfile() {
+      const user = firebase.auth().currentUser;
+      if (!user) return;
+      
+      try {
+        const doc = await firebase.firestore().collection('business_profiles').doc(user.uid).get();
+        if (doc.exists) {
+          const data = doc.data();
+          inputs.companyName.value = data.companyName || '';
+          inputs.businessTitle.value = data.businessTitle || '';
+          inputs.businessDesc.value = data.description || '';
+          inputs.whatsappNumber.value = data.whatsappNumber || '';
+          inputs.bankName.value = data.bankName || '';
+          inputs.accountNumber.value = data.accountNumber || '';
+          inputs.accountName.value = data.accountName || '';
+          inputs.deliveryDisclaimer.value = data.deliveryDisclaimer || '';
+          inputs.thankYouMessage.value = data.thankYouMessage || '';
+          updateProgress();
+          submitBtn.innerHTML = '<i class="fas fa-save"></i> <span>Save Changes</span>';
+        }
+      } catch (err) {
+        console.error('Load profile error:', err);
+      }
+    }
+
+    // ===== FORM SUBMISSION =====
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Validation
+      const requiredFields = ['companyName', 'whatsappNumber', 'bankName', 'accountNumber', 'accountName'];
+      for (const field of requiredFields) {
+        if (!inputs[field].value.trim()) {
+          YF.ui.toast(`Please fill in ${inputs[field].previousElementSibling.textContent.replace('*','').trim()}.`, 'error');
+          inputs[field].focus();
+          return;
+        }
+      }
+
+      // UI Loading
+      submitBtn.disabled = true;      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Activating Store...</span>';
+
+      try {
+        const user = firebase.auth().currentUser;
+        const uid = user.uid;
+
+        // Prepare Data
+        const profileData = {
+          companyName: inputs.companyName.value.trim(),
+          businessTitle: inputs.businessTitle.value.trim(),
+          description: inputs.businessDesc.value.trim(),
+          whatsappNumber: inputs.whatsappNumber.value.trim(),
+          bankName: inputs.bankName.value.trim(),
+          accountNumber: inputs.accountNumber.value.trim(),
+          accountName: inputs.accountName.value.trim(),
+          deliveryDisclaimer: inputs.deliveryDisclaimer.value.trim(),
+          thankYouMessage: inputs.thankYouMessage.value.trim(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          isComplete: true
+        };
+
+        // Save to Firestore
+        await firebase.firestore().collection('business_profiles').doc(uid).set(profileData);
+        
+        // Update User Status
+        await firebase.firestore().collection('users').doc(uid).update({
+          businessActive: true,
+          storeUrl: `yan-flows.com/store/${profileData.companyName.toLowerCase().replace(/\s+/g, '-')}`
+        });
+
+        // Success
+        YF.ui.toast('Business activated successfully! 🚀', 'success');
+        
+        // Redirect
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1500);
+
+      } catch (err) {
+        console.error('Setup Error:', err);
+        YF.ui.toast('Failed to save profile. Please try again.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> <span>Activate Business & Go to Dashboard</span>';
+      }
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', loadBusinessProfile);
+    updateProgress();
+    console.log('✅ Seller Setup Page Loaded');
+  </script>
+<script src="app.js"></script>
+</body>
+</html>

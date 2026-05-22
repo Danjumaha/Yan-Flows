@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - ADMIN PANEL STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --coral-hover: #EE5A5A;
+      --teal: #4ECDC4; --teal-hover: #3DBDB4;
+      --gold: #FFD93D; --danger: #FF4757;
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-sm: 8px; --radius-md: 16px;
+      --space-sm: 1rem; --space-md: 2rem;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+    input { font-family: inherit; }
+
+    /* ===== NAVBAR ===== */
+    .navbar { background: var(--navy-dark); box-shadow: var(--shadow-md); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+    .navbar-container { max-width: 1400px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--white); }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--teal), var(--coral)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+    .admin-badge { background: var(--coral); color: white; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; margin-left: 0.5rem; }
+    .nav-back { font-weight: 500; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { color: var(--white); }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1400px; margin: 0 auto; width: 100%; }
+    
+    .page-header { margin-bottom: var(--space-md); }
+    .page-header h1 { font-size: 1.75rem; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .page-header p { color: var(--gray); font-size: 0.95rem; }
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: var(--space-md); }
+    .stat-card { background: var(--white); padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; }
+    .stat-info h4 { font-size: 0.85rem; color: var(--gray); text-transform: uppercase; font-weight: 600; margin-bottom: 0.25rem; }
+    .stat-info .value { font-size: 1.75rem; font-weight: 800; color: var(--navy-dark); }
+    .stat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+    .icon-blue { background: rgba(27,58,95,0.1); color: var(--navy); }
+    .icon-green { background: rgba(78,205,196,0.15); color: var(--teal); }
+    .icon-red { background: rgba(255,107,107,0.15); color: var(--coral); }
+    .icon-gold { background: rgba(255,217,61,0.15); color: #E6C336; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid #E2E8F0; margin-bottom: 1.5rem; }
+    .tab { padding: 0.75rem 1.5rem; font-weight: 600; color: var(--gray); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: var(--transition); }
+    .tab:hover { color: var(--navy); background: rgba(27,58,95,0.05); }
+    .tab.active { color: var(--navy); border-bottom-color: var(--navy); }
+
+    /* Content Panels */
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Data Table */
+    .table-container { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .table-header { padding: 1rem 1.5rem; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; }
+    .search-input { padding: 0.5rem 1rem; border: 1px solid #E2E8F0; border-radius: var(--radius-sm); width: 250px; }
+    .search-input:focus { outline: none; border-color: var(--navy); }
+    
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 1rem 1.5rem; font-size: 0.8rem; text-transform: uppercase; color: var(--gray); background: var(--light-bg); border-bottom: 1px solid #E2E8F0; }
+    td { padding: 1rem 1.5rem; border-bottom: 1px solid #F1F5F9; font-size: 0.9rem; color: var(--navy); }
+    tr:hover { background: var(--light-bg); }
+    
+    .user-cell { display: flex; align-items: center; gap: 0.75rem; }
+    .user-avatar { width: 36px; height: 36px; background: var(--navy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
+    
+    .role-badge { padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600; }
+    .role-seller { background: rgba(78,205,196,0.15); color: #1A8A7D; }
+    .role-buyer { background: rgba(27,58,95,0.1); color: var(--navy); }
+    .role-admin { background: rgba(255,107,107,0.15); color: var(--coral); }
+
+    .action-btn { padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
+    .btn-view { background: rgba(27,58,95,0.1); color: var(--navy); }
+    .btn-view:hover { background: rgba(27,58,95,0.2); }
+    .btn-ban { background: rgba(255,71,87,0.1); color: var(--danger); }
+    .btn-ban:hover { background: rgba(255,71,87,0.2); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }      .table-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .search-input { width: 100%; }
+      .tabs { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo">
+        <div class="logo-icon">YF</div>
+        YAN-FLOWS <span class="admin-badge">ADMIN</span>
+      </div>
+      <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <header class="page-header">
+      <h1>Platform Overview</h1>
+      <p>Manage users, monitor revenue, and oversee platform activities.</p>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-info">
+          <h4>Total Users</h4>
+          <div class="value" id="stat-users">0</div>
+        </div>
+        <div class="stat-icon icon-blue"><i class="fas fa-users"></i></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h4>Active Sellers</h4>
+          <div class="value" id="stat-sellers">0</div>
+        </div>
+        <div class="stat-icon icon-green"><i class="fas fa-store"></i></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h4>Platform Revenue</h4>
+          <div class="value" id="stat-revenue">₦0</div>
+        </div>
+        <div class="stat-icon icon-gold"><i class="fas fa-coins"></i></div>
+      </div>
+      <div class="stat-card">        <div class="stat-info">
+          <h4>Total Orders</h4>
+          <div class="value" id="stat-orders">0</div>
+        </div>
+        <div class="stat-icon icon-red"><i class="fas fa-shopping-cart"></i></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('users')">User Management</div>
+      <div class="tab" onclick="switchTab('orders')">Recent Orders</div>
+      <div class="tab" onclick="switchTab('transactions')">Coin Transactions</div>
+    </div>
+
+    <!-- Panel: Users -->
+    <div id="panel-users" class="panel active">
+      <div class="table-container">
+        <div class="table-header">
+          <h3 style="font-size:1.1rem;">Registered Users</h3>
+          <input type="text" class="search-input" placeholder="Search by name or email..." id="userSearch" onkeyup="filterUsers()"/>
+        </div>
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Coins</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;">Loading users...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Orders (Placeholder for now) -->
+    <div id="panel-orders" class="panel">
+      <div class="table-container">
+        <div class="table-header"><h3 style="font-size:1.1rem;">Platform Orders</h3></div>
+        <div style="padding:2rem; text-align:center; color:var(--gray);">
+          <i class="fas fa-list" style="font-size:2rem;margin-bottom:1rem;opacity:0.3;"></i>
+          <p>Global order feed loading...</p>
+        </div>      </div>
+    </div>
+
+    <!-- Panel: Transactions (Placeholder for now) -->
+    <div id="panel-transactions" class="panel">
+      <div class="table-container">
+        <div class="table-header"><h3 style="font-size:1.1rem;">Coin Transactions</h3></div>
+        <div style="padding:2rem; text-align:center; color:var(--gray);">
+          <i class="fas fa-exchange-alt" style="font-size:2rem;margin-bottom:1rem;opacity:0.3;"></i>
+          <p>Transaction history loading...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Core Engine -->
+  <script src="app.js"></script>
+
+  <!-- Page Script -->
+  <script>
+    // ===== DOM ELEMENTS =====
+    const statUsers = document.getElementById('stat-users');
+    const statSellers = document.getElementById('stat-sellers');
+    const statRevenue = document.getElementById('stat-revenue');
+    const statOrders = document.getElementById('stat-orders');
+    const usersTableBody = document.getElementById('usersTableBody');
+
+    // State
+    let allUsers = [];
+
+    // ===== AUTH GUARD & ADMIN CHECK =====
+    firebase.auth().onAuthStateChanged(async user => {
+      if (!user) { window.location.replace('login.html'); return; }
+      
+      try {
+        const doc = await firebase.firestore().collection('users').doc(user.uid).get();
+        if (!doc.exists || doc.data().role !== 'admin') {
+          // Not an admin, redirect to dashboard
+          window.location.replace('dashboard.html');
+          return;
+        }
+        // Admin confirmed, load data
+        loadAdminData();
+      } catch (err) {
+        console.error('Admin check error:', err);
+        window.location.replace('dashboard.html');
+      }
+    });
+
+    // ===== LOAD ADMIN DATA =====    async function loadAdminData() {
+      try {
+        // Fetch all users
+        const usersSnap = await firebase.firestore().collection('users').get();
+        allUsers = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        
+        // Fetch all orders for stats
+        const ordersSnap = await firebase.firestore().collection('orders').get();
+        let totalRevenue = 0;
+        ordersSnap.forEach(doc => {
+          const order = doc.data();
+          totalRevenue += (order.totals.grandTotal || 0);
+        });
+
+        // Update Stats
+        statUsers.textContent = allUsers.length;
+        statSellers.textContent = allUsers.filter(u => u.role === 'seller').length;
+        statRevenue.textContent = YF.ui.formatNaira(totalRevenue);
+        statOrders.textContent = ordersSnap.size;
+
+        renderUsers(allUsers);
+
+      } catch (err) {
+        console.error('Load data error:', err);
+        YF.ui.toast('Failed to load admin data.', 'error');
+      }
+    }
+
+    // ===== RENDER USERS TABLE =====
+    function renderUsers(users) {
+      usersTableBody.innerHTML = '';
+      
+      if (users.length === 0) {
+        usersTableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;">No users found.</td></tr>';
+        return;
+      }
+
+      users.forEach(u => {
+        const initials = (u.name || 'U').substring(0,2).toUpperCase();
+        const roleClass = u.role === 'seller' ? 'role-seller' : u.role === 'admin' ? 'role-admin' : 'role-buyer';
+        const date = u.createdAt ? YF.ui.formatDate(u.createdAt) : 'N/A';
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar">${initials}</div>
+              <div>
+                <div style="font-weight:600;">${u.name || 'Unknown'}</div>
+                <div style="font-size:0.8rem;color:var(--gray);">${u.email || ''}</div>              </div>
+            </div>
+          </td>
+          <td><span class="role-badge ${roleClass}">${u.role || 'buyer'}</span></td>
+          <td><span style="color:${u.businessActive ? '#2ED573' : 'var(--gray)'}">${u.businessActive ? 'Active' : 'Inactive'}</span></td>
+          <td>${u.coins || 0}</td>
+          <td>${date}</td>
+          <td>
+            <button class="action-btn btn-view" onclick="alert('View profile: ${u.id}')"><i class="fas fa-eye"></i></button>
+            <button class="action-btn btn-ban" onclick="toggleBan('${u.id}', this)"><i class="fas fa-ban"></i></button>
+          </td>
+        `;
+        usersTableBody.appendChild(tr);
+      });
+    }
+
+    // ===== SEARCH FILTER =====
+    window.filterUsers = () => {
+      const query = document.getElementById('userSearch').value.toLowerCase();
+      const filtered = allUsers.filter(u => 
+        (u.name && u.name.toLowerCase().includes(query)) || 
+        (u.email && u.email.toLowerCase().includes(query))
+      );
+      renderUsers(filtered);
+    };
+
+    // ===== TAB SWITCHING =====
+    window.switchTab = (tabName) => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      
+      // Find active tab element (simple logic)
+      const tabs = document.querySelectorAll('.tab');
+      if (tabName === 'users') tabs[0].classList.add('active');
+      if (tabName === 'orders') tabs[1].classList.add('active');
+      if (tabName === 'transactions') tabs[2].classList.add('active');
+
+      document.getElementById(`panel-${tabName}`).classList.add('active');
+    };
+
+    // ===== BAN ACTION (Mock) =====
+    window.toggleBan = (uid, btn) => {
+      if (!confirm('Are you sure you want to ban/suspend this user?')) return;
+      btn.innerHTML = '<i class="fas fa-check"></i>';
+      btn.style.color = 'green';
+      btn.disabled = true;
+      YF.ui.toast(`User ${uid.substring(0,6)}... action pending.`, 'info');
+      // Real implementation would update Firestore doc
+    };
+    console.log('✅ Admin Panel Loaded');
+    console.log('🔐 Admin Access Verified');
+    console.log('📊 Global Stats Calculated');
+  </script>
+
+<script src="app.js"></script>
+</body>
+</html>

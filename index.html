@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YAN-FLOWS | Premium WhatsApp Commerce Platform</title>
+  <meta name="description" content="YAN-FLOWS is a smart order management platform for WhatsApp, Instagram & TikTok sellers. Create your storefront, manage orders, and grow your business."/>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - LANDING PAGE STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+
+    :root {
+      /* Primary Colors */
+      --navy: #1B3A5F;
+      --navy-dark: #0F1F33;
+      --navy-light: #2C5282;
+      --white: #FFFFFF;
+      --light-bg: #F8F9FA;
+      --gray: #6C757D;
+      --light-gray: #ADB5BD;
+      
+      /* Accent Colors for Buttons */
+      --coral: #FF6B6B;
+      --coral-hover: #EE5A5A;
+      --teal: #4ECDC4;
+      --teal-hover: #3DBDB4;
+      --gold: #FFD93D;
+      --gold-hover: #E6C336;
+      
+      /* Shadows & Effects */
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
+      --shadow-glow: 0 0 30px rgba(78, 205, 196, 0.25);
+      
+      /* Transitions */
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: all 0.5s ease;
+      
+      /* Border Radius */
+      --radius-sm: 8px;      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      
+      /* Spacing */
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 2rem;
+      --space-lg: 4rem;
+      --space-xl: 6rem;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--navy);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: var(--transition);
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;      border: none;
+      background: none;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: var(--space-sm);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--navy-dark);
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: var(--space-md);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      color: var(--navy-dark);
+    }
+
+    p {
+      color: var(--gray);
+      margin-bottom: var(--space-sm);
+      font-size: 1.1rem;
+    }
+
+    .text-center { text-align: center; }
+    .text-navy { color: var(--navy); }
+    .text-white { color: var(--white); }
+    .text-gold { color: var(--gold); }
+    .fw-bold { font-weight: 700; }
+
+    /* ===== UTILITIES ===== */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-sm);
+    }
+
+    .section {
+      padding: var(--space-lg) 0;    }
+
+    .section-light {
+      background: var(--light-bg);
+    }
+
+    .section-dark {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .section-dark h2,
+    .section-dark p {
+      color: var(--white);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: var(--radius-full);
+      transition: var(--transition);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary {
+      background: var(--coral);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--coral-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--teal);
+      color: var(--navy-dark);
+    }
+
+    .btn-secondary:hover {
+      background: var(--teal-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--navy);
+      color: var(--navy);
+    }
+
+    .btn-outline:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-weight: 700;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-hover);
+      transform: scale(1.05);
+    }
+
+    .btn-lg {
+      padding: 1.25rem 3rem;
+      font-size: 1.1rem;
+    }
+
+    .btn-sm {
+      padding: 0.625rem 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--gold);
+      color: var(--navy-dark);
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.4); }
+      70% { box-shadow: 0 0 0 15px rgba(78, 205, 196, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0); }
+    }
+
+    .animate-fade-in {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .animate-pulse {
+      animation: pulse 2s infinite;
+    }
+
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .navbar.scrolled {
+      padding: 0.75rem 0;
+      background: var(--white);    }
+
+    .navbar-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--navy), var(--teal));
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      color: var(--navy);
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--coral);      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .mobile-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--navy);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      padding-top: 120px;
+      padding-bottom: var(--space-xl);
+      background: linear-gradient(135deg, var(--light-bg) 0%, var(--white) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(78, 205, 196, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content {
+      animation: fadeInUp 0.8s ease;    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(78, 205, 196, 0.15);
+      color: var(--navy);
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .hero-title {
+      margin-bottom: var(--space-sm);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--gray);
+      margin-bottom: var(--space-md);
+      max-width: 500px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: var(--space-lg);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gray);    }
+
+    .hero-image {
+      position: relative;
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .hero-mockup {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero-shape {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(135deg, var(--coral), var(--gold));
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      z-index: -1;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .hero-shape:nth-child(2) {
+      top: 20%;
+      right: 10%;
+      animation-delay: -2s;
+      opacity: 0.6;
+    }
+
+    /* ===== FEATURES SECTION ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .feature-card {
+      background: var(--white);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      text-align: center;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto var(--space-sm);
+      background: linear-gradient(135deg, var(--navy), var(--teal));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 1.75rem;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    /* ===== VIDEO SECTION ===== */
+    .video-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-container {
+      position: relative;
+      max-width: 900px;
+      margin: var(--space-md) auto 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .video-placeholder {
+      text-align: center;
+      color: var(--white);
+      padding: var(--space-md);
+    }
+    .video-placeholder i {
+      font-size: 4rem;
+      margin-bottom: var(--space-sm);
+      opacity: 0.9;
+    }
+
+    .play-btn {
+      width: 80px;
+      height: 80px;
+      background: var(--coral);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 1.5rem;
+      margin: 0 auto;
+      transition: var(--transition);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .video-container:hover .play-btn {
+      transform: scale(1.1);
+      background: var(--coral-hover);
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .testimonial-card {
+      background: var(--white);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      border-left: 4px solid var(--teal);
+    }
+
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .testimonial-avatar {      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--coral));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .testimonial-role {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .testimonial-stars {
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ===== PRICING ===== */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    .pricing-card {
+      background: var(--white);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      text-align: center;
+      position: relative;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--coral);
+      transform: scale(1.05);
+    }
+    .pricing-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--coral);
+      color: var(--white);
+      padding: 0.25rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.05) translateY(-8px);
+    }
+
+    .pricing-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: var(--space-sm) 0;
+    }
+
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--navy-dark);
+    }
+
+    .pricing-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--gray);
+    }
+
+    .pricing-features {
+      margin: var(--space-md) 0;
+      text-align: left;
+    }
+
+    .pricing-features li {
+      padding: 0.5rem 0;
+      color: var(--gray);      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pricing-features li i {
+      color: var(--teal);
+    }
+
+    /* ===== FAQ ===== */
+    .faq-container {
+      max-width: 800px;
+      margin: var(--space-md) auto 0;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 1.25rem;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .faq-question:hover {
+      background: var(--light-bg);
+    }
+
+    .faq-question i {
+      transition: var(--transition);
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      padding: 0 1.25rem;
+      max-height: 0;
+      overflow: hidden;      transition: max-height 0.3s ease, padding 0.3s ease;
+      color: var(--gray);
+    }
+
+    .faq-item.active .faq-answer {
+      padding: 0 1.25rem 1.25rem;
+      max-height: 500px;
+    }
+
+    /* ===== ABOUT ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+      margin-top: var(--space-md);
+    }
+
+    .about-image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .about-content h3 {
+      margin-bottom: var(--space-sm);
+    }
+
+    .about-list {
+      margin: var(--space-sm) 0;
+    }
+
+    .about-list li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--gray);
+    }
+
+    .about-list li i {
+      color: var(--teal);
+      font-size: 1.25rem;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+      text-align: center;
+      padding: var(--space-xl) 0;    }
+
+    .cta-title {
+      color: var(--white);
+      margin-bottom: var(--space-sm);
+    }
+
+    .cta-subtitle {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 0 auto var(--space-md);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,0.85);
+      padding: var(--space-lg) 0 var(--space-md);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .footer-brand .logo {
+      color: var(--white);
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-brand p {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-links h4 {
+      color: var(--white);
+      margin-bottom: var(--space-sm);
+      font-size: 1.1rem;
+    }
+
+    .footer-links a {
+      display: block;
+      padding: 0.25rem 0;
+      color: rgba(255,255,255,0.7);
+      transition: var(--transition);
+    }
+    .footer-links a:hover {
+      color: var(--teal);
+      transform: translateX(4px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: var(--space-md);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: var(--space-sm);
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--teal);
+      transform: translateY(-3px);
+    }
+
+    /* ===== WHATSAPP FLOAT ===== */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;      font-size: 1.75rem;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      transition: var(--transition);
+      animation: pulse 2s infinite;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      background: #128C7E;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 992px) {
+      .hero-container,
+      .about-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-content,
+      .hero-image {
+        animation: none;
+        opacity: 1;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links,
+      .nav-buttons {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .nav-links.active {        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: var(--space-md);
+        box-shadow: var(--shadow-md);
+        gap: var(--space-sm);
+      }
+
+      .nav-buttons.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: var(--space-md);
+        box-shadow: var(--shadow-md);
+        gap: var(--space-sm);
+      }
+
+      .hero {
+        padding-top: 100px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .pricing-card.featured {
+        transform: scale(1);
+      }
+
+      .pricing-card.featured:hover {
+        transform: translateY(-8px);
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --space-lg: 3rem;
+        --space-xl: 4rem;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero-buttons .btn {
+        width: auto;
+      }
+
+      .stat-number {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">YF</div>
+        YAN-FLOWS
+      </a>
+      
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#video">Demo</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+            <div class="nav-buttons" id="navButtons">
+        <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+        <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
+      </div>
+      
+      <button class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-bolt"></i>
+          <span>Powering Social Commerce</span>
+        </div>
+        <h1 class="hero-title">Sell Smarter on WhatsApp & Social Media</h1>
+        <p class="hero-subtitle">YAN-FLOWS is your all-in-one commerce OS. Create a stunning storefront, manage orders, automate WhatsApp messages, and grow your business — all from one beautiful dashboard.</p>
+        
+        <div class="hero-buttons">
+          <a href="signup.html" class="btn btn-primary btn-lg">
+            <i class="fas fa-rocket"></i> Start Free Trial
+          </a>
+          <a href="#video" class="btn btn-secondary btn-lg">
+            <i class="fas fa-play-circle"></i> Watch Demo
+          </a>
+        </div>
+        
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">10K+</div>
+            <div class="stat-label">Sellers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">500K+</div>
+            <div class="stat-label">Orders Processed</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Satisfaction</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-image">
+        <div class="hero-shape"></div>
+        <div class="hero-shape"></div>        <img src="https://via.placeholder.com/500x400/1B3A5F/FFFFFF?text=YAN-FLOWS+Dashboard" alt="YAN-FLOWS Platform Preview" class="hero-mockup animate-float"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES SECTION ===== -->
+  <section class="section" id="features">
+    <div class="container">
+      <h2>Everything You Need to Sell</h2>
+      <p class="text-center" style="max-width: 600px; margin: 0 auto var(--space-md);">
+        Powerful tools designed for social media sellers. No coding required.
+      </p>
+      
+      <div class="features-grid">
+        <div class="feature-card animate-fade-in">
+          <div class="feature-icon">
+            <i class="fas fa-store"></i>
+          </div>
+          <h3>Personal Storefront</h3>
+          <p>Get a beautiful, customizable storefront at yan-flows.com/store/yourname. Showcase your products professionally.</p>
+        </div>
+        
+        <div class="feature-card animate-fade-in delay-100">
+          <div class="feature-icon">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <h3>WhatsApp Automation</h3>
+          <p>Orders automatically generate prefilled WhatsApp messages. Customers click to chat with order details ready.</p>
+        </div>
+        
+        <div class="feature-card animate-fade-in delay-200">
+          <div class="feature-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <h3>Coin Monetization</h3>
+          <p>Pay per successful order with our fair coin system. Buy coins via Paystack. Earn bonuses through referrals.</p>
+        </div>
+        
+        <div class="feature-card animate-fade-in">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Smart Analytics</h3>
+          <p>Track orders, revenue, top products, and growth. Make data-driven decisions to scale your business.</p>
+        </div>
+        
+        <div class="feature-card animate-fade-in delay-100">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>          <h3>Customer CRM</h3>
+          <p>Organize buyers into VIP, Returning, or Bulk categories. Build lasting relationships and boost retention.</p>
+        </div>
+        
+        <div class="feature-card animate-fade-in delay-200">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Secure & Reliable</h3>
+          <p>Built on Firebase with enterprise-grade security. Your data and your customers' data are always protected.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VIDEO SECTION ===== -->
+  <section class="section section-light video-section" id="video">
+    <div class="container">
+      <h2>See YAN-FLOWS in Action</h2>
+      <p class="text-center">Watch how easy it is to set up your store and start selling in minutes.</p>
+      
+      <div class="video-container" id="videoContainer">
+        <div class="video-placeholder">
+          <i class="fas fa-play-circle"></i>
+          <h3>Platform Demo Video</h3>
+          <p>Click to watch a 2-minute walkthrough of YAN-FLOWS</p>
+          <div class="play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section" id="testimonials">
+    <div class="container">
+      <h2>Loved by Sellers Worldwide</h2>
+      <p class="text-center" style="max-width: 600px; margin: 0 auto var(--space-md);">
+        Join thousands of successful vendors who trust YAN-FLOWS to power their social commerce.
+      </p>
+      
+      <div class="testimonials-grid">
+        <div class="testimonial-card animate-fade-in">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">AO</div>
+            <div>
+              <div class="testimonial-name">Amina O.</div>
+              <div class="testimonial-role">Fashion Seller, Lagos</div>
+            </div>          </div>
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p>"YAN-FLOWS transformed my Instagram business. Orders come in organized, WhatsApp messages send automatically, and I save 3 hours daily!"</p>
+        </div>
+        
+        <div class="testimonial-card animate-fade-in delay-100">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">CK</div>
+            <div>
+              <div class="testimonial-name">Chidi K.</div>
+              <div class="testimonial-role">Electronics, Abuja</div>
+            </div>
+          </div>
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p>"The coin system is genius. I only pay when I make sales. The analytics helped me identify my best products and double my revenue."</p>
+        </div>
+        
+        <div class="testimonial-card animate-fade-in delay-200">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">FB</div>
+            <div>
+              <div class="testimonial-name">Fatima B.</div>
+              <div class="testimonial-role">Beauty Products, Kano</div>
+            </div>
+          </div>
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+          <p>"Setup took 10 minutes. My storefront looks premium, customers trust it more, and the WhatsApp automation is a game-changer. Highly recommend!"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== PRICING ===== -->
+  <section class="section section-light" id="pricing">
+    <div class="container">
+      <h2>Simple, Fair Pricing</h2>
+      <p class="text-center" style="max-width: 600px; margin: 0 auto var(--space-md);">
+        Start free. Pay only when you sell. No hidden fees, no monthly subscriptions.
+      </p>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card animate-fade-in">
+          <div class="pricing-name">Starter</div>
+          <div class="pricing-price">Free<span>/month</span></div>
+          <p>Perfect for testing the platform</p>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> 10 free coins</li>
+            <li><i class="fas fa-check"></i> Basic storefront</li>
+            <li><i class="fas fa-check"></i> Up to 20 products</li>
+            <li><i class="fas fa-check"></i> WhatsApp automation</li>
+            <li><i class="fas fa-times" style="color:var(--light-gray)"></i> Advanced analytics</li>
+            <li><i class="fas fa-times" style="color:var(--light-gray)"></i> CRM features</li>
+          </ul>
+          <a href="signup.html" class="btn btn-outline">Get Started</a>
+        </div>
+        
+        <div class="pricing-card featured animate-fade-in delay-100">
+          <div class="pricing-name">Professional</div>
+          <div class="pricing-price">Pay-As-You-Sell</div>
+          <p>For growing businesses</p>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> 50 starter coins (₦5,000)</li>
+            <li><i class="fas fa-check"></i> Unlimited products</li>
+            <li><i class="fas fa-check"></i> Full analytics dashboard</li>
+            <li><i class="fas fa-check"></i> Customer CRM</li>
+            <li><i class="fas fa-check"></i> Priority support</li>
+            <li><i class="fas fa-check"></i> Referral bonuses</li>
+          </ul>
+          <a href="signup.html" class="btn btn-primary">Start Selling</a>
+        </div>
+        
+        <div class="pricing-card animate-fade-in delay-200">
+          <div class="pricing-name">Enterprise</div>
+          <div class="pricing-price">Custom</div>
+          <p>For high-volume sellers</p>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> Bulk coin discounts</li>
+            <li><i class="fas fa-check"></i> Dedicated account manager</li>
+            <li><i class="fas fa-check"></i> Custom integrations</li>
+            <li><i class="fas fa-check"></i> API access</li>
+            <li><i class="fas fa-check"></i> White-label options</li>
+            <li><i class="fas fa-check"></i> Advanced reporting</li>          </ul>
+          <a href="contact-agent.html" class="btn btn-outline">Contact Sales</a>
+        </div>
+      </div>
+      
+      <div class="text-center" style="margin-top: var(--space-md);">
+        <p><strong>Coin Packages:</strong></p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 0.5rem;">
+          <span class="badge">₦5,000 = 50 coins</span>
+          <span class="badge">₦10,000 = 120 coins</span>
+          <span class="badge">₦20,000 = 260 coins</span>
+          <span class="badge">₦50,000 = 700 coins</span>
+          <span class="badge">₦100,000 = 1,500 coins</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How does the coin system work?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Each successful order deducts 1 coin from your balance. You receive 10 free coins when you start. When coins run low, purchase more via Paystack. No coins = no new orders processed, but your store stays live.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Do I need a website or domain?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>No! YAN-FLOWS provides your storefront at yan-flows.com/store/yourusername. It's mobile-optimized, fast, and ready to share on WhatsApp, Instagram, TikTok, or anywhere.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do WhatsApp orders work?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>When a customer checks out, YAN-FLOWS generates a prefilled WhatsApp message with order details, delivery info, and payment instructions. The customer clicks "Send" and the order lands in your WhatsApp instantly.</p>          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is my payment information secure?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Absolutely. We use Paystack (PCI-DSS compliant) for all transactions. We never store your bank details. Firebase security rules protect all user data with enterprise-grade encryption.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I use YAN-FLOWS on my phone?</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes! YAN-FLOWS is fully responsive. Manage your store, products, and orders from any device — iPhone, Android, tablet, or desktop. No app download required.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section class="section section-light" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="https://via.placeholder.com/600x400/1B3A5F/FFFFFF?text=Our+Team" alt="YAN-FLOWS Team" style="width:100%; border-radius: var(--radius-lg);"/>
+        </div>
+        <div class="about-content">
+          <h2 style="text-align: left; margin-bottom: var(--space-sm);">Built for Social Sellers, by Social Sellers</h2>
+          <p>YAN-FLOWS was created because we saw a gap: social media sellers needed professional tools without the complexity of traditional e-commerce platforms.</p>
+          <p>Our mission is to empower entrepreneurs in Africa and beyond to build sustainable, scalable businesses using the platforms they already love: WhatsApp, Instagram, TikTok, and Facebook.</p>
+          <ul class="about-list">
+            <li><i class="fas fa-check-circle"></i> Founded by e-commerce experts</li>
+            <li><i class="fas fa-check-circle"></i> Designed for mobile-first sellers</li>
+            <li><i class="fas fa-check-circle"></i> Trusted by 10,000+ vendors</li>
+            <li><i class="fas fa-check-circle"></i> 24/7 customer support</li>
+          </ul>
+          <a href="signup.html" class="btn btn-primary" style="margin-top: var(--space-sm);">
+            <i class="fas fa-user-plus"></i> Join the Revolution
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== CTA SECTION ===== -->
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="cta-title">Ready to Transform Your Sales?</h2>
+      <p class="cta-subtitle">Join thousands of sellers who are growing faster with YAN-FLOWS. Start your free trial today — no credit card required.</p>
+      <a href="signup.html" class="btn btn-gold btn-lg">
+        <i class="fas fa-rocket"></i> Create Your Free Account
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">YF</div>
+            YAN-FLOWS
+          </a>
+          <p>The premium commerce operating system for WhatsApp, Instagram & TikTok sellers. Sell smarter, grow faster.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Platform</h4>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#video">Demo</a>
+          <a href="contact-agent.html">Contact</a>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <a href="#">Help Center</a>
+          <a href="#">Seller Guide</a>
+          <a href="#">API Docs</a>
+          <a href="#">Blog</a>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>          <a href="#">Cookie Policy</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 YAN-FLOWS. All rights reserved. Built with ❤️ for social sellers.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== WHATSAPP FLOAT BUTTON ===== -->
+  <a href="https://wa.me/2348057843630" class="whatsapp-float" target="_blank" title="Chat with Support">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- ===== PAGE-SPECIFIC JAVASCRIPT ===== -->
+  <script>
+    // ===== NAVBAR SCROLL EFFECT =====
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // ===== MOBILE MENU TOGGLE =====
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navButtons = document.getElementById('navButtons');
+    
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      navButtons.classList.toggle('active');
+      const icon = mobileToggle.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // ===== FAQ ACCORDION =====
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        const isActive = item.classList.contains('active');
+        
+        // Close all items
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                // Toggle clicked item
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+
+    // ===== VIDEO PLACEHOLDER CLICK =====
+    const videoContainer = document.getElementById('videoContainer');
+    videoContainer.addEventListener('click', function() {
+      // In production, this would open a modal or redirect to video
+      alert('🎬 Video demo would play here!\n\nIn the full app, this opens a modal with our 2-minute platform walkthrough.');
+    });
+
+    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            // Close mobile menu if open
+            navLinks.classList.remove('active');
+            navButtons.classList.remove('active');
+            mobileToggle.querySelector('i').classList.add('fa-bars');
+            mobileToggle.querySelector('i').classList.remove('fa-times');
+            
+            // Smooth scroll
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+
+    // ===== ANIMATION ON SCROLL (Simple Intersection Observer) =====
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    // Observe feature cards and other animated elements
+    document.querySelectorAll('.feature-card, .testimonial-card, .pricing-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    // ===== FIREBASE CONFIG (Placeholder - Full init in app.js) =====
+    // This is just for reference. Actual Firebase init happens in app.js
+    const YANFLOWS_CONFIG = {
+      firebase: {
+        apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
+        authDomain: "yan-flow.firebaseapp.com",
+        projectId: "yan-flow",
+        storageBucket: "yan-flow.firebasestorage.app",
+        messagingSenderId: "373204559623",
+        appId: "1:373204559623:web:56e1c8abf07945c53187a2",
+        measurementId: "G-4PC6ENND61"
+      },
+      colors: {
+        primary: '#1B3A5F',
+        accent: '#FF6B6B',
+        secondary: '#4ECDC4',
+        gold: '#FFD93D'
+      }
+    };
+
+    console.log('✅ YAN-FLOWS Landing Page Loaded');
+    console.log('🎨 Theme: Navy Blue + White Luxury');
+    console.log('📱 Responsive: Mobile → Desktop');
+    console.log('🚀 Next: login.html → signup.html → dashboard.html');
+  </script>
+
+<script src="app.js"></script>
+
+</body>
+</html>

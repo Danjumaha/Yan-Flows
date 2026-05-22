@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support & Contact | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - CONTACT PAGE STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --coral-hover: #EE5A5A;
+      --teal: #4ECDC4; --teal-hover: #3DBDB4;
+      --gold: #FFD93D; --danger: #FF4757;
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-sm: 8px; --radius-md: 16px;
+      --space-sm: 1rem; --space-md: 2rem;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+    input, textarea, select { font-family: inherit; }
+
+    /* ===== NAVBAR ===== */
+    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+    .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
+    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { color: var(--navy); }
+
+    /* ===== HERO SECTION ===== */
+    .contact-hero {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: var(--space-lg) var(--space-sm);
+      text-align: center;
+      position: relative;
+      overflow: hidden;    }
+    .contact-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(78, 205, 196, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .contact-hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; position: relative; z-index: 1; }
+    .contact-hero p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto; position: relative; z-index: 1; }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1200px; margin: 0 auto; width: 100%; }
+
+    /* Contact Cards */
+    .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin: -3rem auto var(--space-md); position: relative; z-index: 10; }
+    .contact-card {
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      transition: var(--transition);
+      border-top: 4px solid var(--teal);
+    }
+    .contact-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .contact-card i { font-size: 2rem; color: var(--teal); margin-bottom: 1rem; }
+    .contact-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .contact-card p { color: var(--gray); font-size: 0.9rem; margin-bottom: 1rem; }
+    .contact-card a { color: var(--navy); font-weight: 600; text-decoration: underline; }
+    .contact-card a:hover { color: var(--coral); }
+
+    /* Content Grid */
+    .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md); }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+
+    /* Form Section */
+    .form-section { background: var(--white); padding: var(--space-md); border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+    .form-section h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .form-section > p { color: var(--gray); margin-bottom: 1.25rem; }
+
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .form-input, .form-textarea, .form-select {
+      width: 100%; padding: 0.875rem 1rem; border: 2px solid #E2E8F0; border-radius: var(--radius-sm);
+      font-size: 1rem; transition: var(--transition); background: var(--light-bg);
+    }    .form-input:focus, .form-textarea:focus, .form-select:focus { outline: none; border-color: var(--teal); background: var(--white); box-shadow: 0 0 0 4px rgba(78,205,196,0.15); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+
+    .btn { padding: 0.875rem 1.5rem; font-weight: 600; font-size: 0.95rem; border-radius: var(--radius-sm); transition: var(--transition); display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary { background: var(--coral); color: var(--white); box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
+    .btn-primary:hover { background: var(--coral-hover); transform: translateY(-2px); }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+    /* FAQ Section */
+    .faq-section { background: var(--white); padding: var(--space-md); border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+    .faq-section h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .faq-section > p { color: var(--gray); margin-bottom: 1.25rem; }
+
+    .faq-item { border-bottom: 1px solid #F1F5F9; padding: 1rem 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; color: var(--navy); }
+    .faq-question:hover { color: var(--teal); }
+    .faq-question i { transition: var(--transition); }
+    .faq-item.active .faq-question i { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: var(--gray); font-size: 0.95rem; }
+    .faq-item.active .faq-answer { max-height: 500px; padding-top: 0.75rem; }
+
+    /* Map Section */
+    .map-section { background: var(--white); padding: var(--space-md); border-radius: var(--radius-md); box-shadow: var(--shadow-md); margin-bottom: var(--space-md); }
+    .map-container { height: 300px; background: #E2E8F0; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--gray); }
+    .map-container i { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* Footer */
+    .footer { background: var(--navy-dark); color: rgba(255,255,255,0.85); padding: var(--space-md) 0 var(--space-sm); }
+    .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: rgba(255,255,255,0.7); transition: var(--transition); }
+    .footer-links a:hover { color: var(--teal); }
+    .social-links { display: flex; gap: 0.75rem; }
+    .social-links a { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--white); transition: var(--transition); }
+    .social-links a:hover { background: var(--teal); transform: translateY(-3px); }
+
+    /* Toast */
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--white); padding: 1rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.75rem; min-width: 280px; transform: translateX(120%); transition: transform 0.3s ease; border-left: 4px solid var(--coral); }
+    .toast.success { border-left-color: var(--teal); }
+    .toast.show { transform: translateX(0); }
+
+    /* WhatsApp Float */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.75rem;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      transition: var(--transition);
+      animation: pulse 2s infinite;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); background: #128C7E; }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+      70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      h1 { font-size: 2rem !important; }
+      .contact-cards { margin-top: -2rem; }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">YF</div>
+        YAN-FLOWS
+      </a>
+      <a href="index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </div>
+  </nav>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Hero -->
+  <section class="contact-hero">
+    <h1>We're Here to Help</h1>
+    <p>Have questions about YAN-FLOWS? Need support with your store or orders? Our team is ready to assist you 24/7.</p>
+  </section>
+
+  <!-- Contact Cards -->  <div class="contact-cards">
+    <div class="contact-card">
+      <i class="fab fa-whatsapp"></i>
+      <h3>WhatsApp Support</h3>
+      <p>Get instant help via WhatsApp chat</p>
+      <a href="https://wa.me/2348057843630" target="_blank">Chat Now</a>
+    </div>
+    <div class="contact-card">
+      <i class="fas fa-envelope"></i>
+      <h3>Email Us</h3>
+      <p>Send us a detailed message</p>
+      <a href="mailto:support@yan-flows.com">support@yan-flows.com</a>
+    </div>
+    <div class="contact-card">
+      <i class="fas fa-phone-alt"></i>
+      <h3>Call Center</h3>
+      <p>Mon-Fri, 9am-6pm WAT</p>
+      <a href="tel:+2348057843630">+234 805 784 3630</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <div class="content-grid">
+      <!-- Contact Form -->
+      <div class="form-section">
+        <h2>Send a Message</h2>
+        <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+        
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <label class="form-label">Your Name *</label>
+            <input type="text" id="name" class="form-input" placeholder="John Doe" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            <input type="email" id="email" class="form-input" placeholder="you@example.com" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subject *</label>
+            <select id="subject" class="form-select" required>
+              <option value="">Select a topic...</option>
+              <option value="general">General Inquiry</option>
+              <option value="seller">Seller Support</option>
+              <option value="buyer">Buyer Issue</option>
+              <option value="billing">Billing & Coins</option>
+              <option value="technical">Technical Problem</option>
+            </select>
+          </div>
+          <div class="form-group">            <label class="form-label">Message *</label>
+            <textarea id="message" class="form-textarea" placeholder="Describe your issue or question in detail..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <p>Find quick answers to common questions about YAN-FLOWS.</p>
+        
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-question">How do I create my storefront? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Sign up as a seller, complete your business profile in Seller Setup, and add products. Your store will be live at yan-flows.com/store/yourname.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">How does the coin system work? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Each successful order deducts 1 coin. You get 10 free coins on signup. Purchase more via Paystack when you run low.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">Can I use YAN-FLOWS on mobile? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Yes! YAN-FLOWS is fully responsive and works perfectly on Android, iPhone, tablets, and desktop browsers.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">How do I receive payments? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Customers pay directly to your bank account. YAN-FLOWS sends your bank details via WhatsApp automatically with each order.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">Is there a monthly subscription? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">No. YAN-FLOWS uses a pay-per-order coin system. No monthly fees, no hidden charges.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+      <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;">Our Office</h2>
+      <p style="color:var(--gray);margin-bottom:1rem;">Visit us or send correspondence to our headquarters</p>
+      <div class="map-container">
+        <div style="text-align:center;">
+          <i class="fas fa-map-marker-alt"></i>
+          <p>Interactive Map Loading...</p>
+          <p style="font-size:0.85rem;margin-top:0.5rem;">123 Commerce Avenue, Lagos, Nigeria</p>
+        </div>
+      </div>    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <p>&copy; 2026 YAN-FLOWS. All rights reserved.</p>
+        <p style="font-size:0.85rem;margin-top:0.25rem;">Premium WhatsApp Commerce Platform</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+      <div class="social-links">
+        <a href="https://wa.me/2348057843630" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/2348057843630" class="whatsapp-float" target="_blank" title="Chat with Support">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Core Engine -->
+  <script src="app.js"></script>
+
+  <!-- Page Script -->
+  <script>
+    // ===== DOM ELEMENTS =====
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const toastContainer = document.getElementById('toastContainer');
+
+    // ===== FAQ ACCORDION =====
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+      });
+    });
+    // ===== CONTACT FORM SUBMISSION =====
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !subject || !message) {
+        YF.ui.toast('Please fill in all required fields.', 'error');
+        return;
+      }
+
+      // UI Loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+      try {
+        // In production, this would save to Firestore 'messages' collection
+        // For demo, we'll simulate success
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Optional: Save to Firestore
+        /*
+        await firebase.firestore().collection('support_messages').add({
+          name, email, subject, message,
+          status: 'new',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        */
+
+        YF.ui.toast('Message sent successfully! We\'ll respond within 24 hours. ✅', 'success');
+        contactForm.reset();
+      } catch (err) {
+        console.error('Submit error:', err);
+        YF.ui.toast('Failed to send message. Please try again.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+      }
+    });
+
+    console.log('✅ Contact Page Loaded');
+    console.log('💬 WhatsApp Support Active');
+    console.log('📧 Contact Form Ready');
+  </script>
+<script src="app.js"></script>
+</body>
+</html>

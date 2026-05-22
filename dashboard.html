@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    /* ========================================
+       YAN-FLOWS - DASHBOARD STYLES
+       Luxury Theme: Navy Blue + White + Accents
+       ======================================== */
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --coral-hover: #EE5A5A;
+      --teal: #4ECDC4; --teal-hover: #3DBDB4;
+      --gold: #FFD93D; --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
+      --radius-sm: 8px; --radius-md: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); display: flex; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 260px;
+      background: var(--navy-dark);
+      color: var(--white);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .sidebar-logo {      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .sidebar-logo span { color: var(--teal); }
+    
+    .sidebar-menu { flex: 1; padding: 1rem 0; overflow-y: auto; }
+    .menu-label { padding: 0.5rem 1.5rem; font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 600; letter-spacing: 1px; }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.5rem;
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+      transition: var(--transition);
+      border-left: 3px solid transparent;
+    }
+    .menu-item:hover, .menu-item.active {
+      background: rgba(255,255,255,0.05);
+      color: var(--white);
+      border-left-color: var(--teal);
+    }
+    .menu-item i { width: 20px; text-align: center; }
+    
+    .sidebar-footer { padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    .user-profile { display: flex; align-items: center; gap: 0.75rem; }
+    .user-avatar { width: 40px; height: 40px; background: var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--navy-dark); }
+    .user-info { flex: 1; }
+    .user-name { font-weight: 600; font-size: 0.9rem; }
+    .user-role { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      flex: 1;
+      margin-left: 260px;
+      padding: 2rem;
+      transition: margin-left 0.3s ease;
+    }
+    
+    /* Header */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .page-title h1 { font-size: 1.75rem; font-weight: 700; color: var(--navy-dark); }
+    .page-title p { color: var(--gray); margin-top: 0.25rem; }
+        .top-actions { display: flex; gap: 1rem; align-items: center; }
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary { background: var(--coral); color: var(--white); box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
+    .btn-primary:hover { background: var(--coral-hover); transform: translateY(-2px); }
+    .btn-teal { background: var(--teal); color: var(--navy-dark); }
+    .btn-teal:hover { background: var(--teal-hover); }
+    .btn-outline { background: transparent; border: 1px solid #E2E8F0; color: var(--navy); }
+    .btn-outline:hover { background: var(--light-bg); }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid transparent;
+      transition: var(--transition);
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .stat-card.primary { border-bottom-color: var(--navy); }
+    .stat-card.teal { border-bottom-color: var(--teal); }
+    .stat-card.coral { border-bottom-color: var(--coral); }
+    .stat-card.gold { border-bottom-color: var(--gold); }
+    
+    .stat-info h3 { font-size: 2rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .stat-info p { color: var(--gray); font-size: 0.9rem; font-weight: 500; }
+    .stat-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+    .stat-icon.navy { background: rgba(27,58,95,0.1); color: var(--navy); }
+    .stat-icon.teal { background: rgba(78,205,196,0.15); color: var(--teal); }
+    .stat-icon.coral { background: rgba(255,107,107,0.15); color: var(--coral); }
+    .stat-icon.gold { background: rgba(255,217,61,0.15); color: #E6C336; }
+
+    /* Dashboard Panels */
+    .dashboard-panels {      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+    }
+    .panel {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 1.5rem;
+    }
+    .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid #F1F5F9; }
+    .panel-title { font-size: 1.1rem; font-weight: 700; color: var(--navy-dark); }
+    .panel-link { color: var(--teal); font-size: 0.85rem; font-weight: 600; }
+    .panel-link:hover { text-decoration: underline; }
+
+    /* Tables & Lists */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 0.75rem; font-size: 0.8rem; text-transform: uppercase; color: var(--gray); border-bottom: 1px solid #F1F5F9; }
+    .data-table td { padding: 1rem 0.75rem; border-bottom: 1px solid #F8F9FA; color: var(--navy); font-size: 0.9rem; }
+    .badge-status { padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600; }
+    .badge-pending { background: rgba(255,217,61,0.2); color: #B7860B; }
+    .badge-success { background: rgba(78,205,196,0.2); color: #1A8A7D; }
+    .badge-new { background: rgba(255,107,107,0.15); color: var(--coral); }
+
+    /* Store Link Box */
+    .store-link-box {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: 1.25rem;
+      border-radius: var(--radius-sm);
+      margin-top: 1rem;
+    }
+    .store-link-box h4 { font-size: 0.9rem; margin-bottom: 0.5rem; opacity: 0.8; }
+    .store-url { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.15); padding: 0.75rem; border-radius: var(--radius-sm); margin-top: 0.5rem; }
+    .store-url a { color: var(--white); font-weight: 600; }
+    .copy-btn { background: rgba(255,255,255,0.2); border: none; color: var(--white); padding: 0.5rem; border-radius: 4px; cursor: pointer; transition: var(--transition); }
+    .copy-btn:hover { background: var(--teal); }
+
+    /* Mobile Toggle */
+    .mobile-toggle { display: none; font-size: 1.5rem; color: var(--navy); cursor: pointer; }
+    .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .dashboard-panels { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.active { transform: translateX(0); }
+      .main-content { margin-left: 0; padding: 1.5rem; }      .mobile-toggle { display: block; }
+      .overlay.active { display: block; }
+      .top-bar { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">YAN<span>-FLOWS</span></div>
+    </div>
+    <nav class="sidebar-menu" id="sidebarMenu">
+      <!-- Menu items injected by JS based on role -->
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <div class="user-avatar" id="userInitials">JD</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">John Doe</div>
+          <div class="user-role" id="userRole">Buyer</div>
+        </div>
+        <button onclick="logout()" style="color:rgba(255,255,255,0.5); font-size:1.2rem;"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Overlay for Mobile -->
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <div class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+        <div class="page-title">
+          <h1 id="greetingText">Welcome back, John!</h1>
+          <p>Here's what's happening with your account today.</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-outline"><i class="fas fa-bell"></i></button>
+        <a href="seller-setup.html" class="btn btn-primary" id="ctaButton">
+          <i class="fas fa-plus"></i> <span>Add Product</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Dynamic Stats Grid -->    <div class="stats-grid" id="statsContainer">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Dynamic Panels -->
+    <div class="dashboard-panels">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Recent Activity</div>
+          <a href="#" class="panel-link">View All</a>
+        </div>
+        <div id="activityContent">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+      
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Quick Actions</div>
+        </div>
+        <div id="actionsContent">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // ===== FIREBASE INIT =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
+      authDomain: "yan-flow.firebaseapp.com",
+      projectId: "yan-flow",
+      storageBucket: "yan-flow.firebasestorage.app",
+      messagingSenderId: "373204559623",
+      appId: "1:373204559623:web:56e1c8abf07945c53187a2",
+      measurementId: "G-4PC6ENND61"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ===== AUTH CHECK =====
+    auth.onAuthStateChanged(async user => {
+      if (!user) { window.location.replace('login.html'); return; }      const uid = user.uid;
+      
+      // Fetch User Data
+      const doc = await db.collection('users').doc(uid).get();
+      if (doc.exists) {
+        const userData = doc.data();
+        renderDashboard(userData, user.displayName || 'User');
+      }
+    });
+
+    // ===== RENDER DASHBOARD =====
+    function renderDashboard(data, name) {
+      const role = data.role || 'buyer';
+      const coins = data.coins || 0;
+      const username = name;
+      
+      // Update Header
+      document.getElementById('userName').textContent = username;
+      document.getElementById('userRole').textContent = role.toUpperCase();
+      document.getElementById('userInitials').textContent = username.substring(0,2).toUpperCase();
+      document.getElementById('greetingText').textContent = `Welcome back, ${username.split(' ')[0]}!`;
+      
+      const menu = document.getElementById('sidebarMenu');
+      const stats = document.getElementById('statsContainer');
+      const activity = document.getElementById('activityContent');
+      const actions = document.getElementById('actionsContent');
+      const ctaBtn = document.getElementById('ctaButton');
+
+      // 1. SIDEBAR MENU & CONTENT BASED ON ROLE
+      if (role === 'seller') {
+        // SELLER VIEW
+        document.getElementById('userRole').textContent = 'SELLER';
+        
+        // Menu
+        menu.innerHTML = `
+          <div class="menu-label">Main</div>
+          <a href="dashboard.html" class="menu-item active"><i class="fas fa-th-large"></i> Overview</a>
+          <a href="orders.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+          <a href="product-manager.html" class="menu-item"><i class="fas fa-box"></i> Products</a>
+          <div class="menu-label">Growth</div>
+          <a href="crm.html" class="menu-item"><i class="fas fa-users"></i> CRM</a>
+          <a href="analytics.html" class="menu-item"><i class="fas fa-chart-line"></i> Analytics</a>
+          <div class="menu-label">Account</div>
+          <a href="coins.html" class="menu-item"><i class="fas fa-coins"></i> Buy Coins</a>
+          <a href="referrals.html" class="menu-item"><i class="fas fa-gift"></i> Referrals</a>
+          <a href="seller-setup.html" class="menu-item"><i class="fas fa-cog"></i> Store Settings</a>
+        `;
+
+        // Stats
+        stats.innerHTML = `          <div class="stat-card primary">
+            <div class="stat-info"><h3>${coins}</h3><p>Coin Balance</p></div>
+            <div class="stat-icon navy"><i class="fas fa-coins"></i></div>
+          </div>
+          <div class="stat-card teal">
+            <div class="stat-info"><h3>12</h3><p>Total Orders</p></div>
+            <div class="stat-icon teal"><i class="fas fa-shopping-bag"></i></div>
+          </div>
+          <div class="stat-card coral">
+            <div class="stat-info"><h3>₦85,000</h3><p>Revenue</p></div>
+            <div class="stat-icon coral"><i class="fas fa-naira-sign"></i></div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-info"><h3>₦4,500</h3><p>Pending</p></div>
+            <div class="stat-icon gold"><i class="fas fa-clock"></i></div>
+          </div>
+        `;
+
+        // Activity (Seller: Recent Orders)
+        activity.innerHTML = `
+          <table class="data-table">
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>#YF-001</td><td>Amina O.</td><td>₦12,000</td><td><span class="badge-status badge-pending">Pending</span></td></tr>
+              <tr><td>#YF-002</td><td>Chidi K.</td><td>₦5,500</td><td><span class="badge-status badge-success">Delivered</span></td></tr>
+              <tr><td>#YF-003</td><td>Fatima B.</td><td>₦8,200</td><td><span class="badge-status badge-new">Processing</span></td></tr>
+            </tbody>
+          </table>
+        `;
+
+        // Actions
+        actions.innerHTML = `
+          <a href="product-manager.html" class="btn btn-teal" style="width:100%;margin-bottom:0.75rem;justify-content:center;"><i class="fas fa-plus"></i> Add New Product</a>
+          <a href="coins.html" class="btn btn-outline" style="width:100%;justify-content:center;"><i class="fas fa-coins"></i> Top Up Coins</a>
+          
+          <div class="store-link-box">
+            <h4><i class="fas fa-link"></i> Your Storefront URL</h4>
+            <div class="store-url">
+              <a href="#">yan-flows.com/store/${username.toLowerCase().replace(/\s/g,'')}</a>
+              <button class="copy-btn" onclick="alert('Link Copied!')"><i class="fas fa-copy"></i></button>
+            </div>
+          </div>
+        `;
+        
+        ctaBtn.innerHTML = '<i class="fas fa-box-open"></i> <span>Add Product</span>';
+        ctaBtn.href = 'product-manager.html';
+
+      } else {
+        // BUYER VIEW
+        document.getElementById('userRole').textContent = 'BUYER';        document.getElementById('ctaButton').style.display = 'none'; // Hide add product btn
+
+        // Menu
+        menu.innerHTML = `
+          <div class="menu-label">Shopping</div>
+          <a href="dashboard.html" class="menu-item active"><i class="fas fa-th-large"></i> My Account</a>
+          <a href="orders.html" class="menu-item"><i class="fas fa-shopping-cart"></i> My Orders</a>
+          <a href="cart.html" class="menu-item"><i class="fas fa-heart"></i> Wishlist</a>
+          <div class="menu-label">Settings</div>
+          <a href="settings.html" class="menu-item"><i class="fas fa-user-cog"></i> Profile</a>
+        `;
+
+        // Stats
+        stats.innerHTML = `
+          <div class="stat-card teal">
+            <div class="stat-info"><h3>5</h3><p>Active Orders</p></div>
+            <div class="stat-icon teal"><i class="fas fa-box"></i></div>
+          </div>
+          <div class="stat-card coral">
+            <div class="stat-info"><h3>₦15,000</h3><p>Total Spent</p></div>
+            <div class="stat-icon coral"><i class="fas fa-receipt"></i></div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-info"><h3>3</h3><p>Wishlist Items</p></div>
+            <div class="stat-icon gold"><i class="fas fa-heart"></i></div>
+          </div>
+        `;
+
+        // Activity (Buyer: Order Status)
+        activity.innerHTML = `
+          <table class="data-table">
+            <thead><tr><th>Order</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody>
+              <tr><td>#YF-101</td><td><span class="badge-status badge-new">Out for Delivery</span></td><td>Today</td></tr>
+              <tr><td>#YF-102</td><td><span class="badge-status badge-success">Delivered</span></td><td>2 days ago</td></tr>
+            </tbody>
+          </table>
+        `;
+
+        // Actions
+        actions.innerHTML = `
+          <a href="storefront.html" class="btn btn-teal" style="width:100%;margin-bottom:0.75rem;justify-content:center;"><i class="fas fa-store"></i> Browse Marketplace</a>
+          <a href="orders.html" class="btn btn-outline" style="width:100%;justify-content:center;"><i class="fas fa-history"></i> Order History</a>
+        `;
+      }
+    }
+
+    // ===== SIDEBAR TOGGLE =====
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.add('active');      document.getElementById('overlay').classList.add('active');
+    }
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+
+    // ===== LOGOUT =====
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = 'index.html';
+      });
+    }
+
+    console.log('✅ Dashboard Loaded Successfully');
+
+  </script>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
