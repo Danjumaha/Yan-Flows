@@ -1,351 +1,876 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel | YAN-FLOWS</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-
   <style>
-    /* ========================================
-       YAN-FLOWS - ADMIN PANEL STYLES
-       Luxury Theme: Navy Blue + White + Accents
-       ======================================== */
     :root {
       --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
-      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
-      --coral: #FF6B6B; --coral-hover: #EE5A5A;
-      --teal: #4ECDC4; --teal-hover: #3DBDB4;
-      --gold: #FFD93D; --danger: #FF4757;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D; --light-gray: #ADB5BD;
+      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D; --success: #2ECC71;
       --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
-      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
-      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --radius-sm: 8px; --radius-md: 16px;
-      --space-sm: 1rem; --space-md: 2rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
-    a { text-decoration: none; color: inherit; }
-    button { font-family: inherit; cursor: pointer; border: none; }
-    input { font-family: inherit; }
-
-    /* ===== NAVBAR ===== */
-    .navbar { background: var(--navy-dark); box-shadow: var(--shadow-md); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
-    .navbar-container { max-width: 1400px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
-    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--white); }
-    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--teal), var(--coral)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
-    .admin-badge { background: var(--coral); color: white; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; margin-left: 0.5rem; }
-    .nav-back { font-weight: 500; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 0.5rem; }
-    .nav-back:hover { color: var(--white); }
-
-    /* ===== MAIN CONTAINER ===== */
-    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1400px; margin: 0 auto; width: 100%; }
+    /* Sidebar Layout */
+    .admin-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
     
-    .page-header { margin-bottom: var(--space-md); }
-    .page-header h1 { font-size: 1.75rem; color: var(--navy-dark); margin-bottom: 0.25rem; }
-    .page-header p { color: var(--gray); font-size: 0.95rem; }
+    .sidebar { background: var(--navy-dark); color: white; padding: 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .sidebar-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--coral), var(--gold)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .sidebar-logo-text { font-size: 1.25rem; font-weight: 800; }
+    
+    .nav-section { margin-bottom: 2rem; }
+    .nav-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.5); margin-bottom: 0.75rem; font-weight: 600; }
+    .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; color: rgba(255,255,255,0.7); text-decoration: none; border-radius: var(--radius-sm); margin-bottom: 0.25rem; cursor: pointer; transition: var(--transition); font-weight: 500; }
+    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); color: white; }
+    .nav-item i { width: 20px; text-align: center; }
+    
+    .sidebar-footer { margin-top: auto; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    .btn-logout { width: 100%; padding: 0.75rem; background: rgba(255, 107, 107, 0.2); color: var(--coral); border: none; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .btn-logout:hover { background: rgba(255, 107, 107, 0.3); }
+
+    /* Main Content */
+    .main-content { padding: 2rem; overflow-y: auto; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); }
+    .page-subtitle { color: var(--gray); font-size: 0.95rem; }
+
     /* Stats Grid */
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: var(--space-md); }
-    .stat-card { background: var(--white); padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; }
-    .stat-info h4 { font-size: 0.85rem; color: var(--gray); text-transform: uppercase; font-weight: 600; margin-bottom: 0.25rem; }
-    .stat-info .value { font-size: 1.75rem; font-weight: 800; color: var(--navy-dark); }
-    .stat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
-    .icon-blue { background: rgba(27,58,95,0.1); color: var(--navy); }
-    .icon-green { background: rgba(78,205,196,0.15); color: var(--teal); }
-    .icon-red { background: rgba(255,107,107,0.15); color: var(--coral); }
-    .icon-gold { background: rgba(255,217,61,0.15); color: #E6C336; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: var(--white); padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+    .stat-card.blue::before { background: var(--navy); }
+    .stat-card.teal::before { background: var(--teal); }    .stat-card.gold::before { background: var(--gold); }
+    .stat-card.coral::before { background: var(--coral); }
+    .stat-value { font-size: 2rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .stat-label { color: var(--gray); font-size: 0.9rem; font-weight: 500; }
+    .stat-change { font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; }
+    .stat-change.up { color: var(--success); }
+    .stat-change.down { color: var(--coral); }
 
-    /* Tabs */
-    .tabs { display: flex; gap: 0; border-bottom: 2px solid #E2E8F0; margin-bottom: 1.5rem; }
-    .tab { padding: 0.75rem 1.5rem; font-weight: 600; color: var(--gray); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: var(--transition); }
-    .tab:hover { color: var(--navy); background: rgba(27,58,95,0.05); }
-    .tab.active { color: var(--navy); border-bottom-color: var(--navy); }
+    /* Content Sections */
+    .content-section { display: none; }
+    .content-section.active { display: block; }
 
-    /* Content Panels */
-    .panel { display: none; }
-    .panel.active { display: block; animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 1.5rem; }
+    .card-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; }
+    .card-title { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+    .card-body { padding: 1.5rem; }
 
-    /* Data Table */
-    .table-container { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; }
-    .table-header { padding: 1rem 1.5rem; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; }
-    .search-input { padding: 0.5rem 1rem; border: 1px solid #E2E8F0; border-radius: var(--radius-sm); width: 250px; }
-    .search-input:focus { outline: none; border-color: var(--navy); }
-    
+    /* Tables */
+    .table-wrapper { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; }
-    th { text-align: left; padding: 1rem 1.5rem; font-size: 0.8rem; text-transform: uppercase; color: var(--gray); background: var(--light-bg); border-bottom: 1px solid #E2E8F0; }
-    td { padding: 1rem 1.5rem; border-bottom: 1px solid #F1F5F9; font-size: 0.9rem; color: var(--navy); }
-    tr:hover { background: var(--light-bg); }
+    th { text-align: left; padding: 0.75rem 1rem; background: var(--light-bg); color: var(--gray); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { padding: 1rem; border-bottom: 1px solid #F0F0F0; color: var(--navy-dark); font-size: 0.95rem; }
+    tr:hover td { background: rgba(78, 205, 196, 0.05); }
     
     .user-cell { display: flex; align-items: center; gap: 0.75rem; }
-    .user-avatar { width: 36px; height: 36px; background: var(--navy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--light-bg); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--navy); font-size: 0.85rem; }
+    .user-name { font-weight: 600; }
+    .user-email { font-size: 0.8rem; color: var(--gray); }
     
-    .role-badge { padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600; }
-    .role-seller { background: rgba(78,205,196,0.15); color: #1A8A7D; }
-    .role-buyer { background: rgba(27,58,95,0.1); color: var(--navy); }
-    .role-admin { background: rgba(255,107,107,0.15); color: var(--coral); }
+    .badge { padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; }
+    .badge-admin { background: rgba(255, 107, 107, 0.15); color: var(--coral); }
+    .badge-user { background: rgba(78, 205, 196, 0.15); color: var(--teal); }
+    .badge-banned { background: rgba(108, 117, 125, 0.15); color: var(--gray); }
+    .badge-active { background: rgba(46, 204, 113, 0.15); color: var(--success); }
 
-    .action-btn { padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
-    .btn-view { background: rgba(27,58,95,0.1); color: var(--navy); }
-    .btn-view:hover { background: rgba(27,58,95,0.2); }
-    .btn-ban { background: rgba(255,71,87,0.1); color: var(--danger); }
-    .btn-ban:hover { background: rgba(255,71,87,0.2); }
+    .btn-action { padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.8rem; cursor: pointer; border: none; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.375rem; margin-right: 0.375rem; }
+    .btn-edit { background: rgba(78, 205, 196, 0.15); color: var(--teal); }
+    .btn-delete { background: rgba(255, 107, 107, 0.15); color: var(--coral); }
+    .btn-ban { background: rgba(108, 117, 125, 0.15); color: var(--gray); }
+    .btn-action:hover { opacity: 0.8; }
 
-    /* Responsive */
+    /* Forms */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: 0.75rem 1rem; border: 2px solid #E5E7EB; border-radius: var(--radius-sm); font-size: 0.95rem; font-family: inherit; transition: var(--transition); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.15); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .form-check { display: flex; align-items: center; gap: 0.5rem; }
+    .form-check input { width: 18px; height: 18px; accent-color: var(--teal); }    
+    .btn-primary { padding: 0.75rem 1.5rem; background: var(--navy); color: white; border: none; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary:hover { background: var(--navy-light); }
+
+    /* Search & Filter */
+    .toolbar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .search-box { flex: 1; min-width: 200px; position: relative; }
+    .search-box input { width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 2px solid #E5E7EB; border-radius: var(--radius-sm); font-size: 0.95rem; }
+    .search-box input:focus { outline: none; border-color: var(--teal); }
+    .search-box i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--light-gray); }
+    .filter-select { padding: 0.75rem 1rem; border: 2px solid #E5E7EB; border-radius: var(--radius-sm); font-size: 0.95rem; background: white; }
+
+    /* Toast */
+    .yf-toast { position: fixed; top: 2rem; right: 2rem; padding: 1rem 1.5rem; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 0.75rem; box-shadow: var(--shadow-lg); z-index: 9999; opacity: 0; transform: translateX(100%); transition: all 0.3s ease; font-weight: 600; font-size: 0.9rem; }
+    .yf-toast.show { opacity: 1; transform: translateX(0); }
+    .yf-toast--success { background: #2ECC71; color: white; }
+    .yf-toast--error { background: var(--coral); color: white; }
+
+    /* Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; pointer-events: none; transition: var(--transition); }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-content { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .modal-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); }
+    .modal-close { background: none; border: none; font-size: 1.25rem; color: var(--gray); cursor: pointer; }
+    
+    .coin-adjust { display: flex; align-items: center; gap: 0.5rem; }
+    .coin-adjust button { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--light-bg); cursor: pointer; font-weight: 700; transition: var(--transition); }
+    .coin-adjust button:hover { background: var(--teal); color: white; }
+    .coin-adjust input { width: 60px; text-align: center; border: 2px solid #E5E7EB; border-radius: var(--radius-sm); padding: 0.5rem; font-weight: 600; }
+
     @media (max-width: 768px) {
-      .stats-grid { grid-template-columns: 1fr 1fr; }      .table-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
-      .search-input { width: 100%; }
-      .tabs { overflow-x: auto; }
+      .admin-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; position: fixed; z-index: 1000; width: 260px; }
+      .sidebar.mobile-open { display: block; }
+      .form-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar-container">
-      <div class="logo">
-        <div class="logo-icon">YF</div>
-        YAN-FLOWS <span class="admin-badge">ADMIN</span>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">YF</div>
+        <span class="sidebar-logo-text">Admin</span>
       </div>
-      <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+      <div class="nav-section">
+        <div class="nav-section-title">Main</div>
+        <a class="nav-item active" onclick="showSection('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a class="nav-item" onclick="showSection('users')"><i class="fas fa-users"></i> Users</a>
+        <a class="nav-item" onclick="showSection('tasks')"><i class="fas fa-video"></i> Tasks</a>
+        <a class="nav-item" onclick="showSection('orders')"><i class="fas fa-shopping-bag"></i> Orders</a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Monetization</div>
+        <a class="nav-item" onclick="showSection('referrals')"><i class="fas fa-gift"></i> Referrals</a>
+        <a class="nav-item" onclick="showSection('transactions')"><i class="fas fa-coins"></i> Transactions</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Mobile Toggle -->
+      <button onclick="document.getElementById('sidebar').classList.toggle('mobile-open')" style="display:none;position:fixed;top:1rem;left:1rem;z-index:999;background:var(--navy);color:white;border:none;padding:0.75rem;border-radius:var(--radius-sm);" class="mobile-toggle"><i class="fas fa-bars"></i></button>
+
+      <!-- Dashboard Section -->
+      <div id="section-dashboard" class="content-section active">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-subtitle">Platform analytics and insights</p>
+          </div>
+          <button class="btn-primary" onclick="location.reload()"><i class="fas fa-sync"></i> Refresh</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card blue">
+            <div class="stat-value" id="statUsers">0</div>
+            <div class="stat-label">Total Users</div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> Active today</div>
+          </div>
+          <div class="stat-card teal">
+            <div class="stat-value" id="statSellers">0</div>
+            <div class="stat-label">Active Sellers</div>
+            <div class="stat-change up"><i class="fas fa-store"></i> With products</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-value" id="statOrders">0</div>
+            <div class="stat-label">Total Orders</div>
+            <div class="stat-change up"><i class="fas fa-shopping-bag"></i> All time</div>
+          </div>          <div class="stat-card coral">
+            <div class="stat-value" id="statRevenue">₦0</div>
+            <div class="stat-label">Coin Revenue</div>
+            <div class="stat-change up"><i class="fas fa-coins"></i> From purchases</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Recent Activity</h3>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody id="recentActivity">
+                  <tr><td colspan="4" style="text-align:center;color:var(--gray);">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Section -->
+      <div id="section-users" class="content-section">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">User Management</h1>
+            <p class="page-subtitle">Manage all platform users</p>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="userSearch" placeholder="Search by name or email..." oninput="filterUsers()"/>
+          </div>
+          <select class="filter-select" id="userFilter" onchange="filterUsers()">
+            <option value="all">All Users</option>
+            <option value="admin">Admins</option>
+            <option value="user">Regular Users</option>
+            <option value="banned">Banned</option>          </select>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Coins</th>
+                    <th>Referral Code</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTable">
+                  <tr><td colspan="6" style="text-align:center;color:var(--gray);">Loading users...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tasks Section -->
+      <div id="section-tasks" class="content-section">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Task Management</h1>
+            <p class="page-subtitle">Create and manage coin-earning tasks</p>
+          </div>
+          <button class="btn-primary" onclick="openTaskModal()"><i class="fas fa-plus"></i> New Task</button>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Reward</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th>Completions</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>                <tbody id="tasksTable">
+                  <tr><td colspan="6" style="text-align:center;color:var(--gray);">Loading tasks...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Section -->
+      <div id="section-orders" class="content-section">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Order Management</h1>
+            <p class="page-subtitle">View and manage all platform orders</p>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search orders..." id="orderSearch" oninput="filterOrders()"/>
+          </div>
+          <select class="filter-select" id="orderFilter" onchange="filterOrders()">
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Buyer</th>
+                    <th>Seller</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTable">
+                  <tr><td colspan="7" style="text-align:center;color:var(--gray);">Loading orders...</td></tr>
+                </tbody>
+              </table>            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Referrals Section -->
+      <div id="section-referrals" class="content-section">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Referral Overview</h1>
+            <p class="page-subtitle">Track referral chains and bonuses</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card teal">
+            <div class="stat-value" id="refTotal">0</div>
+            <div class="stat-label">Total Referrals</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-value" id="refConverted">0</div>
+            <div class="stat-label">Converted (Bought Coins)</div>
+          </div>
+          <div class="stat-card coral">
+            <div class="stat-value" id="refBonusPaid">0</div>
+            <div class="stat-label">Bonus Coins Paid Out</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Referral Records</h3></div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Referrer</th><th>Referred User</th><th>Date</th><th>Bonus Status</th></tr>
+                </thead>
+                <tbody id="referralsTable">
+                  <tr><td colspan="4" style="text-align:center;color:var(--gray);">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions Section -->
+      <div id="section-transactions" class="content-section">
+        <div class="page-header">
+          <div>            <h1 class="page-title">Transaction Log</h1>
+            <p class="page-subtitle">All coin movements across the platform</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>User</th><th>Type</th><th>Amount</th><th>Description</th><th>Date</th></tr>
+                </thead>
+                <tbody id="transactionsTable">
+                  <tr><td colspan="5" style="text-align:center;color:var(--gray);">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Task Modal -->
+  <div class="modal-overlay" id="taskModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Create New Task</h3>
+        <button class="modal-close" onclick="closeTaskModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="taskForm">
+        <input type="hidden" id="taskId"/>
+        <div class="form-group">
+          <label class="form-label">Task Title *</label>
+          <input type="text" id="taskTitle" class="form-input" placeholder="e.g., Watch Selling Tips Video" required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">YouTube URL *</label>
+          <input type="url" id="taskUrl" class="form-input" placeholder="https://youtube.com/watch?v=..." required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="taskDesc" class="form-textarea" placeholder="Brief description of the task..."></textarea>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Coin Reward *</label>
+            <input type="number" id="taskReward" class="form-input" placeholder="5" min="1" required/>
+          </div>
+          <div class="form-group">            <label class="form-label">Duration (seconds) *</label>
+            <input type="number" id="taskDuration" class="form-input" placeholder="180" min="10" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-check">
+            <input type="checkbox" id="taskActive" checked/>
+            <span>Task is Active (visible to users)</span>
+          </label>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">
+          <i class="fas fa-save"></i> <span id="modalBtnText">Create Task</span>
+        </button>
+      </form>
     </div>
-  </nav>
+  </div>
 
-  <!-- Main Content -->
-  <main class="main-container">
-    <header class="page-header">
-      <h1>Platform Overview</h1>
-      <p>Manage users, monitor revenue, and oversee platform activities.</p>
-    </header>
-
-    <!-- Stats -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-info">
-          <h4>Total Users</h4>
-          <div class="value" id="stat-users">0</div>
-        </div>
-        <div class="stat-icon icon-blue"><i class="fas fa-users"></i></div>
+  <!-- Coin Adjust Modal -->
+  <div class="modal-overlay" id="coinModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Adjust User Coins</h3>
+        <button class="modal-close" onclick="document.getElementById('coinModal').classList.remove('active')"><i class="fas fa-times"></i></button>
       </div>
-      <div class="stat-card">
-        <div class="stat-info">
-          <h4>Active Sellers</h4>
-          <div class="value" id="stat-sellers">0</div>
+      <div id="coinModalUser" style="margin-bottom:1rem;font-weight:600;color:var(--navy);"></div>
+      <div class="form-group">
+        <label class="form-label">Current Balance: <span id="currentCoins" style="color:var(--teal);font-weight:700;">0</span></label>
+        <div class="coin-adjust">
+          <button type="button" onclick="document.getElementById('adjustAmount').value = parseInt(document.getElementById('adjustAmount').value || 0) - 10">-10</button>
+          <input type="number" id="adjustAmount" value="0"/>
+          <button type="button" onclick="document.getElementById('adjustAmount').value = parseInt(document.getElementById('adjustAmount').value || 0) + 10">+10</button>
         </div>
-        <div class="stat-icon icon-green"><i class="fas fa-store"></i></div>
+        <p style="font-size:0.8rem;color:var(--gray);margin-top:0.5rem;">Use negative numbers to deduct coins.</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-info">
-          <h4>Platform Revenue</h4>
-          <div class="value" id="stat-revenue">₦0</div>
-        </div>
-        <div class="stat-icon icon-gold"><i class="fas fa-coins"></i></div>
-      </div>
-      <div class="stat-card">        <div class="stat-info">
-          <h4>Total Orders</h4>
-          <div class="value" id="stat-orders">0</div>
-        </div>
-        <div class="stat-icon icon-red"><i class="fas fa-shopping-cart"></i></div>
-      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="saveCoinAdjust()">
+        <i class="fas fa-save"></i> Save Adjustment
+      </button>
     </div>
+  </div>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('users')">User Management</div>
-      <div class="tab" onclick="switchTab('orders')">Recent Orders</div>
-      <div class="tab" onclick="switchTab('transactions')">Coin Transactions</div>
-    </div>
-
-    <!-- Panel: Users -->
-    <div id="panel-users" class="panel active">
-      <div class="table-container">
-        <div class="table-header">
-          <h3 style="font-size:1.1rem;">Registered Users</h3>
-          <input type="text" class="search-input" placeholder="Search by name or email..." id="userSearch" onkeyup="filterUsers()"/>
-        </div>
-        <div style="overflow-x: auto;">
-          <table>
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Coins</th>
-                <th>Joined</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="usersTableBody">
-              <tr><td colspan="6" style="text-align:center;padding:2rem;">Loading users...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Panel: Orders (Placeholder for now) -->
-    <div id="panel-orders" class="panel">
-      <div class="table-container">
-        <div class="table-header"><h3 style="font-size:1.1rem;">Platform Orders</h3></div>
-        <div style="padding:2rem; text-align:center; color:var(--gray);">
-          <i class="fas fa-list" style="font-size:2rem;margin-bottom:1rem;opacity:0.3;"></i>
-          <p>Global order feed loading...</p>
-        </div>      </div>
-    </div>
-
-    <!-- Panel: Transactions (Placeholder for now) -->
-    <div id="panel-transactions" class="panel">
-      <div class="table-container">
-        <div class="table-header"><h3 style="font-size:1.1rem;">Coin Transactions</h3></div>
-        <div style="padding:2rem; text-align:center; color:var(--gray);">
-          <i class="fas fa-exchange-alt" style="font-size:2rem;margin-bottom:1rem;opacity:0.3;"></i>
-          <p>Transaction history loading...</p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Core Engine -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="app.js"></script>
 
-  <!-- Page Script -->
   <script>
-    // ===== DOM ELEMENTS =====
-    const statUsers = document.getElementById('stat-users');
-    const statSellers = document.getElementById('stat-sellers');
-    const statRevenue = document.getElementById('stat-revenue');
-    const statOrders = document.getElementById('stat-orders');
-    const usersTableBody = document.getElementById('usersTableBody');
-
-    // State
-    let allUsers = [];
-
-    // ===== AUTH GUARD & ADMIN CHECK =====
-    firebase.auth().onAuthStateChanged(async user => {
-      if (!user) { window.location.replace('login.html'); return; }
-      
-      try {
-        const doc = await firebase.firestore().collection('users').doc(user.uid).get();
-        if (!doc.exists || doc.data().role !== 'admin') {
-          // Not an admin, redirect to dashboard
-          window.location.replace('dashboard.html');
-          return;
-        }
-        // Admin confirmed, load data
-        loadAdminData();
-      } catch (err) {
-        console.error('Admin check error:', err);
-        window.location.replace('dashboard.html');
+    // Admin check
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) { window.location.href = 'admin-login.html'; return; }
+      const doc = await db.collection('users').doc(user.uid).get();      if (!doc.exists || doc.data().role !== 'admin') {
+        await auth.signOut();
+        window.location.href = 'admin-login.html';
+      } else {
+        loadDashboard();
       }
     });
 
-    // ===== LOAD ADMIN DATA =====    async function loadAdminData() {
+    // Navigation
+    function showSection(section) {
+      document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(`section-${section}`).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      
+      // Load section data
+      if (section === 'users') loadUsers();
+      if (section === 'tasks') loadTasks();
+      if (section === 'orders') loadOrders();
+      if (section === 'referrals') loadReferrals();
+      if (section === 'transactions') loadTransactions();
+    }
+
+    // Dashboard Stats
+    async function loadDashboard() {
       try {
-        // Fetch all users
-        const usersSnap = await firebase.firestore().collection('users').get();
-        allUsers = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const usersSnap = await db.collection('users').get();
+        const ordersSnap = await db.collection('orders').get();
+        const sellersSnap = await db.collection('sellerProfiles').get();
         
-        // Fetch all orders for stats
-        const ordersSnap = await firebase.firestore().collection('orders').get();
+        // Calculate revenue from transactions
+        const txnSnap = await db.collection('transactions').where('type', '==', 'purchase').get();
         let totalRevenue = 0;
-        ordersSnap.forEach(doc => {
-          const order = doc.data();
-          totalRevenue += (order.totals.grandTotal || 0);
+        txnSnap.forEach(doc => { totalRevenue += doc.data().nairaSpent || 0; });
+
+        document.getElementById('statUsers').textContent = usersSnap.size;
+        document.getElementById('statSellers').textContent = sellersSnap.size;
+        document.getElementById('statOrders').textContent = ordersSnap.size;
+        document.getElementById('statRevenue').textContent = '₦' + totalRevenue.toLocaleString();
+
+        // Recent Activity (last 5 transactions)
+        const recentTxn = await db.collection('transactions').orderBy('date', 'desc').limit(5).get();
+        const tbody = document.getElementById('recentActivity');
+        if (recentTxn.empty) {
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray);">No activity yet</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = '';
+        recentTxn.forEach(async (doc) => {          const txn = doc.data();
+          const userDoc = await db.collection('users').doc(txn.userId).get();
+          const userName = userDoc.exists ? userDoc.data().fullName : 'Unknown';
+          
+          tbody.innerHTML += `
+            <tr>
+              <td><div class="user-cell"><div class="user-avatar">${userName[0]}</div><div><div class="user-name">${userName}</div></div></div></td>
+              <td>${txn.type.replace('_', ' ').toUpperCase()}</td>
+              <td>${txn.description || '-'}</td>
+              <td>${txn.date ? YF.formatDate(txn.date) : 'Recently'}</td>
+            </tr>
+          `;
         });
-
-        // Update Stats
-        statUsers.textContent = allUsers.length;
-        statSellers.textContent = allUsers.filter(u => u.role === 'seller').length;
-        statRevenue.textContent = YF.ui.formatNaira(totalRevenue);
-        statOrders.textContent = ordersSnap.size;
-
-        renderUsers(allUsers);
-
       } catch (err) {
-        console.error('Load data error:', err);
-        YF.ui.toast('Failed to load admin data.', 'error');
+        console.error(err);
       }
     }
 
-    // ===== RENDER USERS TABLE =====
+    // Users Management
+    let allUsers = [];
+    async function loadUsers() {
+      const snap = await db.collection('users').get();
+      allUsers = [];
+      snap.forEach(doc => allUsers.push({ id: doc.id, ...doc.data() }));
+      renderUsers(allUsers);
+    }
+
     function renderUsers(users) {
-      usersTableBody.innerHTML = '';
-      
+      const tbody = document.getElementById('usersTable');
       if (users.length === 0) {
-        usersTableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;">No users found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray);">No users found</td></tr>';
+        return;
+      }
+      tbody.innerHTML = users.map(u => `
+        <tr>
+          <td><div class="user-cell"><div class="user-avatar">${(u.fullName || 'U')[0]}</div><div><div class="user-name">${u.fullName || 'Unknown'}</div><div class="user-email">${u.email}</div></div></div></td>
+          <td><span class="badge ${u.role === 'admin' ? 'badge-admin' : 'badge-user'}">${u.role || 'user'}</span></td>
+          <td style="font-weight:600;">${u.coins || 0}</td>
+          <td><code>${u.referralCode || '-'}</code></td>
+          <td><span class="badge ${u.banned ? 'badge-banned' : 'badge-active'}">${u.banned ? 'Banned' : 'Active'}</span></td>
+          <td>
+            <button class="btn-action btn-edit" onclick="adjustCoins('${u.id}', '${u.fullName}', ${u.coins || 0})"><i class="fas fa-coins"></i> Coins</button>
+            <button class="btn-action ${u.banned ? 'btn-edit' : 'btn-ban'}" onclick="toggleBan('${u.id}', ${u.banned})"><i class="fas ${u.banned ? 'fa-unlock' : 'fa-ban'}"></i> ${u.banned ? 'Unban' : 'Ban'}</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterUsers() {
+      const search = document.getElementById('userSearch').value.toLowerCase();      const filter = document.getElementById('userFilter').value;
+      
+      let filtered = allUsers.filter(u => {
+        const matchSearch = (u.fullName || '').toLowerCase().includes(search) || (u.email || '').toLowerCase().includes(search);
+        if (filter === 'all') return matchSearch;
+        if (filter === 'admin') return matchSearch && u.role === 'admin';
+        if (filter === 'user') return matchSearch && u.role === 'user';
+        if (filter === 'banned') return matchSearch && u.banned;
+        return matchSearch;
+      });
+      renderUsers(filtered);
+    }
+
+    let coinAdjustUserId = null;
+    function adjustCoins(uid, name, current) {
+      coinAdjustUserId = uid;
+      document.getElementById('coinModalUser').textContent = name;
+      document.getElementById('currentCoins').textContent = current;
+      document.getElementById('adjustAmount').value = 0;
+      document.getElementById('coinModal').classList.add('active');
+    }
+
+    async function saveCoinAdjust() {
+      if (!coinAdjustUserId) return;
+      const amount = parseInt(document.getElementById('adjustAmount').value);
+      if (amount === 0) return;
+
+      try {
+        const userRef = db.collection('users').doc(coinAdjustUserId);
+        await db.runTransaction(async (t) => {
+          const doc = await t.get(userRef);
+          const newBalance = (doc.data().coins || 0) + amount;
+          t.update(userRef, { coins: newBalance });
+        });
+
+        // Log transaction
+        await db.collection('transactions').add({
+          userId: coinAdjustUserId,
+          type: 'admin_adjustment',
+          amount: amount,
+          description: `Admin adjustment: ${amount > 0 ? '+' : ''}${amount} coins`,
+          date: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        document.getElementById('coinModal').classList.remove('active');
+        YF.showToast(`✅ Coins adjusted successfully`, 'success');
+        loadUsers();
+        loadDashboard();
+      } catch (err) {
+        YF.showToast('Error adjusting coins', 'error');      }
+    }
+
+    async function toggleBan(uid, currentBanned) {
+      if (!confirm(`Are you sure you want to ${currentBanned ? 'unban' : 'ban'} this user?`)) return;
+      try {
+        await db.collection('users').doc(uid).update({ banned: !currentBanned });
+        YF.showToast(`User ${currentBanned ? 'unbanned' : 'banned'} successfully`, 'success');
+        loadUsers();
+      } catch (err) {
+        YF.showToast('Error updating user', 'error');
+      }
+    }
+
+    // Tasks Management
+    async function loadTasks() {
+      const snap = await db.collection('tasks').orderBy('createdAt', 'desc').get();
+      const tbody = document.getElementById('tasksTable');
+      
+      if (snap.empty) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray);">No tasks created yet</td></tr>';
         return;
       }
 
-      users.forEach(u => {
-        const initials = (u.name || 'U').substring(0,2).toUpperCase();
-        const roleClass = u.role === 'seller' ? 'role-seller' : u.role === 'admin' ? 'role-admin' : 'role-buyer';
-        const date = u.createdAt ? YF.ui.formatDate(u.createdAt) : 'N/A';
+      tbody.innerHTML = '';
+      snap.forEach(async (doc) => {
+        const task = doc.data();
+        const completionsSnap = await db.collection('user_tasks').where('taskId', '==', doc.id).get();
         
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>
-            <div class="user-cell">
-              <div class="user-avatar">${initials}</div>
-              <div>
-                <div style="font-weight:600;">${u.name || 'Unknown'}</div>
-                <div style="font-size:0.8rem;color:var(--gray);">${u.email || ''}</div>              </div>
-            </div>
-          </td>
-          <td><span class="role-badge ${roleClass}">${u.role || 'buyer'}</span></td>
-          <td><span style="color:${u.businessActive ? '#2ED573' : 'var(--gray)'}">${u.businessActive ? 'Active' : 'Inactive'}</span></td>
-          <td>${u.coins || 0}</td>
-          <td>${date}</td>
-          <td>
-            <button class="action-btn btn-view" onclick="alert('View profile: ${u.id}')"><i class="fas fa-eye"></i></button>
-            <button class="action-btn btn-ban" onclick="toggleBan('${u.id}', this)"><i class="fas fa-ban"></i></button>
-          </td>
+        tbody.innerHTML += `
+          <tr>
+            <td><strong>${task.title}</strong><br><small style="color:var(--gray);">${task.description || ''}</small></td>
+            <td><span class="badge badge-active">+${task.reward} coins</span></td>
+            <td>${task.duration}s</td>
+            <td><span class="badge ${task.active ? 'badge-active' : 'badge-banned'}">${task.active ? 'Active' : 'Inactive'}</span></td>
+            <td>${completionsSnap.size}</td>
+            <td>
+              <button class="btn-action btn-edit" onclick="editTask('${doc.id}')"><i class="fas fa-edit"></i></button>
+              <button class="btn-action btn-delete" onclick="deleteTask('${doc.id}')"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
         `;
-        usersTableBody.appendChild(tr);
       });
     }
 
-    // ===== SEARCH FILTER =====
-    window.filterUsers = () => {
-      const query = document.getElementById('userSearch').value.toLowerCase();
-      const filtered = allUsers.filter(u => 
-        (u.name && u.name.toLowerCase().includes(query)) || 
-        (u.email && u.email.toLowerCase().includes(query))
-      );
-      renderUsers(filtered);
-    };
-
-    // ===== TAB SWITCHING =====
-    window.switchTab = (tabName) => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    function openTaskModal(taskId = null) {
+      document.getElementById('taskForm').reset();
+      document.getElementById('taskId').value = '';
+      document.getElementById('modalTitle').textContent = 'Create New Task';
+      document.getElementById('modalBtnText').textContent = 'Create Task';      document.getElementById('taskActive').checked = true;
       
-      // Find active tab element (simple logic)
-      const tabs = document.querySelectorAll('.tab');
-      if (tabName === 'users') tabs[0].classList.add('active');
-      if (tabName === 'orders') tabs[1].classList.add('active');
-      if (tabName === 'transactions') tabs[2].classList.add('active');
+      if (taskId) {
+        db.collection('tasks').doc(taskId).get().then(doc => {
+          if (doc.exists) {
+            const t = doc.data();
+            document.getElementById('taskId').value = taskId;
+            document.getElementById('taskTitle').value = t.title;
+            document.getElementById('taskUrl').value = t.youtubeUrl;
+            document.getElementById('taskDesc').value = t.description || '';
+            document.getElementById('taskReward').value = t.reward;
+            document.getElementById('taskDuration').value = t.duration;
+            document.getElementById('taskActive').checked = t.active;
+            document.getElementById('modalTitle').textContent = 'Edit Task';
+            document.getElementById('modalBtnText').textContent = 'Update Task';
+          }
+        });
+      }
+      
+      document.getElementById('taskModal').classList.add('active');
+    }
 
-      document.getElementById(`panel-${tabName}`).classList.add('active');
-    };
+    function closeTaskModal() {
+      document.getElementById('taskModal').classList.remove('active');
+    }
 
-    // ===== BAN ACTION (Mock) =====
-    window.toggleBan = (uid, btn) => {
-      if (!confirm('Are you sure you want to ban/suspend this user?')) return;
-      btn.innerHTML = '<i class="fas fa-check"></i>';
-      btn.style.color = 'green';
-      btn.disabled = true;
-      YF.ui.toast(`User ${uid.substring(0,6)}... action pending.`, 'info');
-      // Real implementation would update Firestore doc
-    };
-    console.log('✅ Admin Panel Loaded');
-    console.log('🔐 Admin Access Verified');
-    console.log('📊 Global Stats Calculated');
+    document.getElementById('taskForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const taskId = document.getElementById('taskId').value;
+      const data = {
+        title: document.getElementById('taskTitle').value.trim(),
+        youtubeUrl: document.getElementById('taskUrl').value.trim(),
+        description: document.getElementById('taskDesc').value.trim(),
+        reward: parseInt(document.getElementById('taskReward').value),
+        duration: parseInt(document.getElementById('taskDuration').value),
+        active: document.getElementById('taskActive').checked,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      try {
+        if (taskId) {
+          await db.collection('tasks').doc(taskId).update(data);
+          YF.showToast('Task updated successfully', 'success');
+        } else {
+          data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+          await db.collection('tasks').add(data);
+          YF.showToast('Task created successfully', 'success');
+        }
+        closeTaskModal();        loadTasks();
+      } catch (err) {
+        YF.showToast('Error saving task', 'error');
+      }
+    });
+
+    function editTask(id) { openTaskModal(id); }
+    
+    async function deleteTask(id) {
+      if (!confirm('Delete this task? Users will no longer see it.')) return;
+      try {
+        await db.collection('tasks').doc(id).delete();
+        YF.showToast('Task deleted', 'success');
+        loadTasks();
+      } catch (err) {
+        YF.showToast('Error deleting task', 'error');
+      }
+    }
+
+    // Orders Management
+    let allOrders = [];
+    async function loadOrders() {
+      const snap = await db.collection('orders').orderBy('createdAt', 'desc').get();
+      allOrders = [];
+      snap.forEach(doc => allOrders.push({ id: doc.id, ...doc.data() }));
+      renderOrders(allOrders);
+    }
+
+    function renderOrders(orders) {
+      const tbody = document.getElementById('ordersTable');
+      if (orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--gray);">No orders found</td></tr>';
+        return;
+      }
+      tbody.innerHTML = orders.map(o => `
+        <tr>
+          <td><code>${(o.orderId || o.id).slice(-8).toUpperCase()}</code></td>
+          <td>${o.buyerName || 'Unknown'}</td>
+          <td>${o.sellerName || 'Unknown'}</td>
+          <td style="font-weight:600;">${YF.formatCurrency(o.total)}</td>
+          <td><span class="badge ${o.status === 'completed' ? 'badge-active' : o.status === 'cancelled' ? 'badge-banned' : ''}">${o.status || 'pending'}</span></td>
+          <td>${o.createdAt ? YF.formatDate(o.createdAt) : '-'}</td>
+          <td>
+            <button class="btn-action btn-edit" onclick="updateOrderStatus('${o.id}', 'completed')"><i class="fas fa-check"></i></button>
+            <button class="btn-action btn-delete" onclick="updateOrderStatus('${o.id}', 'cancelled')"><i class="fas fa-times"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+    function filterOrders() {
+      const search = document.getElementById('orderSearch').value.toLowerCase();
+      const filter = document.getElementById('orderFilter').value;
+      
+      let filtered = allOrders.filter(o => {
+        const matchSearch = (o.buyerName || '').toLowerCase().includes(search) || (o.sellerName || '').toLowerCase().includes(search) || (o.orderId || '').toLowerCase().includes(search);
+        if (filter === 'all') return matchSearch;
+        return matchSearch && o.status === filter;
+      });
+      renderOrders(filtered);
+    }
+
+    async function updateOrderStatus(orderId, status) {
+      try {
+        await db.collection('orders').doc(orderId).update({ status: status });
+        YF.showToast(`Order marked as ${status}`, 'success');
+        loadOrders();
+        loadDashboard();
+      } catch (err) {
+        YF.showToast('Error updating order', 'error');
+      }
+    }
+
+    // Referrals Overview
+    async function loadReferrals() {
+      const snap = await db.collection('referrals').orderBy('date', 'desc').get();
+      let total = 0, converted = 0, bonusPaid = 0;
+      
+      const tbody = document.getElementById('referralsTable');
+      tbody.innerHTML = '';
+      
+      snap.forEach(async (doc) => {
+        const ref = doc.data();
+        total++;
+        if (ref.bonusGiven) { converted++; bonusPaid += 20; }
+        
+        const referrerDoc = await db.collection('users').doc(ref.referrerId).get();
+        const referredDoc = await db.collection('users').doc(ref.referredId).get();
+        
+        tbody.innerHTML += `
+          <tr>
+            <td>${referrerDoc.exists ? referrerDoc.data().fullName : 'Unknown'}</td>
+            <td>${referredDoc.exists ? referredDoc.data().fullName : 'Unknown'}</td>
+            <td>${ref.date ? YF.formatDate(ref.date) : '-'}</td>
+            <td><span class="badge ${ref.bonusGiven ? 'badge-active' : ''}">${ref.bonusGiven ? '+20 Paid' : 'Pending'}</span></td>
+          </tr>
+        `;
+      });
+      
+      document.getElementById('refTotal').textContent = total;      document.getElementById('refConverted').textContent = converted;
+      document.getElementById('refBonusPaid').textContent = bonusPaid;
+    }
+
+    // Transactions Log
+    async function loadTransactions() {
+      const snap = await db.collection('transactions').orderBy('date', 'desc').limit(50).get();
+      const tbody = document.getElementById('transactionsTable');
+      
+      if (snap.empty) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray);">No transactions yet</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = '';
+      snap.forEach(async (doc) => {
+        const txn = doc.data();
+        const userDoc = await db.collection('users').doc(txn.userId).get();
+        const userName = userDoc.exists ? userDoc.data().fullName : 'Unknown';
+        
+        tbody.innerHTML += `
+          <tr>
+            <td><div class="user-cell"><div class="user-avatar">${userName[0]}</div>${userName}</div></td>
+            <td><span class="badge ${txn.amount > 0 ? 'badge-active' : 'badge-banned'}">${txn.type.replace('_', ' ')}</span></td>
+            <td style="font-weight:600;color:${txn.amount > 0 ? 'var(--success)' : 'var(--coral)'};">${txn.amount > 0 ? '+' : ''}${txn.amount}</td>
+            <td>${txn.description || '-'}</td>
+            <td>${txn.date ? YF.formatDate(txn.date) : '-'}</td>
+          </tr>
+        `;
+      });
+    }
+
+    function logoutAdmin() {
+      auth.signOut().then(() => window.location.href = 'admin-login.html');
+    }
+
+    // Mobile responsive check
+    if (window.innerWidth <= 768) {
+      document.querySelector('.mobile-toggle').style.display = 'block';
+    }
   </script>
-
-<script src="app.js"></script>
 </body>
 </html>

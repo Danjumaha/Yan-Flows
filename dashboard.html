@@ -1,463 +1,1179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard | YAN-FLOWS</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard | YAN-FLOWS</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+:root{
+  --navy:#1B3A5F;--navy-dark:#0F1F33;--navy-mid:#2C5282;
+  --teal:#4ECDC4;--coral:#FF6B6B;--gold:#FFD93D;
+  --bg:#F0F2F5;--white:#fff;--border:#E0E4EA;--gray:#8896A5;
+  --r8:8px;--r12:12px;--r20:20px;
+  --sh:0 2px 8px rgba(0,0,0,.1);
+  --shd:0 4px 20px rgba(0,0,0,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#222;}
+a{text-decoration:none;color:inherit;}
 
-  <style>
-    /* ========================================
-       YAN-FLOWS - DASHBOARD STYLES
-       Luxury Theme: Navy Blue + White + Accents
-       ======================================== */
-    :root {
-      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
-      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
-      --coral: #FF6B6B; --coral-hover: #EE5A5A;
-      --teal: #4ECDC4; --teal-hover: #3DBDB4;
-      --gold: #FFD93D; --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
-      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
-      --radius-sm: 8px; --radius-md: 16px;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+/* ===== TOPBAR ===== */
+#topbar{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:var(--white);border-bottom:1px solid var(--border);
+  box-shadow:var(--sh);
+}
+.tb-inner{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.6rem 1rem;max-width:1380px;margin:0 auto;
+}
+.logo{display:flex;align-items:center;gap:.5rem;font-family:'Sora',sans-serif;font-weight:800;font-size:1.15rem;color:var(--navy);flex-shrink:0;}
+.logo-box{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.8rem;}
+#menuBtn{background:none;border:none;font-size:1.25rem;color:var(--navy);cursor:pointer;padding:.4rem;display:none;}
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); display: flex; min-height: 100vh; }
-    a { text-decoration: none; color: inherit; }
-    button { font-family: inherit; cursor: pointer; border: none; }
+/* nav icons */
+.nav-icos{display:flex;align-items:center;gap:.35rem;flex-shrink:0;margin-left:auto;}
+.nico{width:36px;height:36px;border-radius:50%;background:var(--bg);border:none;display:flex;align-items:center;justify-content:center;color:var(--navy);cursor:pointer;position:relative;transition:.2s;font-size:.9rem;}
+.nico:hover{background:var(--border);}
+.nbadge{position:absolute;top:-2px;right:-2px;min-width:17px;height:17px;padding:0 3px;background:var(--coral);color:#fff;font-size:.6rem;font-weight:700;border-radius:999px;display:none;align-items:center;justify-content:center;border:2px solid #fff;}
+.nav-usr{display:flex;align-items:center;gap:.4rem;cursor:pointer;padding:.3rem .6rem;border-radius:999px;background:var(--bg);border:none;transition:.2s;}
+.nav-usr:hover{background:var(--border);}
+.uavatar{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;overflow:hidden;flex-shrink:0;}
+.uavatar img{width:100%;height:100%;object-fit:cover;}
+.uname{font-size:.82rem;font-weight:600;color:var(--navy);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      width: 260px;
-      background: var(--navy-dark);
-      color: var(--white);
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s ease;
-      z-index: 1000;
-    }
-    .sidebar-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .sidebar-logo {      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-    .sidebar-logo span { color: var(--teal); }
-    
-    .sidebar-menu { flex: 1; padding: 1rem 0; overflow-y: auto; }
-    .menu-label { padding: 0.5rem 1.5rem; font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 600; letter-spacing: 1px; }
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.875rem 1.5rem;
-      color: rgba(255,255,255,0.8);
-      font-weight: 500;
-      transition: var(--transition);
-      border-left: 3px solid transparent;
-    }
-    .menu-item:hover, .menu-item.active {
-      background: rgba(255,255,255,0.05);
-      color: var(--white);
-      border-left-color: var(--teal);
-    }
-    .menu-item i { width: 20px; text-align: center; }
-    
-    .sidebar-footer { padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
-    .user-profile { display: flex; align-items: center; gap: 0.75rem; }
-    .user-avatar { width: 40px; height: 40px; background: var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--navy-dark); }
-    .user-info { flex: 1; }
-    .user-name { font-weight: 600; font-size: 0.9rem; }
-    .user-role { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+/* ===== LAYOUT ===== */
+.wrap{display:grid;grid-template-columns:240px 1fr 280px;gap:1.25rem;max-width:1380px;margin:68px auto 0;padding:1.25rem;}
 
-    /* ===== MAIN CONTENT ===== */
-    .main-content {
-      flex: 1;
-      margin-left: 260px;
-      padding: 2rem;
-      transition: margin-left 0.3s ease;
-    }
-    
-    /* Header */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    .page-title h1 { font-size: 1.75rem; font-weight: 700; color: var(--navy-dark); }
-    .page-title p { color: var(--gray); margin-top: 0.25rem; }
-        .top-actions { display: flex; gap: 1rem; align-items: center; }
-    .btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: var(--transition);
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .btn-primary { background: var(--coral); color: var(--white); box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
-    .btn-primary:hover { background: var(--coral-hover); transform: translateY(-2px); }
-    .btn-teal { background: var(--teal); color: var(--navy-dark); }
-    .btn-teal:hover { background: var(--teal-hover); }
-    .btn-outline { background: transparent; border: 1px solid #E2E8F0; color: var(--navy); }
-    .btn-outline:hover { background: var(--light-bg); }
+/* ===== LEFT SIDEBAR ===== */.left{display:flex;flex-direction:column;gap:1rem;position:sticky;top:76px;height:calc(100vh - 80px);overflow-y:auto;}
+.card{background:#fff;border-radius:var(--r12);border:1px solid var(--border);}
+.prof-card{padding:1.25rem;text-align:center;}
+.prof-pic{width:76px;height:76px;border-radius:50%;margin:0 auto .7rem;overflow:hidden;border:3px solid var(--teal);cursor:pointer;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gray);transition:.2s;}
+.prof-pic:hover{transform:scale(1.05);}
+.prof-pic img{width:100%;height:100%;object-fit:cover;}
+.prof-name{font-family:'Sora',sans-serif;font-weight:700;font-size:.95rem;color:var(--navy);cursor:pointer;margin-bottom:.15rem;}
+.prof-name:hover{color:var(--teal);}
+.prof-hnd{font-size:.78rem;color:var(--gray);margin-bottom:.9rem;}
+.pstats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:0 -.2rem .9rem;}
+.pstat{padding:.6rem .2rem;text-align:center;}
+.psv{font-family:'Sora',sans-serif;font-weight:800;font-size:.95rem;color:var(--navy);}
+.psl{font-size:.68rem;color:var(--gray);margin-top:1px;}
+.coins-row{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#FFD93D,#f4c430);padding:.6rem .85rem;border-radius:var(--r8);}
+.coins-row span{font-weight:700;color:var(--navy-dark);font-size:.82rem;}
+.coins-row a{font-size:.72rem;font-weight:700;color:var(--navy-dark);}
+.menu{padding:.6rem;}
+.menu a{display:flex;align-items:center;gap:.7rem;padding:.62rem .85rem;color:var(--navy);border-radius:var(--r8);font-size:.84rem;font-weight:500;transition:.15s;}
+.menu a:hover,.menu a.act{background:rgba(78,205,196,.15);color:var(--teal);}
+.menu i{width:16px;text-align:center;font-size:.85rem;}
 
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    .stat-card {
-      background: var(--white);
-      padding: 1.5rem;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 3px solid transparent;
-      transition: var(--transition);
-    }
-    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-    .stat-card.primary { border-bottom-color: var(--navy); }
-    .stat-card.teal { border-bottom-color: var(--teal); }
-    .stat-card.coral { border-bottom-color: var(--coral); }
-    .stat-card.gold { border-bottom-color: var(--gold); }
-    
-    .stat-info h3 { font-size: 2rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.25rem; }
-    .stat-info p { color: var(--gray); font-size: 0.9rem; font-weight: 500; }
-    .stat-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
-    .stat-icon.navy { background: rgba(27,58,95,0.1); color: var(--navy); }
-    .stat-icon.teal { background: rgba(78,205,196,0.15); color: var(--teal); }
-    .stat-icon.coral { background: rgba(255,107,107,0.15); color: var(--coral); }
-    .stat-icon.gold { background: rgba(255,217,61,0.15); color: #E6C336; }
+/* ===== FEED ===== */
+.mid{max-width:600px;margin:0 auto;width:100%;}
 
-    /* Dashboard Panels */
-    .dashboard-panels {      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1.5rem;
-    }
-    .panel {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      padding: 1.5rem;
-    }
-    .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid #F1F5F9; }
-    .panel-title { font-size: 1.1rem; font-weight: 700; color: var(--navy-dark); }
-    .panel-link { color: var(--teal); font-size: 0.85rem; font-weight: 600; }
-    .panel-link:hover { text-decoration: underline; }
+/* SEARCH BAR - MOVED HERE */
+.search-container{background:#fff;border:1px solid var(--border);border-radius:var(--r12);padding:1rem;margin-bottom:1rem;}
+.search-container input{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:2px solid var(--border);border-radius:999px;font-size:.9rem;font-family:'DM Sans',sans-serif;background:var(--bg);transition:.2s;}
+.search-container input:focus{outline:none;border-color:var(--teal);background:#fff;}
+.search-icon{position:relative;top:-32px;left:35px;color:var(--gray);font-size:.9rem;pointer-events:none;}
+#searchDrop{position:relative;top:-25px;background:#fff;border:1px solid var(--border);border-radius:var(--r12);box-shadow:var(--shd);max-height:460px;overflow-y:auto;z-index:100;display:none;}
+#searchDrop.open{display:block;}
+.sdrop-hd{padding:.45rem .85rem;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);background:var(--bg);}
+.srow{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .12s;}
+.srow:hover{background:var(--bg);}
+.srow:last-child{border:none;}
+.sav{width:38px;height:38px;border-radius:50%;background:var(--bg);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--gray);}
+.sav img{width:100%;height:100%;object-fit:cover;}
+.sinfo{flex:1;min-width:0;}
+.sname{font-weight:600;color:var(--navy);font-size:.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ssub{font-size:.75rem;color:var(--gray);}
+.sprice{font-weight:700;color:var(--teal);font-size:.88rem;flex-shrink:0;}
+.stag{padding:.18rem .5rem;border-radius:999px;font-size:.65rem;font-weight:700;flex-shrink:0;}
+.tag-s{background:#D1FAE5;color:#065F46;}
+.tag-p{background:#FEF3C7;color:#92400E;}
+.sempty{padding:1.5rem;text-align:center;color:var(--gray);font-size:.85rem;}
 
-    /* Tables & Lists */
-    .data-table { width: 100%; border-collapse: collapse; }
-    .data-table th { text-align: left; padding: 0.75rem; font-size: 0.8rem; text-transform: uppercase; color: var(--gray); border-bottom: 1px solid #F1F5F9; }
-    .data-table td { padding: 1rem 0.75rem; border-bottom: 1px solid #F8F9FA; color: var(--navy); font-size: 0.9rem; }
-    .badge-status { padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600; }
-    .badge-pending { background: rgba(255,217,61,0.2); color: #B7860B; }
-    .badge-success { background: rgba(78,205,196,0.2); color: #1A8A7D; }
-    .badge-new { background: rgba(255,107,107,0.15); color: var(--coral); }
+.feed-bar{background:#fff;border:1px solid var(--border);border-radius:var(--r12);padding:.9rem 1.1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+.feed-bar h2{font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);}
+.tabs{display:flex;gap:.35rem;}
+.tab{padding:.38rem .95rem;border-radius:999px;border:none;background:var(--bg);color:var(--gray);font-weight:600;font-size:.8rem;cursor:pointer;transition:.15s;font-family:'DM Sans',sans-serif;}.tab.on{background:var(--navy);color:#fff;}
 
-    /* Store Link Box */
-    .store-link-box {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      padding: 1.25rem;
-      border-radius: var(--radius-sm);
-      margin-top: 1rem;
-    }
-    .store-link-box h4 { font-size: 0.9rem; margin-bottom: 0.5rem; opacity: 0.8; }
-    .store-url { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.15); padding: 0.75rem; border-radius: var(--radius-sm); margin-top: 0.5rem; }
-    .store-url a { color: var(--white); font-weight: 600; }
-    .copy-btn { background: rgba(255,255,255,0.2); border: none; color: var(--white); padding: 0.5rem; border-radius: 4px; cursor: pointer; transition: var(--transition); }
-    .copy-btn:hover { background: var(--teal); }
+/* product card */
+.pc{background:#fff;border:1px solid var(--border);border-radius:var(--r12);margin-bottom:1rem;overflow:hidden;transition:.2s;}
+.pc:hover{box-shadow:var(--shd);}
+.pc-top{display:flex;align-items:center;gap:.8rem;padding:.9rem 1rem;}
+.av{width:42px;height:42px;border-radius:50%;overflow:hidden;border:2px solid var(--teal);flex-shrink:0;cursor:pointer;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:.95rem;transition:.2s;}
+.av:hover{transform:scale(1.08);}
+.av img{width:100%;height:100%;object-fit:cover;}
+.pc-info{flex:1;}
+.pc-sname{font-weight:700;color:var(--navy);font-size:.9rem;cursor:pointer;}
+.pc-sname:hover{color:var(--teal);}
+.pc-time{font-size:.73rem;color:var(--gray);margin-top:1px;}
+.fbtn{padding:.28rem .8rem;border-radius:999px;border:2px solid var(--navy);background:transparent;color:var(--navy);font-weight:700;font-size:.75rem;cursor:pointer;transition:.15s;font-family:'DM Sans',sans-serif;}
+.fbtn:hover:not(.fon){background:var(--navy);color:#fff;}
+.fbtn.fon{border-color:var(--border);color:var(--gray);background:var(--bg);}
+.fbtn:disabled{opacity:.4;cursor:default;}
 
-    /* Mobile Toggle */
-    .mobile-toggle { display: none; font-size: 1.5rem; color: var(--navy); cursor: pointer; }
-    .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; }
+.pimg{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;cursor:pointer;background:var(--bg);}
+.pimg img{width:100%;height:100%;object-fit:cover;transition:transform .35s;}
+.pimg:hover img{transform:scale(1.04);}
+.pov{position:absolute;inset:0;background:rgba(0,0,0,.26);display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s;}
+.pimg:hover .pov{opacity:1;}
+.pov span{background:var(--teal);color:var(--navy-dark);font-weight:700;padding:.5rem 1rem;border-radius:999px;font-size:.82rem;}
 
-    /* Responsive */
-    @media (max-width: 992px) {
-      .dashboard-panels { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); }
-      .sidebar.active { transform: translateX(0); }
-      .main-content { margin-left: 0; padding: 1.5rem; }      .mobile-toggle { display: block; }
-      .overlay.active { display: block; }
-      .top-bar { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    }
-  </style>
-</head>
+.pdet{padding:1rem 1.1rem;}
+.pd-name{font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;color:var(--navy-dark);margin-bottom:.4rem;}
+.pd-desc{color:var(--gray);font-size:.83rem;line-height:1.6;margin-bottom:.85rem;}
+.pd-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;}
+.pd-price{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:800;color:var(--teal);}
+.spill{padding:.25rem .65rem;border-radius:999px;font-size:.72rem;font-weight:700;}
+.s-in{background:#D1FAE5;color:#065F46;}
+.s-low{background:#FEF3C7;color:#92400E;}
+.s-out{background:#FEE2E2;color:#991B1B;}
+.pd-acts{display:flex;gap:.6rem;}
+.btn-c{flex:1;padding:.7rem;background:var(--navy);color:#fff;border:none;border-radius:var(--r8);font-weight:700;font-size:.84rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:.2s;font-family:'DM Sans',sans-serif;}
+.btn-c:hover:not(:disabled){background:var(--navy-mid);transform:translateY(-1px);}
+.btn-c:disabled{opacity:.45;cursor:default;}
+.btn-w{width:40px;background:var(--bg);color:var(--coral);border:none;border-radius:var(--r8);cursor:pointer;font-size:.95rem;transition:.2s;}
+.btn-w:hover{background:#FEE2E2;}
+.btn-w.won{background:var(--coral);color:#fff;}
+
+/* skeleton */
+.sk{background:linear-gradient(90deg,var(--bg) 25%,#DDE2EA 50%,var(--bg) 75%);background-size:200% 100%;animation:sh 1.4s infinite;border-radius:var(--r8);}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skcard{background:#fff;border:1px solid var(--border);border-radius:var(--r12);margin-bottom:1rem;overflow:hidden;padding:1rem;}
+
+/* empty */
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--gray);}
+.empty i{font-size:2.5rem;margin-bottom:.9rem;opacity:.35;display:block;}.empty h3{font-family:'Sora',sans-serif;color:var(--navy);margin-bottom:.4rem;font-size:.95rem;}
+.empty p{font-size:.82rem;margin-bottom:1rem;}
+.empty a,.empty button{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.1rem;background:var(--navy);color:#fff;border:none;border-radius:var(--r8);font-weight:700;cursor:pointer;text-decoration:none;font-size:.82rem;}
+
+/* ===== RIGHT ===== */
+.right{display:flex;flex-direction:column;gap:1rem;position:sticky;top:76px;height:calc(100vh - 80px);overflow-y:auto;}
+.rcrd{background:#fff;border:1px solid var(--border);border-radius:var(--r12);padding:1.1rem;}
+.rcrd h3{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.85rem;display:flex;align-items:center;gap:.4rem;}
+.ti{padding:.65rem 0;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s;}
+.ti:hover{padding-left:.35rem;}
+.ti:last-child{border:none;}
+.ti-n{font-weight:600;color:var(--navy);font-size:.84rem;margin-bottom:.2rem;}
+.ti-m{font-size:.73rem;color:var(--gray);}
+.refcard{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--r12);padding:1.1rem;color:#fff;text-align:center;}
+.refcard h3{font-family:'Sora',sans-serif;font-size:.9rem;margin-bottom:.4rem;}
+.refcard p{font-size:.76rem;opacity:.85;margin-bottom:.85rem;}
+.refbox{background:rgba(255,255,255,.18);padding:.6rem .85rem;border-radius:var(--r8);font-family:monospace;font-size:.9rem;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;}
+.refbox button{background:none;border:none;color:#fff;cursor:pointer;}
+.copybtn{width:100%;padding:.6rem;background:var(--teal);color:var(--navy-dark);border:none;border-radius:var(--r8);font-weight:700;cursor:pointer;font-size:.84rem;font-family:'DM Sans',sans-serif;transition:.2s;}
+.copybtn:hover{filter:brightness(1.06);}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;top:76px;right:1rem;padding:.8rem 1rem;border-radius:var(--r8);display:flex;align-items:center;gap:.6rem;box-shadow:0 4px 18px rgba(0,0,0,.18);z-index:9000;opacity:0;transform:translateX(120%);transition:.28s;font-weight:600;font-size:.8rem;max-width:300px;}
+.toast.show{opacity:1;transform:translateX(0);}
+.toast.ok{background:#27AE60;color:#fff;}
+.toast.err{background:var(--coral);color:#fff;}
+.toast.inf{background:var(--navy);color:#fff;}
+
+/* Loading overlay */
+.loading-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;font-weight:600;color:var(--navy);}
+.loading-overlay.hidden{display:none;}
+.loading-overlay i{margin-bottom:1rem;color:var(--teal);}
+
+/* Error state */
+.error-state{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10001;padding:2rem;text-align:center;}
+.error-state.show{display:flex;}
+.error-state i{font-size:4rem;color:var(--coral);margin-bottom:1rem;}
+.error-state h2{font-family:'Sora',sans-serif;color:var(--navy);margin-bottom:.5rem;}
+.error-state p{color:var(--gray);margin-bottom:1.5rem;max-width:400px;}
+.error-state button{padding:.8rem 2rem;background:var(--navy);color:#fff;border:none;border-radius:var(--r8);font-weight:700;cursor:pointer;font-size:.9rem;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1140px){.wrap{grid-template-columns:220px 1fr;}.right{display:none;}}
+@media(max-width:720px){
+  #menuBtn{display:block;}
+  .uname{display:none;}
+  .wrap{grid-template-columns:1fr;margin-top:62px;padding:.75rem;}
+  .left{position:fixed;top:62px;left:-260px;width:248px;height:calc(100vh - 62px);z-index:800;background:var(--bg);transition:left .28s;padding:.75rem;overflow-y:auto;}
+  .left.open{left:0;}
+}@media(max-width:480px){.tb-inner{gap:.4rem;padding:.55rem .7rem;}}
+</style></head>
 <body>
 
-  <!-- Sidebar Navigation -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-logo">YAN<span>-FLOWS</span></div>
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <i class="fas fa-circle-notch fa-spin fa-3x"></i>
+  <span style="font-size:1.1rem">Loading your feed...</span>
+</div>
+
+<!-- Error State -->
+<div class="error-state" id="errorState">
+  <i class="fas fa-exclamation-triangle"></i>
+  <h2>Oops! Something went wrong</h2>
+  <p id="errorMsg">We couldn't load your dashboard. Please try again.</p>
+  <button onclick="location.reload()"><i class="fas fa-redo"></i> Retry</button>
+</div>
+
+<!-- ===== TOPBAR ===== -->
+<div id="topbar">
+  <div class="tb-inner">
+    <button id="menuBtn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <a href="dashboard.html" class="logo">
+      <div class="logo-box">YF</div>
+      <span>YAN-FLOWS</span>
+    </a>
+    
+    <div class="nav-icos">
+      <a href="notification.html" class="nico" title="Notifications">
+        <i class="fas fa-bell"></i>
+        <span class="nbadge" id="nBadge">0</span>
+      </a>
+      <a href="cart.html" class="nico" title="Cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="nbadge" id="cBadge">0</span>
+      </a>
+      <button class="nav-usr" onclick="go('profile.html')">
+        <div class="uavatar" id="navAv"><i class="fas fa-user"></i></div>
+        <span class="uname" id="navNm">…</span>
+      </button>
     </div>
-    <nav class="sidebar-menu" id="sidebarMenu">
-      <!-- Menu items injected by JS based on role -->
-    </nav>
-    <div class="sidebar-footer">
-      <div class="user-profile">
-        <div class="user-avatar" id="userInitials">JD</div>
-        <div class="user-info">
-          <div class="user-name" id="userName">John Doe</div>
-          <div class="user-role" id="userRole">Buyer</div>
-        </div>
-        <button onclick="logout()" style="color:rgba(255,255,255,0.5); font-size:1.2rem;"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+</div>
+
+<!-- ===== MAIN WRAP ===== -->
+<div class="wrap">
+  <!-- LEFT -->
+  <aside class="left" id="sidebar">
+    <div class="card prof-card">
+      <div class="prof-pic" id="profPic" onclick="go('profile.html')"><i class="fas fa-user"></i></div>      <div class="prof-name" id="profName" onclick="go('profile.html')">Loading…</div>
+      <div class="prof-hnd" id="profHnd">@…</div>
+      <div class="pstats">
+        <div class="pstat"><div class="psv" id="stProd">–</div><div class="psl">Products</div></div>
+        <div class="pstat"><div class="psv" id="stFol">–</div><div class="psl">Followers</div></div>
+        <div class="pstat"><div class="psv" id="stFing">–</div><div class="psl">Following</div></div>
       </div>
+      <div class="coins-row">
+        <span><i class="fas fa-coins"></i> <span id="coinN">0</span> Coins</span>
+        <a href="coins.html">+ Add</a>
+      </div>
+    </div>
+    <div class="card menu">
+      <a href="dashboard.html" class="act"><i class="fas fa-home"></i>Home Feed</a>
+      <a href="profile.html"><i class="fas fa-user"></i>My Profile</a>
+      <a href="product-manager.html"><i class="fas fa-plus-circle"></i>Upload Product</a>
+      <a href="my-products.html"><i class="fas fa-box"></i>My Products</a>
+      <a href="seller-order.html"><i class="fas fa-clipboard-list"></i>Orders Received</a>
+      <a href="orders.html"><i class="fas fa-shopping-bag"></i>My Purchases</a>
+      <a href="cart.html"><i class="fas fa-shopping-cart"></i>Shopping Cart</a>
+      <a href="referrals.html"><i class="fas fa-gift"></i>Referrals</a>
+      <a href="coins.html"><i class="fas fa-coins"></i>Buy Coins</a>
+      <a href="analytics.html"><i class="fas fa-chart-line"></i>Analytics</a>
+      <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+      <a href="#" onclick="doLogout();return false;"><i class="fas fa-sign-out-alt"></i>Logout</a>
     </div>
   </aside>
 
-  <!-- Overlay for Mobile -->
-  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
-  <!-- Main Content -->
-  <main class="main-content">
-    <header class="top-bar">
-      <div style="display:flex;align-items:center;gap:1rem;">
-        <div class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
-        <div class="page-title">
-          <h1 id="greetingText">Welcome back, John!</h1>
-          <p>Here's what's happening with your account today.</p>
-        </div>
-      </div>
-      <div class="top-actions">
-        <button class="btn btn-outline"><i class="fas fa-bell"></i></button>
-        <a href="seller-setup.html" class="btn btn-primary" id="ctaButton">
-          <i class="fas fa-plus"></i> <span>Add Product</span>
-        </a>
-      </div>
-    </header>
-
-    <!-- Dynamic Stats Grid -->    <div class="stats-grid" id="statsContainer">
-      <!-- Injected by JS -->
+  <!-- FEED -->
+  <main class="mid">
+    <!-- SEARCH BAR - MOVED HERE -->
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input id="sInput" type="text" placeholder="Search people, products…"/>
+      <div id="searchDrop"></div>
     </div>
-
-    <!-- Dynamic Panels -->
-    <div class="dashboard-panels">
-      <div class="panel">
-        <div class="panel-header">
-          <div class="panel-title">Recent Activity</div>
-          <a href="#" class="panel-link">View All</a>
-        </div>
-        <div id="activityContent">
-          <!-- Injected by JS -->
-        </div>
+    
+    <div class="feed-bar">
+      <h2>🛍️ Marketplace Feed</h2>
+      <div class="tabs">
+        <button class="tab on" id="tAll" onclick="switchTab('all')">All Posts</button>
+        <button class="tab" id="tFol" onclick="switchTab('following')">Following</button>
       </div>
-      
-      <div class="panel">
-        <div class="panel-header">
-          <div class="panel-title">Quick Actions</div>
-        </div>
-        <div id="actionsContent">
-          <!-- Injected by JS -->
-        </div>
+    </div>
+    <div id="feed">
+      <!-- Skeletons -->
+      <div class="skcard">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem;">
+          <div class="sk" style="width:42px;height:42px;border-radius:50%;flex-shrink:0;"></div>
+          <div style="flex:1;"><div class="sk" style="height:13px;width:55%;margin-bottom:.35rem;"></div><div class="sk" style="height:11px;width:35%;"></div></div>        </div>
+        <div class="sk" style="height:220px;border-radius:var(--r8);margin-bottom:.9rem;"></div>
+        <div class="sk" style="height:14px;width:65%;margin-bottom:.4rem;"></div>
+        <div class="sk" style="height:11px;width:90%;margin-bottom:.75rem;"></div>
+        <div class="sk" style="height:38px;border-radius:var(--r8);"></div>
       </div>
     </div>
   </main>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <!-- RIGHT -->
+  <aside class="right">
+    <div class="rcrd">
+      <h3><i class="fas fa-fire" style="color:var(--coral)"></i> Trending</h3>
+      <div id="trend"><div class="sk" style="height:44px;margin-bottom:.6rem;"></div><div class="sk" style="height:44px;margin-bottom:.6rem;"></div><div class="sk" style="height:44px;"></div></div>
+    </div>
+    <div class="refcard">
+      <h3><i class="fas fa-gift"></i> Referral Code</h3>
+      <p>Share & earn 20 coins per signup!</p>
+      <div class="refbox"><span id="refCode">…</span><button onclick="cpRef()"><i class="fas fa-copy"></i></button></div>
+      <button class="copybtn" onclick="cpRef()">Copy Link</button>
+    </div>
+  </aside>
+</div>
 
-  <script>
-    // ===== FIREBASE INIT =====
-    const firebaseConfig = {
-      apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
-      authDomain: "yan-flow.firebaseapp.com",
-      projectId: "yan-flow",
-      storageBucket: "yan-flow.firebasestorage.app",
-      messagingSenderId: "373204559623",
-      appId: "1:373204559623:web:56e1c8abf07945c53187a2",
-      measurementId: "G-4PC6ENND61"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-    // ===== AUTH CHECK =====
-    auth.onAuthStateChanged(async user => {
-      if (!user) { window.location.replace('login.html'); return; }      const uid = user.uid;
-      
-      // Fetch User Data
-      const doc = await db.collection('users').doc(uid).get();
-      if (doc.exists) {
-        const userData = doc.data();
-        renderDashboard(userData, user.displayName || 'User');
-      }
+<script>
+/* ============================================================
+   FIREBASE INITIALIZATION
+============================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
+  authDomain: "yan-flow.firebaseapp.com",
+  projectId: "yan-flow",
+  storageBucket: "yan-flow.firebasestorage.app",
+  messagingSenderId: "373204559623",
+  appId: "1:373204559623:web:56e1c8abf07945c53187a2"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+/* ============================================================
+   GLOBAL STATE============================================================ */
+let ME = null;
+let MEDATA = null;
+let PRODUCTS = [];
+let FOLLOWING = new Set();
+let SELLERS = {};
+let WISH = new Set();
+let TAB = 'all';
+let SEARCH_TIMER = null;
+
+/* ============================================================
+   UTILITY FUNCTIONS
+============================================================ */
+function go(url) {
+  window.location.href = url;
+}
+
+function naira(n) {
+  return '₦' + Number(n || 0).toLocaleString('en-NG');
+}
+
+function ago(ts) {
+  if (!ts) return '';
+  const d = (ts && ts.toDate) ? ts.toDate() : new Date(ts);
+  const s = Math.floor((Date.now() - d) / 1000);
+  if (s < 60) return 'Just now';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  if (s < 604800) return Math.floor(s / 86400) + 'd ago';
+  return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short' });
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function dname(u) {
+  if (!u) return 'Unknown Seller';
+  return u.businessName || u.shopName || u.storeName || u.fullName || u.displayName || u.username || 'Unknown Seller';
+}
+
+function hnd(u) {
+  if (!u) return '@user';
+  const r = u.username || u.fullName || u.businessName || 'user';
+  return '@' + r.toLowerCase().replace(/\s+/g, '');
+}
+function toast(msg, type) {
+  type = type || 'ok';
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  const ic = { ok: 'fa-check-circle', err: 'fa-times-circle', inf: 'fa-info-circle' }[type] || 'fa-info-circle';
+  t.innerHTML = '<i class="fas ' + ic + '"></i> ' + escapeHtml(msg);
+  document.body.appendChild(t);
+  setTimeout(function() {
+    t.classList.add('show');
+    setTimeout(function() {
+      t.classList.remove('show');
+      setTimeout(function() { t.remove(); }, 300);
+    }, 3000);
+  }, 10);
+}
+
+function setText(id, v) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = v;
+}
+
+function setHTML(id, v) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = v;
+}
+
+function hideLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  if (overlay) overlay.classList.add('hidden');
+}
+
+function showError(msg) {
+  hideLoading();
+  const errorState = document.getElementById('errorState');
+  const errorMsg = document.getElementById('errorMsg');
+  if (errorMsg) errorMsg.textContent = msg;
+  if (errorState) errorState.classList.add('show');
+}
+
+/* ============================================================
+   AUTHENTICATION
+============================================================ */
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    window.location.href = 'login.html';
+    return;
+  }
+  ME = user;
+  console.log('✅ User authenticated:', user.uid);
+  boot();});
+
+/* ============================================================
+   BOOTSTRAP FUNCTION
+============================================================ */
+async function boot() {
+  try {
+    console.log('🚀 Starting boot process...');
+    
+    // Fetch user data
+    const snap = await db.collection('users').doc(ME.uid).get();
+    
+    if (!snap.exists) {
+      console.warn('User document not found for:', ME.uid);
+      hideLoading();
+      toast('Profile not found. Please complete signup.', 'err');
+      setTimeout(() => {
+        window.location.href = 'complete-profile.html';
+      }, 2000);
+      return;
+    }
+    
+    MEDATA = snap.data();
+    console.log('✅ User data loaded:', MEDATA);
+    
+    // Paint sidebar
+    paintSidebar();
+    
+    // Setup listeners
+    setupFollowingListener();
+    setupWishlistListener();
+    setupCartListener();
+    
+    // Load data
+    await loadProducts();
+    loadTrending();
+    loadNotifBadge();
+    setupSearch();
+    
+    // Hide loading
+    hideLoading();
+    console.log('✅ Boot completed successfully');
+    
+  } catch (error) {
+    console.error('❌ Boot error:', error);
+    let errorMsg = 'Failed to load dashboard. ';
+    
+    if (error.code === 'permission-denied') {
+      errorMsg += 'Permission denied. Please login again.';
+    } else if (error.code === 'unavailable') {      errorMsg += 'Service unavailable. Check your internet.';
+    } else {
+      errorMsg += error.message;
+    }
+    
+    showError(errorMsg);
+  }
+}
+
+/* ============================================================
+   SIDEBAR RENDERING
+============================================================ */
+function paintSidebar() {
+  const name = dname(MEDATA);
+  const h = hnd(MEDATA);
+  
+  setText('profName', name);
+  setText('profHnd', h);
+  setText('navNm', name);
+  setText('coinN', MEDATA.coins || 0);
+  setText('refCode', MEDATA.referralCode || 'N/A');
+  setText('stFol', MEDATA.followersCount || 0);
+  setText('stFing', MEDATA.followingCount || 0);
+
+  // Count products
+  db.collection('products')
+    .where('sellerId', '==', ME.uid)
+    .get()
+    .then(function(snap) {
+      setText('stProd', snap.size);
+    })
+    .catch(function() {
+      setText('stProd', MEDATA.productsCount || 0);
     });
 
-    // ===== RENDER DASHBOARD =====
-    function renderDashboard(data, name) {
-      const role = data.role || 'buyer';
-      const coins = data.coins || 0;
-      const username = name;
+  // Profile picture
+  const pic = MEDATA.profilePic;
+  const ini = (name[0] || 'U').toUpperCase();
+  let avatarHTML;
+  
+  if (pic) {
+    avatarHTML = '<img src="' + escapeHtml(pic) + '" alt="pic" onerror="this.style.display=\'none\'"/>';
+  } else {
+    avatarHTML = '<span style="font-size:2rem;font-weight:700;color:var(--navy)">' + ini + '</span>';
+  }
+  
+  setHTML('profPic', avatarHTML);
+  if (pic) {
+    setHTML('navAv', avatarHTML);
+  } else {    setHTML('navAv', '<span style="font-weight:700">' + ini + '</span>');
+  }
+}
+
+/* ============================================================
+   FOLLOWING LISTENER
+============================================================ */
+function setupFollowingListener() {
+  db.collection('users').doc(ME.uid).collection('following')
+    .onSnapshot(function(snapshot) {
+      FOLLOWING.clear();
+      snapshot.docs.forEach(function(doc) {
+        FOLLOWING.add(doc.id);
+      });
       
-      // Update Header
-      document.getElementById('userName').textContent = username;
-      document.getElementById('userRole').textContent = role.toUpperCase();
-      document.getElementById('userInitials').textContent = username.substring(0,2).toUpperCase();
-      document.getElementById('greetingText').textContent = `Welcome back, ${username.split(' ')[0]}!`;
+      setText('stFing', FOLLOWING.size);
+      updateAllFollowButtons();
       
-      const menu = document.getElementById('sidebarMenu');
-      const stats = document.getElementById('statsContainer');
-      const activity = document.getElementById('activityContent');
-      const actions = document.getElementById('actionsContent');
-      const ctaBtn = document.getElementById('ctaButton');
-
-      // 1. SIDEBAR MENU & CONTENT BASED ON ROLE
-      if (role === 'seller') {
-        // SELLER VIEW
-        document.getElementById('userRole').textContent = 'SELLER';
-        
-        // Menu
-        menu.innerHTML = `
-          <div class="menu-label">Main</div>
-          <a href="dashboard.html" class="menu-item active"><i class="fas fa-th-large"></i> Overview</a>
-          <a href="orders.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Orders</a>
-          <a href="product-manager.html" class="menu-item"><i class="fas fa-box"></i> Products</a>
-          <div class="menu-label">Growth</div>
-          <a href="crm.html" class="menu-item"><i class="fas fa-users"></i> CRM</a>
-          <a href="analytics.html" class="menu-item"><i class="fas fa-chart-line"></i> Analytics</a>
-          <div class="menu-label">Account</div>
-          <a href="coins.html" class="menu-item"><i class="fas fa-coins"></i> Buy Coins</a>
-          <a href="referrals.html" class="menu-item"><i class="fas fa-gift"></i> Referrals</a>
-          <a href="seller-setup.html" class="menu-item"><i class="fas fa-cog"></i> Store Settings</a>
-        `;
-
-        // Stats
-        stats.innerHTML = `          <div class="stat-card primary">
-            <div class="stat-info"><h3>${coins}</h3><p>Coin Balance</p></div>
-            <div class="stat-icon navy"><i class="fas fa-coins"></i></div>
-          </div>
-          <div class="stat-card teal">
-            <div class="stat-info"><h3>12</h3><p>Total Orders</p></div>
-            <div class="stat-icon teal"><i class="fas fa-shopping-bag"></i></div>
-          </div>
-          <div class="stat-card coral">
-            <div class="stat-info"><h3>₦85,000</h3><p>Revenue</p></div>
-            <div class="stat-icon coral"><i class="fas fa-naira-sign"></i></div>
-          </div>
-          <div class="stat-card gold">
-            <div class="stat-info"><h3>₦4,500</h3><p>Pending</p></div>
-            <div class="stat-icon gold"><i class="fas fa-clock"></i></div>
-          </div>
-        `;
-
-        // Activity (Seller: Recent Orders)
-        activity.innerHTML = `
-          <table class="data-table">
-            <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>#YF-001</td><td>Amina O.</td><td>₦12,000</td><td><span class="badge-status badge-pending">Pending</span></td></tr>
-              <tr><td>#YF-002</td><td>Chidi K.</td><td>₦5,500</td><td><span class="badge-status badge-success">Delivered</span></td></tr>
-              <tr><td>#YF-003</td><td>Fatima B.</td><td>₦8,200</td><td><span class="badge-status badge-new">Processing</span></td></tr>
-            </tbody>
-          </table>
-        `;
-
-        // Actions
-        actions.innerHTML = `
-          <a href="product-manager.html" class="btn btn-teal" style="width:100%;margin-bottom:0.75rem;justify-content:center;"><i class="fas fa-plus"></i> Add New Product</a>
-          <a href="coins.html" class="btn btn-outline" style="width:100%;justify-content:center;"><i class="fas fa-coins"></i> Top Up Coins</a>
-          
-          <div class="store-link-box">
-            <h4><i class="fas fa-link"></i> Your Storefront URL</h4>
-            <div class="store-url">
-              <a href="#">yan-flows.com/store/${username.toLowerCase().replace(/\s/g,'')}</a>
-              <button class="copy-btn" onclick="alert('Link Copied!')"><i class="fas fa-copy"></i></button>
-            </div>
-          </div>
-        `;
-        
-        ctaBtn.innerHTML = '<i class="fas fa-box-open"></i> <span>Add Product</span>';
-        ctaBtn.href = 'product-manager.html';
-
-      } else {
-        // BUYER VIEW
-        document.getElementById('userRole').textContent = 'BUYER';        document.getElementById('ctaButton').style.display = 'none'; // Hide add product btn
-
-        // Menu
-        menu.innerHTML = `
-          <div class="menu-label">Shopping</div>
-          <a href="dashboard.html" class="menu-item active"><i class="fas fa-th-large"></i> My Account</a>
-          <a href="orders.html" class="menu-item"><i class="fas fa-shopping-cart"></i> My Orders</a>
-          <a href="cart.html" class="menu-item"><i class="fas fa-heart"></i> Wishlist</a>
-          <div class="menu-label">Settings</div>
-          <a href="settings.html" class="menu-item"><i class="fas fa-user-cog"></i> Profile</a>
-        `;
-
-        // Stats
-        stats.innerHTML = `
-          <div class="stat-card teal">
-            <div class="stat-info"><h3>5</h3><p>Active Orders</p></div>
-            <div class="stat-icon teal"><i class="fas fa-box"></i></div>
-          </div>
-          <div class="stat-card coral">
-            <div class="stat-info"><h3>₦15,000</h3><p>Total Spent</p></div>
-            <div class="stat-icon coral"><i class="fas fa-receipt"></i></div>
-          </div>
-          <div class="stat-card gold">
-            <div class="stat-info"><h3>3</h3><p>Wishlist Items</p></div>
-            <div class="stat-icon gold"><i class="fas fa-heart"></i></div>
-          </div>
-        `;
-
-        // Activity (Buyer: Order Status)
-        activity.innerHTML = `
-          <table class="data-table">
-            <thead><tr><th>Order</th><th>Status</th><th>Date</th></tr></thead>
-            <tbody>
-              <tr><td>#YF-101</td><td><span class="badge-status badge-new">Out for Delivery</span></td><td>Today</td></tr>
-              <tr><td>#YF-102</td><td><span class="badge-status badge-success">Delivered</span></td><td>2 days ago</td></tr>
-            </tbody>
-          </table>
-        `;
-
-        // Actions
-        actions.innerHTML = `
-          <a href="storefront.html" class="btn btn-teal" style="width:100%;margin-bottom:0.75rem;justify-content:center;"><i class="fas fa-store"></i> Browse Marketplace</a>
-          <a href="orders.html" class="btn btn-outline" style="width:100%;justify-content:center;"><i class="fas fa-history"></i> Order History</a>
-        `;
+      if (TAB === 'following') renderFeed();
+    }, function(error) {
+      console.warn('Following listener error:', error);
+      // Fallback to array field
+      if (MEDATA.following && Array.isArray(MEDATA.following)) {
+        FOLLOWING = new Set(MEDATA.following);
+        setText('stFing', FOLLOWING.size);
       }
-    }
+    });
+}
 
-    // ===== SIDEBAR TOGGLE =====
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.add('active');      document.getElementById('overlay').classList.add('active');
-    }
-    function closeSidebar() {
-      document.getElementById('sidebar').classList.remove('active');
-      document.getElementById('overlay').classList.remove('active');
-    }
+/* ============================================================
+   WISHLIST LISTENER
+============================================================ */
+function setupWishlistListener() {
+  db.collection('users').doc(ME.uid).collection('wishlist')
+    .onSnapshot(function(snapshot) {
+      WISH.clear();
+      snapshot.docs.forEach(function(doc) {
+        WISH.add(doc.id);
+      });
+      
+      document.querySelectorAll('[id^="wb-"]').forEach(function(btn) {
+        const pid = btn.id.replace('wb-', '');
+        const icon = btn.querySelector('i');
+        if (WISH.has(pid)) {
+          btn.classList.add('won');
+          icon.className = 'fas fa-heart';
+        } else {
+          btn.classList.remove('won');
+          icon.className = 'far fa-heart';
+        }      });
+    }, function(error) {
+      console.warn('Wishlist listener error:', error);
+    });
+}
 
-    // ===== LOGOUT =====
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = 'index.html';
+/* ============================================================
+   CART LISTENER
+============================================================ */
+function setupCartListener() {
+  db.collection('carts').doc(ME.uid).collection('items')
+    .onSnapshot(function(snapshot) {
+      const total = snapshot.docs.reduce(function(sum, doc) {
+        return sum + (doc.data().quantity || 1);
+      }, 0);
+      updateCartBadge(total);
+    }, function(error) {
+      console.warn('Cart listener error:', error);
+    });
+}
+
+function updateCartBadge(count) {
+  const badge = document.getElementById('cBadge');
+  if (badge) {
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  }
+}
+
+/* ============================================================
+   LOAD PRODUCTS
+============================================================ */
+async function loadProducts() {
+  const feed = document.getElementById('feed');
+  
+  try {
+    let snapshot;
+    try {
+      snapshot = await db.collection('products')
+        .orderBy('createdAt', 'desc')
+        .limit(50)
+        .get();
+    } catch (e) {
+      console.warn('Ordered query failed, using unordered:', e.code);
+      snapshot = await db.collection('products').limit(50).get();
+    }
+    
+    if (snapshot.empty) {
+      feed.innerHTML = '<div class="empty"><i class="fas fa-box-open"></i><h3>No products yet</h3><p>Be the first to upload a product!</p><a href="product-manager.html"><i class="fas fa-plus"></i> Upload Product</a></div>';
+      return;    }
+    
+    PRODUCTS = snapshot.docs.map(function(doc) {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        sellerId: data.sellerId || '',
+        name: data.name || '',
+        price: data.price || 0,
+        image: data.image || '',
+        description: data.description || '',
+        stock: data.stock || 0,
+        createdAt: data.createdAt,
+        sellerName: data.sellerName || '',
+        sellerAvatar: data.sellerAvatar || ''
+      };
+    });
+    
+    console.log('✅ Loaded', PRODUCTS.length, 'products');
+    renderFeed();
+    
+  } catch (error) {
+    console.error('❌ Error loading products:', error);
+    feed.innerHTML = '<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Could not load products</h3><p>Check your connection and try again.</p><button onclick="loadProducts()"><i class="fas fa-redo"></i> Retry</button></div>';
+  }
+}
+
+/* ============================================================
+   RENDER FEED
+============================================================ */
+async function renderFeed() {
+  const feed = document.getElementById('feed');
+  feed.innerHTML = '';
+  
+  let displayProducts = TAB === 'following'
+    ? PRODUCTS.filter(function(p) { return FOLLOWING.has(p.sellerId); })
+    : PRODUCTS;
+  
+  if (displayProducts.length === 0) {
+    if (TAB === 'following') {
+      feed.innerHTML = '<div class="empty"><i class="fas fa-user-slash"></i><h3>No posts from people you follow</h3><p>Follow sellers in "All Posts" to see them here.</p><button onclick="switchTab(\'all\')">View All Posts</button></div>';
+    } else {
+      feed.innerHTML = '<div class="empty"><i class="fas fa-box-open"></i><h3>No products found</h3><p>Check back later for new listings!</p></div>';
+    }
+    return;
+  }
+  
+  for (let i = 0; i < displayProducts.length; i++) {
+    const card = await makeProductCard(displayProducts[i]);
+    feed.appendChild(card);  }
+}
+
+function switchTab(tab) {
+  TAB = tab;
+  document.getElementById('tAll').classList.toggle('on', tab === 'all');
+  document.getElementById('tFol').classList.toggle('on', tab === 'following');
+  renderFeed();
+}
+
+/* ============================================================
+   SELLER DATA CACHE
+============================================================ */
+async function getSellerData(uid) {
+  if (!uid) {
+    console.warn('getSellerData called with empty uid');
+    return null;
+  }
+  
+  if (SELLERS[uid]) {
+    return SELLERS[uid];
+  }
+  
+  try {
+    const doc = await db.collection('users').doc(uid).get();
+    if (doc.exists) {
+      SELLERS[uid] = doc.data();
+      return doc.data();
+    } else {
+      console.warn('User doc not found for uid:', uid);
+    }
+  } catch (e) {
+    console.error('Could not fetch seller data for', uid, ':', e);
+  }
+  return null;
+}
+
+/* ============================================================
+   BUILD PRODUCT CARD
+============================================================ */
+async function makeProductCard(p) {
+  const div = document.createElement('div');
+  div.className = 'pc';
+  
+  // CRITICAL: Get seller data
+  const seller = await getSellerData(p.sellerId);
+  const sname = seller ? dname(seller) : (p.sellerName || 'Unknown Seller');
+  const spic = (seller && seller.profilePic) ? seller.profilePic : (p.sellerAvatar || '');
+  
+  console.log('Product card - sellerId:', p.sellerId, 'sellerName:', sname, 'hasPic:', !!spic);  
+  const isMe = p.sellerId === ME.uid;
+  const isFollowing = FOLLOWING.has(p.sellerId);
+  const isWishlisted = WISH.has(p.id);
+  
+  const stock = Number(p.stock) || 0;
+  const inStock = stock > 0;
+  const lowStock = stock <= 5 && inStock;
+  const stockClass = !inStock ? 's-out' : (lowStock ? 's-low' : 's-in');
+  const stockLabel = !inStock ? 'Out of Stock' : (lowStock ? 'Only ' + stock + ' left!' : 'In Stock');
+  
+  let avHTML;
+  if (spic) {
+    avHTML = '<img src="' + escapeHtml(spic) + '" alt="' + escapeHtml(sname) + '" onerror="this.style.display=\'none\'"/>';
+  } else {
+    avHTML = '<i class="fas fa-store"></i>';
+  }
+  
+  let followBtn = '';
+  if (!isMe) {
+    followBtn = '<button class="fbtn' + (isFollowing ? ' fon' : '') + '" id="fb-' + p.sellerId + '" onclick="toggleFollow(\'' + p.sellerId + '\', \'' + escapeHtml(sname) + '\', this)">' + (isFollowing ? 'Following' : 'Follow') + '</button>';
+  }
+  
+  let cartHandler = 'disabled';
+  if (inStock) {
+    cartHandler = 'onclick="addToCart(\'' + p.id + '\', \'' + p.sellerId + '\', \'' + escapeHtml(sname) + '\', \'' + escapeHtml(p.name) + '\', ' + Number(p.price || 0) + ', \'' + escapeHtml(p.image || '') + '\', ' + stock + ')"';
+  }
+  
+  const desc = p.description || '';
+  const descText = desc.length > 150 ? desc.slice(0, 150) + '…' : desc;
+  
+  div.innerHTML =
+    '<div class="pc-top">' +
+    '<div class="av" onclick="go(\'storefront.html?id=' + p.sellerId + '\')" title="' + escapeHtml(sname) + '\'s store">' + avHTML + '</div>' +
+    '<div class="pc-info">' +
+    '<div class="pc-sname" onclick="go(\'storefront.html?id=' + p.sellerId + '\')">' + escapeHtml(sname) + '</div>' +
+    '<div class="pc-time">' + ago(p.createdAt) + '</div>' +
+    '</div>' +
+    followBtn +
+    '</div>' +
+    '<div class="pimg" onclick="go(\'product-detail.html?id=' + p.id + '\')">' +
+    '<img src="' + (p.image || 'https://via.placeholder.com/800x600?text=No+Image') + '" alt="' + escapeHtml(p.name) + '" onerror="this.src=\'https://via.placeholder.com/800x600?text=No+Image\'"/>' +
+    '<div class="pov"><span>View Product</span></div>' +
+    '</div>' +
+    '<div class="pdet">' +
+    '<div class="pd-name">' + escapeHtml(p.name || 'Untitled Product') + '</div>' +
+    '<div class="pd-desc">' + escapeHtml(descText) + '</div>' +
+    '<div class="pd-row">' +
+    '<span class="pd-price">' + naira(p.price) + '</span>' +
+    '<span class="spill ' + stockClass + '">' + stockLabel + '</span>' +    '</div>' +
+    '<div class="pd-acts">' +
+    '<button class="btn-c" ' + cartHandler + '>' +
+    '<i class="fas fa-cart-plus"></i>' + (inStock ? 'Add to Cart' : 'Out of Stock') +
+    '</button>' +
+    '<button class="btn-w' + (isWishlisted ? ' won' : '') + '" id="wb-' + p.id + '" onclick="toggleWishlist(\'' + p.id + '\', this)">' +
+    '<i class="' + (isWishlisted ? 'fas' : 'far') + ' fa-heart"></i>' +
+    '</button>' +
+    '</div>' +
+    '</div>';
+  
+  return div;
+}
+
+/* ============================================================
+   FOLLOW/UNFOLLOW
+============================================================ */
+window.toggleFollow = async function(sellerId, sellerName, btn) {
+  if (sellerId === ME.uid) {
+    toast('You cannot follow yourself', 'inf');
+    return;
+  }
+  
+  btn.disabled = true;
+  const isCurrentlyFollowing = btn.classList.contains('fon');
+  
+  try {
+    const meRef = db.collection('users').doc(ME.uid);
+    const sellerRef = db.collection('users').doc(sellerId);
+    const followRef = db.collection('users').doc(ME.uid).collection('following').doc(sellerId);
+    
+    if (isCurrentlyFollowing) {
+      // Unfollow
+      await followRef.delete().catch(function(e) { console.warn('Delete follow doc failed:', e); });
+      
+      await meRef.update({
+        following: firebase.firestore.FieldValue.arrayRemove(sellerId),
+        followingCount: firebase.firestore.FieldValue.increment(-1)
+      }).catch(function(e) { console.warn('Update me failed:', e); });
+      
+      await sellerRef.update({
+        followersCount: firebase.firestore.FieldValue.increment(-1)
+      }).catch(function(e) { console.warn('Update seller failed:', e); });
+      
+      FOLLOWING.delete(sellerId);
+      toast('Unfollowed ' + sellerName, 'inf');
+      
+    } else {
+      // Follow
+      await followRef.set({        followedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        sellerName: sellerName
+      }).catch(function(e) { console.warn('Set follow doc failed:', e); });
+      
+      await meRef.update({
+        following: firebase.firestore.FieldValue.arrayUnion(sellerId),
+        followingCount: firebase.firestore.FieldValue.increment(1)
+      }).catch(function(e) { console.warn('Update me failed:', e); });
+      
+      await sellerRef.update({
+        followersCount: firebase.firestore.FieldValue.increment(1)
+      }).catch(function(e) { console.warn('Update seller failed:', e); });
+      
+      FOLLOWING.add(sellerId);
+      toast('✅ Now following ' + sellerName + '!', 'ok');
+      
+      // Create notification
+      db.collection('notifications').add({
+        userId: sellerId,
+        type: 'follow',
+        from: ME.uid,
+        fromName: dname(MEDATA),
+        fromPic: MEDATA.profilePic || '',
+        message: dname(MEDATA) + ' started following you',
+        read: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).catch(function(e) { console.warn('Notification failed:', e); });
+    }
+    
+  } catch (error) {
+    console.error('Follow error:', error);
+    toast('Error updating follow status', 'err');
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+function updateAllFollowButtons() {
+  document.querySelectorAll('[id^="fb-"]').forEach(function(btn) {
+    const sellerId = btn.id.replace('fb-', '');
+    const isFollowing = FOLLOWING.has(sellerId);
+    btn.classList.toggle('fon', isFollowing);
+    btn.textContent = isFollowing ? 'Following' : 'Follow';
+  });
+}
+
+/* ============================================================
+   WISHLIST TOGGLE
+============================================================ */
+window.toggleWishlist = async function(productId, btn) {  const icon = btn.querySelector('i');
+  const isWishlisted = btn.classList.contains('won');
+  const wishlistRef = db.collection('users').doc(ME.uid).collection('wishlist').doc(productId);
+  
+  try {
+    if (isWishlisted) {
+      await wishlistRef.delete().catch(function() {});
+      await db.collection('users').doc(ME.uid).update({
+        wishlist: firebase.firestore.FieldValue.arrayRemove(productId)
+      }).catch(function() {});
+      
+      WISH.delete(productId);
+      btn.classList.remove('won');
+      icon.className = 'far fa-heart';
+      toast('Removed from wishlist', 'inf');
+    } else {
+      await wishlistRef.set({
+        addedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).catch(function() {});
+      await db.collection('users').doc(ME.uid).update({
+        wishlist: firebase.firestore.FieldValue.arrayUnion(productId)
+      }).catch(function() {});
+      
+      WISH.add(productId);
+      btn.classList.add('won');
+      icon.className = 'fas fa-heart';
+      toast('Added to wishlist ❤️', 'ok');
+    }
+  } catch (error) {
+    console.error('Wishlist error:', error);
+    toast('Could not update wishlist', 'err');
+  }
+};
+
+/* ============================================================
+   ADD TO CART
+============================================================ */
+window.addToCart = async function(pid, sid, sname, name, price, img, stock) {
+  if (!stock || stock <= 0) {
+    toast('This item is out of stock', 'err');
+    return;
+  }
+  
+  try {
+    const itemRef = db.collection('carts').doc(ME.uid).collection('items').doc(pid);
+    const snapshot = await itemRef.get();
+    
+    if (snapshot.exists) {
+      const currentQty = snapshot.data().quantity || 1;
+      if (currentQty >= stock) {        toast('Maximum quantity reached', 'err');
+        return;
+      }
+      await itemRef.update({
+        quantity: firebase.firestore.FieldValue.increment(1)
+      });
+    } else {
+      await itemRef.set({
+        productId: pid,
+        sellerId: sid,
+        sellerName: sname,
+        name: name,
+        price: price,
+        image: img,
+        stock: stock,
+        quantity: 1,
+        addedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
     }
+    
+    toast('✅ Added to cart!', 'ok');
+    
+  } catch (error) {
+    console.warn('Firestore cart error:', error);
+    toast('Could not add to cart', 'err');
+  }
+};
 
-    console.log('✅ Dashboard Loaded Successfully');
+/* ============================================================
+   NOTIFICATIONS BADGE
+============================================================ */
+async function loadNotifBadge() {
+  const badge = document.getElementById('nBadge');
+  try {
+    const snapshot = await db.collection('notifications')
+      .where('userId', '==', ME.uid)
+      .where('read', '==', false)
+      .get();
+    
+    const count = snapshot.size;
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  } catch (e) {
+    console.warn('Notification badge error:', e);
+    badge.style.display = 'none';
+  }
+}
 
-  </script>
+/* ============================================================
+   TRENDING PRODUCTS============================================================ */
+async function loadTrending() {
+  const container = document.getElementById('trend');
+  try {
+    let snapshot;
+    try {
+      snapshot = await db.collection('products')
+        .orderBy('views', 'desc')
+        .limit(5)
+        .get();
+    } catch (e) {
+      snapshot = await db.collection('products').limit(5).get();
+    }
+    
+    if (snapshot.empty) {
+      container.innerHTML = '<p style="font-size:.8rem;color:var(--gray);text-align:center;">No trending items yet</p>';
+      return;
+    }
+    
+    let html = '';
+    snapshot.docs.forEach(function(doc) {
+      const p = Object.assign({ id: doc.id }, doc.data());
+      html += '<div class="ti" onclick="go(\'product-detail.html?id=' + p.id + '\')">' +
+        '<div class="ti-n">' + escapeHtml(p.name || 'Product') + '</div>' +
+        '<div class="ti-m">' + naira(p.price) + ' · ' + (p.views || 0) + ' views</div>' +
+        '</div>';
+    });
+    container.innerHTML = html;
+    
+  } catch (error) {
+    console.error('Trending load error:', error);
+    container.innerHTML = '<p style="font-size:.8rem;color:var(--gray);text-align:center;">Could not load</p>';
+  }
+}
 
-  <script src="app.js"></script>
+/* ============================================================
+   SMART SEARCH
+============================================================ */
+function setupSearch() {
+  const input = document.getElementById('sInput');
+  const dropdown = document.getElementById('searchDrop');
+  
+  input.addEventListener('input', function(e) {
+    clearTimeout(SEARCH_TIMER);
+    const query = e.target.value.trim();
+    
+    if (query.length < 2) {
+      dropdown.classList.remove('open');
+      dropdown.innerHTML = '';
+      return;    }
+    
+    dropdown.classList.add('open');
+    dropdown.innerHTML = '<div class="sempty"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
+    
+    SEARCH_TIMER = setTimeout(function() { performSearch(query); }, 400);
+  });
+  
+  document.addEventListener('click', function(e) {
+    const container = document.querySelector('.search-container');
+    if (!container.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
+  });
+}
 
+async function performSearch(query) {
+  const dropdown = document.getElementById('searchDrop');
+  const lowerQ = query.toLowerCase();
+  
+  try {
+    const usersSnap = await db.collection('users').get();
+    const productsSnap = await db.collection('products').get();
+    
+    const matchingUsers = usersSnap.docs
+      .map(function(doc) { return Object.assign({ id: doc.id }, doc.data()); })
+      .filter(function(user) {
+        const searchable = [
+          user.businessName, user.shopName, user.storeName,
+          user.fullName, user.username, user.displayName, user.email
+        ].filter(Boolean).map(function(s) { return s.toLowerCase(); });
+        return searchable.some(function(field) { return field.indexOf(lowerQ) !== -1; });
+      })
+      .slice(0, 5);
+    
+    const matchingProducts = productsSnap.docs
+      .map(function(doc) { return Object.assign({ id: doc.id }, doc.data()); })
+      .filter(function(product) {
+        const searchable = [
+          product.name, product.description, product.category,
+          product.sellerName
+        ].filter(Boolean).map(function(s) { return s.toLowerCase(); });
+        return searchable.some(function(field) { return field.indexOf(lowerQ) !== -1; });
+      })
+      .slice(0, 5);
+    
+    if (!matchingUsers.length && !matchingProducts.length) {
+      dropdown.innerHTML = '<div class="sempty">No results for "<strong>' + escapeHtml(query) + '</strong>"</div>';
+      return;
+    }    
+    let html = '';
+    
+    if (matchingUsers.length) {
+      html += '<div class="sdrop-hd">People & Sellers</div>';
+      matchingUsers.forEach(function(user) {
+        const name = dname(user);
+        let avatar;
+        if (user.profilePic) {
+          avatar = '<img src="' + escapeHtml(user.profilePic) + '" alt="" onerror="this.style.display=\'none\'"/>';
+        } else {
+          avatar = '<i class="fas fa-user"></i>';
+        }
+        
+        html += '<div class="srow" onclick="go(\'storefront.html?id=' + user.id + '\')">' +
+          '<div class="sav">' + avatar + '</div>' +
+          '<div class="sinfo">' +
+          '<div class="sname">' + escapeHtml(name) + '</div>' +
+          '<div class="ssub">' + escapeHtml(user.location || 'Nigeria') + ' · ' + (user.followersCount || 0) + ' followers</div>' +
+          '</div>' +
+          '<span class="stag tag-s">Seller</span></div>';
+      });
+    }
+    
+    if (matchingProducts.length) {
+      html += '<div class="sdrop-hd">Products</div>';
+      matchingProducts.forEach(function(product) {
+        const image = product.image || 'https://via.placeholder.com/38';
+        html += '<div class="srow" onclick="go(\'product-detail.html?id=' + product.id + '\')">' +
+          '<div class="sav"><img src="' + escapeHtml(image) + '" onerror="this.src=\'https://via.placeholder.com/38\'"/></div>' +
+          '<div class="sinfo">' +
+          '<div class="sname">' + escapeHtml(product.name || '') + '</div>' +
+          '<div class="ssub">' + escapeHtml(product.sellerName || '') + '</div>' +
+          '</div>' +
+          '<span class="sprice">' + naira(product.price) + '</span></div>';
+      });
+    }
+    
+    dropdown.innerHTML = html;
+    
+  } catch (error) {
+    console.error('Search error:', error);
+    dropdown.innerHTML = '<div class="sempty">Search error</div>';
+  }
+}
+
+/* ============================================================
+   REFERRAL COPY
+============================================================ */
+function cpRef() {  const code = document.getElementById('refCode').textContent;
+  const link = window.location.origin + '/signup.html?ref=' + code;
+  
+  navigator.clipboard.writeText(link)
+    .then(function() { toast('Referral link copied! 📋', 'ok'); })
+    .catch(function() {
+      const textarea = document.createElement('textarea');
+      textarea.value = link;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      toast('Referral link copied! 📋', 'ok');
+    });
+}
+
+/* ============================================================
+   MOBILE SIDEBAR TOGGLE
+============================================================ */
+function toggleMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const menuBtn = document.getElementById('menuBtn');
+  
+  if (window.innerWidth <= 720 &&
+    sidebar.classList.contains('open') &&
+    !sidebar.contains(e.target) &&
+    menuBtn && !menuBtn.contains(e.target)) {
+    sidebar.classList.remove('open');
+  }
+});
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+function doLogout() {
+  if (!confirm('Are you sure you want to logout?')) return;
+  
+  auth.signOut()
+    .then(function() {
+      window.location.href = 'login.html';
+    })
+    .catch(function(error) {
+      console.error('Logout error:', error);
+      toast('Could not logout. Please try again.', 'err');
+    });
+}</script>
 </body>
 </html>

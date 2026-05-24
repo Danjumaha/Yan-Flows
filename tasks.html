@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tasks | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D; --light-gray: #ADB5BD;
+      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
+      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
+      --radius-sm: 8px; --radius-md: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; padding: 2rem 1rem; }
+
+    .tasks-container { max-width: 800px; margin: 0 auto; }
+    .page-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .back-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--navy); text-decoration: none; box-shadow: var(--shadow-sm); }
+    .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); }
+
+    .task-card { background: var(--white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 1.5rem; display: flex; flex-direction: column; }
+    .task-video-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
+    .task-video-wrapper iframe { width: 100%; height: 100%; border: none; }
+    
+    .task-content { padding: 1.5rem; flex: 1; }
+    .task-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .task-title { font-size: 1.1rem; font-weight: 700; color: var(--navy-dark); }
+    .task-reward { background: var(--gold); color: var(--navy-dark); padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 0.375rem; }
+    
+    .task-desc { color: var(--gray); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
+    
+    .task-footer { display: flex; justify-content: space-between; align-items: center; }
+    .timer-display { font-family: monospace; font-size: 1.25rem; font-weight: 700; color: var(--navy); }
+    .btn-claim { padding: 0.75rem 1.5rem; background: var(--navy); color: white; border: none; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; }
+    .btn-claim:hover:not(:disabled) { background: var(--navy-light); }
+    .btn-claim:disabled { opacity: 0.5; cursor: not-allowed; background: var(--light-gray); }
+    .btn-claim.completed { background: #2ECC71; cursor: default; }
+
+    .completed-section { margin-top: 3rem; }
+    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; }
+    .completed-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--white); border-radius: var(--radius-sm); margin-bottom: 0.5rem; box-shadow: var(--shadow-sm); }
+    .completed-info h4 { font-weight: 600; color: var(--navy-dark); }
+    .completed-info p { font-size: 0.8rem; color: var(--gray); }
+    .completed-reward { color: #2ECC71; font-weight: 700; }
+    .yf-toast { position: fixed; top: 2rem; right: 2rem; padding: 1rem 1.5rem; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 0.75rem; box-shadow: var(--shadow-lg); z-index: 9999; opacity: 0; transform: translateX(100%); transition: all 0.3s ease; font-weight: 600; font-size: 0.9rem; }
+    .yf-toast.show { opacity: 1; transform: translateX(0); }
+    .yf-toast--success { background: #2ECC71; color: white; }
+    .yf-toast--error { background: var(--coral); color: white; }
+  </style>
+</head>
+<body>
+
+  <div class="tasks-container">
+    <div class="page-header">
+      <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+      <h1 class="page-title">Earn Coins</h1>
+    </div>
+
+    <div id="activeTasks">
+      <p style="text-align: center; color: var(--gray);">Loading tasks...</p>
+    </div>
+
+    <div class="completed-section">
+      <h2 class="section-title">Completed Tasks</h2>
+      <div id="completedTasks">
+        <p style="text-align: center; color: var(--gray);">You haven't completed any tasks yet.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    let currentUser = null;
+    let activeTimers = {};
+
+    auth.onAuthStateChanged(user => {
+      if (!user) window.location.href = 'login.html';
+      currentUser = user;
+      loadTasks();
+      loadCompleted();
+    });
+
+    async function loadTasks() {
+      const container = document.getElementById('activeTasks');
+      try {
+        const snapshot = await db.collection('tasks').where('active', '==', true).get();
+        
+        if (snapshot.empty) {
+          container.innerHTML = '<p style="text-align: center; color: var(--gray);">No active tasks available right now.</p>';
+          return;        }
+
+        container.innerHTML = '';
+        snapshot.forEach(doc => {
+          const task = { id: doc.id, ...doc.data() };
+          container.appendChild(createTaskCard(task));
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function createTaskCard(task) {
+      const div = document.createElement('div');
+      div.className = 'task-card';
+      div.id = `task-${task.id}`;
+      
+      // Convert YouTube URL to embed URL
+      let videoUrl = task.youtubeUrl || '';
+      if (videoUrl.includes('watch?v=')) {
+        videoUrl = videoUrl.replace('watch?v=', 'embed/');
+      } else if (videoUrl.includes('youtu.be/')) {
+        videoUrl = videoUrl.replace('youtu.be/', 'www.youtube.com/embed/');
+      }
+
+      div.innerHTML = `
+        <div class="task-video-wrapper">
+          <iframe src="${videoUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="task-content">
+          <div class="task-header">
+            <div class="task-title">${task.title}</div>
+            <div class="task-reward"><i class="fas fa-coins"></i> +${task.reward} Coins</div>
+          </div>
+          <div class="task-desc">${task.description || 'Watch the video to earn coins.'}</div>
+          <div class="task-footer">
+            <div class="timer-display" id="timer-${task.id}">00:00</div>
+            <button class="btn-claim" id="btn-${task.id}" onclick="startTask('${task.id}', ${task.duration || 60})">
+              <i class="fas fa-play"></i> Start Task
+            </button>
+          </div>
+        </div>
+      `;
+      return div;
+    }
+
+    function startTask(taskId, duration) {
+      const btn = document.getElementById(`btn-${taskId}`);
+      const timerDisplay = document.getElementById(`timer-${taskId}`);
+            btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Watching...';
+      
+      let timeLeft = duration;
+      
+      activeTimers[taskId] = setInterval(() => {
+        timeLeft--;
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 0) {
+          clearInterval(activeTimers[taskId]);
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-check"></i> Claim Coins';
+          btn.onclick = () => claimCoins(taskId);
+          timerDisplay.textContent = "Done!";
+          timerDisplay.style.color = "#2ECC71";
+        }
+      }, 1000);
+    }
+
+    async function claimCoins(taskId) {
+      const btn = document.getElementById(`btn-${taskId}`);
+      btn.disabled = true;
+      
+      try {
+        // Check if already completed
+        const existing = await db.collection('user_tasks').where('userId', '==', currentUser.uid).where('taskId', '==', taskId).get();
+        if (!existing.empty) {
+          YF.showToast('Task already completed', 'error');
+          return;
+        }
+
+        // Get task reward
+        const taskDoc = await db.collection('tasks').doc(taskId).get();
+        const reward = taskDoc.data().reward;
+
+        // Add coins
+        await db.runTransaction(async (transaction) => {
+          const userRef = db.collection('users').doc(currentUser.uid);
+          const doc = await transaction.get(userRef);
+          const newBalance = (doc.data().coins || 0) + reward;
+          transaction.update(userRef, { coins: newBalance });
+        });
+
+        // Save completion
+        await db.collection('user_tasks').add({
+          userId: currentUser.uid,
+          taskId: taskId,          completedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          coinsAwarded: reward
+        });
+
+        // Log transaction
+        await db.collection('transactions').add({
+          userId: currentUser.uid,
+          type: 'task_reward',
+          amount: reward,
+          description: `Task: ${taskDoc.data().title}`,
+          date: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        YF.showToast(`✅ Earned ${reward} coins!`, 'success');
+        
+        // Update UI
+        btn.classList.add('completed');
+        btn.innerHTML = '<i class="fas fa-check"></i> Completed';
+        
+        loadCompleted();
+      } catch (err) {
+        console.error(err);
+        YF.showToast('Error claiming coins', 'error');
+        btn.disabled = false;
+      }
+    }
+
+    async function loadCompleted() {
+      const container = document.getElementById('completedTasks');
+      try {
+        const snapshot = await db.collection('user_tasks').where('userId', '==', currentUser.uid).orderBy('completedAt', 'desc').get();
+        
+        if (snapshot.empty) {
+          container.innerHTML = '<p style="text-align: center; color: var(--gray);">You haven\'t completed any tasks yet.</p>';
+          return;
+        }
+
+        container.innerHTML = '';
+        snapshot.forEach(doc => {
+          const item = doc.data();
+          container.innerHTML += `
+            <div class="completed-item">
+              <div class="completed-info">
+                <h4>Task Completed</h4>
+                <p>${item.completedAt ? YF.formatDate(item.completedAt) : 'Recently'}</p>
+              </div>
+              <div class="completed-reward">+${item.coinsAwarded} Coins</div>
+            </div>
+          `;
+        });      } catch (err) {
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>

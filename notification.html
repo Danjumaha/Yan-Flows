@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notifications | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --radius-sm: 8px; --radius-md: 16px;
+      --transition: all 0.3s ease;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; }
+
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 64px; background: var(--white);
+      box-shadow: var(--shadow-sm);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; z-index: 1000;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 1.5rem; font-weight: 800; color: var(--navy);
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--navy), var(--teal));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700;
+    }
+    .nav-actions { display: flex; gap: 0.75rem; }
+    .nav-btn {
+      padding: 0.5rem 1rem; border-radius: var(--radius-sm);
+      font-weight: 600; font-size: 0.9rem;
+      text-decoration: none; transition: var(--transition);
+      cursor: pointer; border: none; background: var(--light-bg); color: var(--navy);
+    }
+    .nav-btn:hover { background: #E5E7EB; }
+    .nav-btn.primary { background: var(--navy); color: white; }
+    .nav-btn.primary:hover { background: var(--navy-light); }
+    .notifications-container {      max-width: 700px; margin: 90px auto 2rem; padding: 0 1.5rem;
+    }
+    .notifications-header {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 1.5rem; margin-bottom: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .notifications-header h1 {
+      font-size: 1.5rem; color: var(--navy); font-weight: 700;
+    }
+    .mark-read-btn {
+      padding: 0.5rem 1rem; background: var(--teal); color: var(--navy-dark);
+      border: none; border-radius: var(--radius-sm); font-weight: 600;
+      cursor: pointer; transition: var(--transition);
+    }
+    .mark-read-btn:hover { opacity: 0.9; }
+
+    .notification-list {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .notification-card {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 1.25rem; box-shadow: var(--shadow-sm);
+      display: flex; gap: 1rem; align-items: flex-start;
+      transition: var(--transition); border-left: 4px solid transparent;
+      cursor: pointer;
+    }
+    .notification-card.unread {
+      border-left-color: var(--teal); background: rgba(78, 205, 196, 0.05);
+    }
+    .notification-card:hover { transform: translateX(4px); }
+    
+    .notification-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.1rem;
+    }
+    .notification-icon.follow { background: rgba(78, 205, 196, 0.15); color: var(--teal); }
+    .notification-icon.order { background: rgba(255, 107, 107, 0.15); color: var(--coral); }
+    .notification-icon.bonus { background: rgba(255, 217, 61, 0.2); color: #B8860B; }
+    .notification-icon.system { background: var(--light-bg); color: var(--gray); }
+    .notification-icon.cart { background: rgba(78, 205, 196, 0.15); color: var(--teal); }
+
+    .notification-content { flex: 1; }
+    .notification-title {
+      font-weight: 600; color: var(--navy-dark); margin-bottom: 0.25rem;
+      font-size: 1rem;
+    }
+    .notification-message {      color: var(--gray); font-size: 0.9rem; margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    .notification-time {
+      font-size: 0.8rem; color: var(--light-gray);
+    }
+    .notification-action {
+      margin-top: 0.5rem;
+    }
+    .notification-action a {
+      color: var(--teal); font-weight: 600; font-size: 0.9rem;
+      text-decoration: none;
+    }
+    .notification-action a:hover { text-decoration: underline; }
+
+    .empty-state {
+      text-align: center; padding: 4rem 2rem;
+      background: var(--white); border-radius: var(--radius-md);
+      color: var(--gray);
+    }
+    .empty-state i { font-size: 3rem; color: var(--light-gray); margin-bottom: 1rem; }
+    .empty-state h3 { color: var(--navy); margin-bottom: 0.5rem; }
+
+    .yf-toast {
+      position: fixed; top: 80px; right: 2rem;
+      padding: 1rem 1.5rem; border-radius: var(--radius-sm);
+      display: flex; align-items: center; gap: 0.75rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 9999;
+      opacity: 0; transform: translateX(100%); transition: all 0.3s ease;
+      font-weight: 600; font-size: 0.9rem;
+    }
+    .yf-toast.show { opacity: 1; transform: translateX(0); }
+    .yf-toast--success { background: #2ECC71; color: white; }
+    .yf-toast--error { background: var(--coral); color: white; }
+
+    @media (max-width: 768px) {
+      .notifications-container { padding: 0 1rem; }
+      .notification-card { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="dashboard.html" class="nav-logo">
+      <div class="nav-logo-icon">YF</div>
+      <span>YAN-FLOWS</span>
+    </a>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="nav-btn">Back to Feed</a>
+    </div>  </nav>
+
+  <div class="notifications-container">
+    <div class="notifications-header">
+      <h1>🔔 Notifications</h1>
+      <button class="mark-read-btn" onclick="markAllRead()">Mark all as read</button>
+    </div>
+    
+    <div id="notificationList" class="notification-list">
+      <div class="empty-state">
+        <i class="fas fa-spinner fa-spin"></i>
+        <h3>Loading notifications...</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
+      authDomain: "yan-flow.firebaseapp.com",
+      projectId: "yan-flow",
+      storageBucket: "yan-flow.firebasestorage.app",
+      messagingSenderId: "373204559623",
+      appId: "1:373204559623:web:56e1c8abf07945c53187a2"
+    };
+    
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    
+    let currentUser = null;
+
+    function formatDate(timestamp) {
+      if (!timestamp) return '';
+      try {
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(diff / 3600000);
+        const days = Math.floor(diff / 86400000);
+        if (minutes < 1) return 'Just now';
+        if (minutes < 60) return `${minutes}m ago`;
+        if (hours < 24) return `${hours}h ago`;
+        if (days < 7) return `${days}d ago`;        return date.toLocaleDateString('en-NG', { day: 'numeric', month: 'short' });
+      } catch { return 'Recently'; }
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `yf-toast yf-toast--${type}`;
+      toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${message}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+    }
+
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) { 
+        window.location.href = 'login.html'; 
+        return; 
+      }
+      currentUser = user;
+      console.log('User logged in:', user.uid);
+      await loadNotifications(user.uid);
+    });
+
+    async function loadNotifications(userId) {
+      const list = document.getElementById('notificationList');
+      try {
+        console.log('Loading notifications for user:', userId);
+        
+        // Query notifications - try without orderBy first to avoid index issues
+        const snapshot = await db.collection('notifications')
+          .where('userId', '==', userId)
+          .get();
+        
+        console.log('Notifications found:', snapshot.size);
+        
+        if (snapshot.empty) {
+          list.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-bell-slash"></i>
+              <h3>No notifications yet</h3>
+              <p>Follow sellers and make orders to get updates!</p>
+            </div>
+          `;
+          return;
+        }
+
+        // Convert to array and sort client-side
+        const notifications = snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {             id: doc.id, 
+            ...data,
+            timestamp: data.createdAt?.seconds || data.createdAt || 0
+          };
+        }).sort((a, b) => b.timestamp - a.timestamp);
+
+        console.log('Processed notifications:', notifications.length);
+
+        list.innerHTML = notifications.map(notif => {
+          const iconClass = {
+            'follow': 'follow fas fa-user-plus',
+            'order': 'order fas fa-shopping-bag',
+            'bonus': 'bonus fas fa-gift',
+            'system': 'system fas fa-info-circle',
+            'cart_add': 'cart fas fa-cart-plus'
+          }[notif.type] || 'system fas fa-bell';
+          
+          const actionLink = {
+            'follow': notif.fromUserId ? `<a href="storefront.html?id=${notif.fromUserId}" onclick="event.stopPropagation()">View Profile</a>` : '',
+            'order': notif.orderId ? `<a href="order-detail.html?id=${notif.orderId}" onclick="event.stopPropagation()">View Order</a>` : '',
+            'bonus': `<a href="coins.html" onclick="event.stopPropagation()">View Coins</a>`,
+            'cart_add': notif.productId ? `<a href="product-detail.html?id=${notif.productId}" onclick="event.stopPropagation()">View Product</a>` : ''
+          }[notif.type] || '';
+
+          const messageText = notif.message || 'You have a new notification';
+          const fromName = notif.fromUserName || 'Someone';
+
+          return `
+            <div class="notification-card ${!notif.read ? 'unread' : ''}" onclick="markAsRead('${notif.id}')">
+              <div class="notification-icon ${notif.type || 'system'}">
+                <i class="${iconClass}"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-title">${fromName}</div>
+                <div class="notification-message">${messageText}</div>
+                <div class="notification-time">${formatDate(notif.createdAt)}</div>
+                ${actionLink ? `<div class="notification-action">${actionLink}</div>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      } catch (error) {
+        console.error('Load notifications error:', error);
+        list.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle" style="color: var(--coral)"></i>
+            <h3>Error loading notifications</h3>
+            <p>${error.message || 'Please try again'}</p>
+            <button onclick="location.reload()" class="nav-btn primary" style="margin-top: 1rem;">              <i class="fas fa-redo"></i> Retry
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    async function markAsRead(notificationId) {
+      if (!currentUser) return;
+      try {
+        await db.collection('notifications').doc(notificationId).update({
+          read: true
+        });
+        // Reload to show updated state
+        await loadNotifications(currentUser.uid);
+      } catch (error) {
+        console.error('Mark as read error:', error);
+      }
+    }
+
+    async function markAllRead() {
+      if (!currentUser) return;
+      try {
+        const snapshot = await db.collection('notifications')
+          .where('userId', '==', currentUser.uid)
+          .where('read', '==', false)
+          .get();
+        
+        const batch = db.batch();
+        snapshot.docs.forEach(doc => {
+          batch.update(doc.ref, { read: true });
+        });
+        await batch.commit();
+        
+        showToast('All notifications marked as read', 'success');
+        await loadNotifications(currentUser.uid);
+      } catch (error) {
+        console.error('Mark all read error:', error);
+        showToast('Error marking as read', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

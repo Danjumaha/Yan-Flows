@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px;
+      --transition: all 0.3s ease;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; }
+
+    .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 64px; background: var(--white); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; z-index: 1000; }
+    .nav-logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); text-decoration: none; }
+    .nav-logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
+    .nav-actions { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-btn { padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: var(--transition); cursor: pointer; border: none; background: var(--light-bg); color: var(--navy); }
+    .nav-btn:hover { background: #E5E7EB; }
+    .nav-btn.primary { background: var(--navy); color: white; }
+    .nav-btn.primary:hover { background: var(--navy-light); }
+
+    .profile-header { background: var(--white); padding: 2rem 1.5rem; border-bottom: 1px solid #E5E7EB; margin-top: 64px; }
+    .profile-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
+    .profile-avatar { width: 120px; height: 120px; border-radius: 50%; background: var(--light-bg); border: 4px solid var(--white); box-shadow: var(--shadow-sm); overflow: hidden; flex-shrink: 0; cursor: pointer; position: relative; }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-avatar:hover::after { content: '📷'; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; border-radius: 50%; }
+    .profile-info { flex: 1; min-width: 250px; }
+    .profile-name { font-size: 1.75rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.25rem; }
+    .profile-handle { color: var(--gray); font-size: 1rem; margin-bottom: 0.75rem; }
+    .profile-bio { color: var(--gray); margin-bottom: 1rem; line-height: 1.5; }
+    .profile-meta { display: flex; gap: 1.5rem; margin-bottom: 1rem; font-size: 0.9rem; color: var(--navy); flex-wrap: wrap; }
+    .profile-meta span { display: flex; align-items: center; gap: 0.375rem; }
+    .profile-meta i { color: var(--teal); }
+    .profile-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn-edit { background: var(--navy); color: white; padding: 0.75rem 1.5rem; border-radius: var(--radius-sm); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: var(--transition); border: none; cursor: pointer; }
+    .btn-edit:hover { background: var(--navy-light); }
+    .btn-outline { background: var(--light-bg); color: var(--navy); padding: 0.75rem 1.5rem; border-radius: var(--radius-sm); font-weight: 600; border: 2px solid var(--navy); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: var(--transition); cursor: pointer; }
+    .btn-outline:hover { background: var(--navy); color: white; }
+
+    .profile-tabs { background: var(--white); border-bottom: 1px solid #E5E7EB; position: sticky; top: 64px; z-index: 900; }
+    .tabs-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 0; overflow-x: auto; }
+    .tab-btn { padding: 1rem 1.5rem; font-weight: 600; color: var(--gray); background: none; border: none; cursor: pointer; border-bottom: 3px solid transparent; transition: var(--transition); white-space: nowrap; font-size: 0.95rem; }    .tab-btn:hover { color: var(--navy); }
+    .tab-btn.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+    .tab-content { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: none; }
+    .tab-content.active { display: block; }
+
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+    .product-card { background: var(--white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .product-img { width: 100%; aspect-ratio: 1/1; background: var(--light-bg); overflow: hidden; position: relative; }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-badge { position: absolute; top: 10px; left: 10px; background: var(--coral); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+    .product-body { padding: 1rem; }
+    .product-name { font-weight: 700; color: var(--navy-dark); margin-bottom: 0.5rem; font-size: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .product-price { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 0.75rem; }
+    .product-actions { display: flex; gap: 0.5rem; }
+    .btn-sm { flex: 1; padding: 0.5rem; font-size: 0.85rem; border-radius: var(--radius-sm); border: none; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.25rem; }
+    .btn-edit-sm { background: var(--light-bg); color: var(--navy); }
+    .btn-edit-sm:hover { background: #E5E7EB; }
+    .btn-delete-sm { background: var(--coral); color: white; }
+    .btn-delete-sm:hover { opacity: 0.9; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: var(--white); border-radius: var(--radius-md); padding: 1.25rem; box-shadow: var(--shadow-sm); text-align: center; }
+    .stat-value { font-size: 1.75rem; font-weight: 800; color: var(--navy); margin-bottom: 0.25rem; }
+    .stat-label { color: var(--gray); font-size: 0.9rem; }
+
+    /* Orders List */
+    .order-card { background: var(--white); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); }
+    .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .order-id { font-weight: 700; color: var(--navy); font-size: 1.1rem; }
+    .order-status { padding: 0.375rem 0.875rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; }
+    .status-pending { background: #FFF3CD; color: #856404; }
+    .status-completed { background: #D4EDDA; color: #155724; }
+    .status-cancelled { background: #F8D7DA; color: #721C24; }
+    .order-items { margin-bottom: 1rem; }
+    .order-item { display: flex; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid #E5E7EB; }
+    .order-item:last-child { border-bottom: none; }
+    .order-item-img { width: 60px; height: 60px; border-radius: 8px; background: var(--light-bg); overflow: hidden; flex-shrink: 0; }
+    .order-item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .order-item-info { flex: 1; }
+    .order-item-name { font-weight: 600; color: var(--navy-dark); font-size: 0.95rem; }
+    .order-item-price { color: var(--gray); font-size: 0.85rem; }
+    .order-total { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--navy); font-size: 1.1rem; margin-bottom: 1rem; }
+    .order-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .btn-confirm { background: var(--teal); color: var(--navy-dark); padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; border: none; cursor: pointer; transition: var(--transition); }
+    .btn-confirm:hover { opacity: 0.9; }
+    .btn-cancel { background: var(--coral); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; border: none; cursor: pointer; transition: var(--transition); }
+    .btn-cancel:hover { opacity: 0.9; }
+    .track-id { font-family: monospace; background: var(--light-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; color: var(--navy); }
+    /* Referrals */
+    .referral-card { background: linear-gradient(135deg, var(--teal), var(--navy-light)); color: white; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; text-align: center; }
+    .referral-card h3 { margin-bottom: 0.5rem; }
+    .referral-code-box { background: rgba(255,255,255,0.2); padding: 0.75rem; border-radius: var(--radius-sm); display: inline-flex; align-items: center; gap: 0.75rem; font-family: monospace; font-size: 1.25rem; font-weight: 700; margin: 1rem 0; }
+    .referral-code-box button { background: white; color: var(--navy); border: none; padding: 0.375rem 0.75rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    .referral-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .referral-item { background: var(--white); border-radius: var(--radius-sm); padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .referral-name { font-weight: 600; color: var(--navy); }
+    .referral-status { font-size: 0.85rem; padding: 0.25rem 0.75rem; border-radius: 9999px; }
+    .referral-status.pending { background: #FFF3CD; color: #856404; }
+    .referral-status.earned { background: #D4EDDA; color: #155724; }
+
+    /* Settings Form */
+    .settings-form { background: var(--white); border-radius: var(--radius-md); padding: 2rem; box-shadow: var(--shadow-sm); max-width: 700px; }
+    .form-section { margin-bottom: 2rem; }
+    .form-section-title { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--light-bg); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { margin-bottom: 0; }
+    .form-group.full { grid-column: 1/-1; }
+    .form-label { display: block; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: 0.875rem 1rem; border: 2px solid #E5E7EB; border-radius: var(--radius-sm); font-size: 1rem; font-family: inherit; transition: var(--transition); background: var(--white); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(78,205,196,0.15); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .btn-save { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: white; border: none; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 700; cursor: pointer; transition: var(--transition); margin-top: 1rem; }
+    .btn-save:hover { opacity: 0.95; }
+
+    .empty-state { text-align: center; padding: 4rem 2rem; background: var(--white); border-radius: var(--radius-md); color: var(--gray); }
+    .empty-state i { font-size: 3rem; color: var(--light-gray); margin-bottom: 1rem; }
+    .empty-state h3 { color: var(--navy); margin-bottom: 0.5rem; }
+
+    .yf-toast { position: fixed; top: 80px; right: 2rem; padding: 1rem 1.5rem; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 9999; opacity: 0; transform: translateX(100%); transition: all 0.3s ease; font-weight: 600; font-size: 0.9rem; }
+    .yf-toast.show { opacity: 1; transform: translateX(0); }
+    .yf-toast--success { background: #2ECC71; color: white; }
+    .yf-toast--error { background: var(--coral); color: white; }
+
+    @media (max-width: 768px) {
+      .profile-container { flex-direction: column; align-items: center; text-align: center; }
+      .profile-meta, .profile-actions { justify-content: center; }
+      .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="dashboard.html" class="nav-logo">
+      <div class="nav-logo-icon">YF</div>
+      <span>YAN-FLOWS</span>
+    </a>    <div class="nav-actions">
+      <a href="dashboard.html" class="nav-btn">Back to Feed</a>
+      <button class="nav-btn primary" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </nav>
+
+  <header class="profile-header">
+    <div class="profile-container">
+      <div class="profile-avatar" id="profileAvatar" onclick="document.getElementById('avatarInput').click()">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--light-gray);"><i class="fas fa-user"></i></div>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="uploadAvatar(event)"/>
+      </div>
+      <div class="profile-info">
+        <h1 class="profile-name" id="profileName">Loading...</h1>
+        <div class="profile-handle" id="profileHandle">@username</div>
+        <p class="profile-bio" id="profileBio">Your business description will appear here...</p>
+        <div class="profile-meta">
+          <span><i class="fas fa-map-marker-alt"></i> <span id="profileLocation">Location</span></span>
+          <span><i class="fas fa-box"></i> <span id="productCount">0</span> Products</span>
+          <span><i class="fas fa-shopping-bag"></i> <span id="orderCount">0</span> Orders</span>
+          <span><i class="fas fa-coins"></i> <span id="coinBalance">0</span> Coins</span>
+        </div>
+        <div class="profile-actions">
+          <button class="btn-edit" onclick="showTab('settings')"><i class="fas fa-cog"></i> Edit Profile</button>
+          <a href="product-manager.html" class="btn-outline"><i class="fas fa-plus"></i> Add Product</a>
+          <a href="#" class="btn-outline" id="whatsappLink" target="_blank"><i class="fab fa-whatsapp"></i> Chat</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="profile-tabs">
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="showTab('products')">My Products</button>
+      <button class="tab-btn" onclick="showTab('orders')">Orders Received</button>
+      <button class="tab-btn" onclick="showTab('referrals')">Referrals</button>
+      <button class="tab-btn" onclick="showTab('settings')">Settings</button>
+    </div>
+  </div>
+
+  <!-- Products Tab -->
+  <div id="products" class="tab-content active">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <h2 style="font-size:1.25rem;font-weight:700;color:var(--navy);">Your Products</h2>
+      <a href="product-manager.html" class="btn-edit" style="padding:0.5rem 1rem;font-size:0.9rem;"><i class="fas fa-plus"></i> Add New</a>
+    </div>
+    <div class="products-grid" id="myProductsGrid">
+      <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h3>Loading products...</h3></div>
+    </div>
+  </div>
+  <!-- Orders Tab -->
+  <div id="orders" class="tab-content">
+    <h2 style="font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;">Orders Received</h2>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-value" id="pendingOrders">0</div><div class="stat-label">Pending</div></div>
+      <div class="stat-card"><div class="stat-value" id="completedOrders">0</div><div class="stat-label">Completed</div></div>
+      <div class="stat-card"><div class="stat-value" id="totalRevenue">₦0</div><div class="stat-label">Revenue</div></div>
+    </div>
+    <div id="ordersList">
+      <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h3>Loading orders...</h3></div>
+    </div>
+  </div>
+
+  <!-- Referrals Tab -->
+  <div id="referrals" class="tab-content">
+    <h2 style="font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;">Referral Program</h2>
+    <div class="referral-card">
+      <h3><i class="fas fa-gift"></i> Earn 20 Coins Per Referral!</h3>
+      <p style="opacity:0.9;margin-bottom:1rem;">Share your code. When friends buy coins, you earn.</p>
+      <div class="referral-code-box">
+        <span id="refCodeDisplay">...</span>
+        <button onclick="copyReferral()"><i class="fas fa-copy"></i></button>
+      </div>
+      <button class="btn-edit" style="width:100%;background:white;color:var(--navy);border:none;padding:0.75rem;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;" onclick="copyReferral()">Copy Referral Link</button>
+    </div>
+    <div id="referralsList">
+      <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h3>Loading referrals...</h3></div>
+    </div>
+  </div>
+
+  <!-- Settings Tab -->
+  <div id="settings" class="tab-content">
+    <h2 style="font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;">Account Settings</h2>
+    <form class="settings-form" id="settingsForm">
+      <div class="form-section">
+        <div class="form-section-title">Business Information</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Business Name *</label><input type="text" id="setBusinessName" class="form-input" required/></div>
+          <div class="form-group"><label class="form-label">WhatsApp Number *</label><input type="tel" id="setWhatsapp" class="form-input" placeholder="2348012345678" required/></div>
+          <div class="form-group full"><label class="form-label">Description</label><textarea id="setDescription" class="form-textarea" placeholder="Tell customers about your business..."></textarea></div>
+          <div class="form-group full"><label class="form-label">Location</label><input type="text" id="setLocation" class="form-input" placeholder="City, State"/></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Payment Details</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Bank Name</label><select id="setBankName" class="form-select">
+            <option value="">Select Bank</option>
+            <option value="Access Bank">Access Bank</option><option value="GTBank">GTBank</option><option value="UBA">UBA</option>            <option value="First Bank">First Bank</option><option value="Zenith Bank">Zenith Bank</option><option value="Kuda Bank">Kuda Bank</option>
+            <option value="Opay">Opay</option><option value="Palmpay">Palmpay</option><option value="Moniepoint">Moniepoint</option><option value="Others">Others</option>
+          </select></div>
+          <div class="form-group"><label class="form-label">Account Number</label><input type="text" id="setAccountNumber" class="form-input" placeholder="10 digits" maxlength="10"/></div>
+          <div class="form-group full"><label class="form-label">Account Name</label><input type="text" id="setAccountName" class="form-input" placeholder="Name on bank account"/></div>
+        </div>
+      </div>
+      <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save Changes</button>
+    </form>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
+      authDomain: "yan-flow.firebaseapp.com",
+      projectId: "yan-flow",
+      storageBucket: "yan-flow.firebasestorage.app",
+      messagingSenderId: "373204559623",
+      appId: "1:373204559623:web:56e1c8abf07945c53187a2"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    
+    function formatCurrency(amount) { return '₦' + Number(amount).toLocaleString('en-NG'); }
+    
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `yf-toast yf-toast--${type}`;
+      toast.innerHTML = `<i class="fas ${type==='success'?'fa-check-circle':'fa-exclamation-circle'}"></i><span>${message}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+    }
+
+    let currentUser = null, userData = {}, sellerProducts = [];
+
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) { window.location.href = 'login.html'; return; }
+      currentUser = user;
+      await loadProfile();
+    });
+
+    async function loadProfile() {
+      try {        const userDoc = await db.collection('users').doc(currentUser.uid).get();
+        userData = userDoc.exists ? userDoc.data() : {};
+        const profileDoc = await db.collection('business_profiles').doc(currentUser.uid).get();
+        const profile = profileDoc.exists ? profileDoc.data() : {};
+
+        const name = profile.businessName || userData.fullName || 'User';
+        document.getElementById('profileName').textContent = name;
+        document.getElementById('profileHandle').textContent = '@' + name.toLowerCase().replace(/\s/g, '');
+        document.getElementById('profileBio').textContent = profile.description || 'No description yet.';
+        document.getElementById('profileLocation').textContent = profile.location || 'Nigeria';
+        document.getElementById('coinBalance').textContent = userData.coins || 0;
+        
+        if (profile.profilePic) document.getElementById('profileAvatar').innerHTML = `<img src="${profile.profilePic}" alt="Profile"/>`;
+        
+        const wa = profile.whatsapp || userData.phone || '';
+        document.getElementById('whatsappLink').href = `https://wa.me/${wa.replace(/\D/g, '')}`;
+        
+        // Pre-fill settings form
+        document.getElementById('setBusinessName').value = profile.businessName || '';
+        document.getElementById('setWhatsapp').value = profile.whatsapp || '';
+        document.getElementById('setDescription').value = profile.description || '';
+        document.getElementById('setLocation').value = profile.location || '';
+        document.getElementById('setBankName').value = profile.bankDetails?.bankName || '';
+        document.getElementById('setAccountNumber').value = profile.bankDetails?.accountNumber || '';
+        document.getElementById('setAccountName').value = profile.bankDetails?.accountName || '';
+        
+        document.getElementById('refCodeDisplay').textContent = userData.referralCode || 'N/A';
+        
+        await loadMyProducts();
+        await loadMyOrders();
+        await loadReferrals();
+      } catch (error) {
+        console.error('Load profile error:', error);
+        showToast('Error loading profile', 'error');
+      }
+    }
+
+    window.showTab = function(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    };
+
+    // ===== Load Products =====
+    async function loadMyProducts() {
+      const grid = document.getElementById('myProductsGrid');
+      try {
+        const snapshot = await db.collection('products').where('sellerId', '==', currentUser.uid).get();
+        document.getElementById('productCount').textContent = snapshot.size;        if (snapshot.empty) {
+          grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-box-open"></i><h3>No products yet</h3><p>Upload your first product!</p><a href="product-manager.html" class="btn-edit" style="display:inline-flex;margin-top:1rem;text-decoration:none"><i class="fas fa-plus"></i> Add Product</a></div>`;
+          return;
+        }
+        grid.innerHTML = '';
+        sellerProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+        sellerProducts.forEach(product => grid.appendChild(createProductCard(product)));
+      } catch (error) {
+        console.error('Load products error:', error);
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-exclamation-triangle"></i><h3>Error loading products</h3></div>';
+      }
+    }
+
+    function createProductCard(product) {
+      const div = document.createElement('div');
+      div.className = 'product-card';
+      div.innerHTML = `
+        <div class="product-img">
+          <img src="${product.image||'https://via.placeholder.com/220'}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/220?text=No+Image'"/>
+          ${product.stock<=5?'<span class="product-badge">Low Stock</span>':''}
+        </div>
+        <div class="product-body">
+          <div class="product-name">${product.name||'Unnamed'}</div>
+          <div class="product-price">${formatCurrency(product.price)}</div>
+          <div class="product-actions">
+            <button class="btn-sm btn-edit-sm" onclick="editProduct('${product.id}')"><i class="fas fa-edit"></i> Edit</button>
+            <button class="btn-sm btn-delete-sm" onclick="deleteProduct('${product.id}')"><i class="fas fa-trash"></i> Delete</button>
+          </div>
+        </div>`;
+      return div;
+    }
+
+    window.editProduct = function(id) {
+      // Redirect with product data in URL params for pre-fill
+      const product = sellerProducts.find(p => p.id === id);
+      if (!product) { showToast('Product not found', 'error'); return; }
+      const params = new URLSearchParams({
+        edit: id,
+        name: product.name || '',
+        description: product.description || '',
+        price: product.price || '',
+        category: product.category || '',
+        stock: product.stock || '',
+        image: product.image || ''
+      });
+      window.location.href = `product-manager.html?${params.toString()}`;
+    };
+
+    window.deleteProduct = async function(id) {
+      if (!confirm('Delete this product?')) return;      try {
+        await db.collection('products').doc(id).delete();
+        showToast('Product deleted', 'success');
+        loadMyProducts();
+      } catch (error) { showToast('Error deleting product', 'error'); }
+    };
+
+    // ===== Load Orders with Track IDs =====
+    async function loadMyOrders() {
+      try {
+        const snapshot = await db.collection('orders').where('sellerId', '==', currentUser.uid).get();
+        const orders = [];
+        let totalRevenue = 0, pending = 0, completed = 0;
+        
+        snapshot.forEach(doc => {
+          const order = { id: doc.id, ...doc.data() };
+          orders.push(order);
+          totalRevenue += order.total || 0;
+          if (order.status === 'pending') pending++;
+          if (order.status === 'completed') completed++;
+        });
+        
+        orders.sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+        
+        document.getElementById('pendingOrders').textContent = pending;
+        document.getElementById('completedOrders').textContent = completed;
+        document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+        document.getElementById('orderCount').textContent = orders.length;
+        
+        const container = document.getElementById('ordersList');
+        if (orders.length === 0) {
+          container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><h3>No orders yet</h3></div>';
+          return;
+        }
+        
+        container.innerHTML = orders.slice(0, 20).map(order => {
+          const trackId = order.trackId || `YF-${order.id.slice(0,8).toUpperCase()}`;
+          const items = order.items || [];
+          return `
+            <div class="order-card">
+              <div class="order-header">
+                <div>
+                  <div class="order-id">#${order.orderId || order.id.slice(-6).toUpperCase()}</div>
+                  <div class="track-id">Track: ${trackId}</div>
+                </div>
+                <span class="order-status status-${order.status||'pending'}">${order.status||'pending'}</span>
+              </div>
+              <div class="order-items">
+                ${items.map(item => `
+                  <div class="order-item">                    <div class="order-item-img"><img src="${item.image||'https://via.placeholder.com/60'}" onerror="this.src='https://via.placeholder.com/60?text=No+Image'"/></div>
+                    <div class="order-item-info">
+                      <div class="order-item-name">${item.name||'Product'}</div>
+                      <div class="order-item-price">${formatCurrency(item.price)} × ${item.quantity||1}</div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="order-total">
+                <span>Total:</span>
+                <span>${formatCurrency(order.total||0)}</span>
+              </div>
+              <div style="margin-bottom:1rem;font-size:0.9rem;color:var(--gray)">
+                <strong>Buyer:</strong> ${order.buyerName||'N/A'} • 
+                <strong>Phone:</strong> ${order.buyerPhone||'N/A'} • 
+                <strong>Address:</strong> ${order.shippingAddress||'N/A'}
+              </div>
+              ${order.status==='pending'?`
+                <div class="order-actions">
+                  <button class="btn-confirm" onclick="updateOrderStatus('${order.id}','completed')"><i class="fas fa-check"></i> Confirm Order</button>
+                  <button class="btn-cancel" onclick="updateOrderStatus('${order.id}','cancelled')"><i class="fas fa-times"></i> Cancel</button>
+                </div>
+              `:''}
+            </div>`;
+        }).join('');
+      } catch (error) {
+        console.error('Load orders error:', error);
+        document.getElementById('ordersList').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error loading orders</h3></div>';
+      }
+    }
+
+    window.updateOrderStatus = async function(orderId, newStatus) {
+      if (!confirm(`Mark order as ${newStatus}?`)) return;
+      try {
+        await db.collection('orders').doc(orderId).update({ 
+          status: newStatus, 
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
+        });
+        
+        // Notify buyer
+        const order = await db.collection('orders').doc(orderId).get();
+        const orderData = order.data();
+        if (orderData?.buyerId) {
+          await db.collection('notifications').add({
+            userId: orderData.buyerId,
+            type: 'order_update',
+            message: `Your order #${orderId.slice(-6).toUpperCase()} has been ${newStatus}`,
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            orderId: orderId          });
+        }
+        
+        showToast(`Order ${newStatus}!`, 'success');
+        loadMyOrders();
+      } catch (e) { showToast('Error updating order', 'error'); }
+    };
+
+    // ===== Load Referrals =====
+    async function loadReferrals() {
+      try {
+        // Get referrals where this user is the referrer
+        const snapshot = await db.collection('users')
+          .where('referredBy', '==', currentUser.uid)
+          .get();
+        
+        const container = document.getElementById('referralsList');
+        if (snapshot.empty) {
+          container.innerHTML = '<div class="empty-state"><i class="fas fa-gift"></i><h3>No referrals yet</h3><p>Share your code to earn coins!</p></div>';
+          return;
+        }
+        
+        const referrals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        container.innerHTML = referrals.map(ref => {
+          const bonusEarned = ref.bonusGiven || false;
+          return `
+            <div class="referral-item">
+              <div>
+                <div class="referral-name">${ref.fullName || ref.email?.split('@')[0] || 'User'}</div>
+                <div style="font-size:0.85rem;color:var(--gray)">${ref.email||''}</div>
+              </div>
+              <span class="referral-status ${bonusEarned?'earned':'pending'}">
+                ${bonusEarned ? '+20 Coins ✓' : 'Pending'}
+              </span>
+            </div>`;
+        }).join('');
+      } catch (error) {
+        console.error('Load referrals error:', error);
+        document.getElementById('referralsList').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error loading referrals</h3></div>';
+      }
+    }
+
+    // ===== Copy Referral =====
+    window.copyReferral = function() {
+      const code = document.getElementById('refCodeDisplay').textContent;
+      const link = `${window.location.origin}/signup.html?ref=${code}`;
+      navigator.clipboard.writeText(link).then(() => showToast('Referral link copied!', 'success'))
+        .catch(() => showToast('Failed to copy', 'error'));
+    };
+    // ===== Upload Avatar =====
+    window.uploadAvatar = async function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      showToast('Uploading...', 'info');
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'Yan-Flow');
+        const res = await fetch('https://api.cloudinary.com/v1_1/dytzpxabq/image/upload', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.secure_url) {
+          await db.collection('business_profiles').doc(currentUser.uid).update({ profilePic: data.secure_url });
+          await db.collection('users').doc(currentUser.uid).update({ profilePic: data.secure_url });
+          document.getElementById('profileAvatar').innerHTML = `<img src="${data.secure_url}" alt="Profile"/>`;
+          showToast('Avatar updated!', 'success');
+        }
+      } catch (error) { console.error('Upload error:', error); showToast('Upload failed', 'error'); }
+    };
+
+    // ===== Save Settings =====
+    document.getElementById('settingsForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const updates = {
+        businessName: document.getElementById('setBusinessName').value.trim(),
+        whatsapp: document.getElementById('setWhatsapp').value.trim(),
+        description: document.getElementById('setDescription').value.trim(),
+        location: document.getElementById('setLocation').value.trim(),
+        bankDetails: {
+          bankName: document.getElementById('setBankName').value,
+          accountNumber: document.getElementById('setAccountNumber').value.trim(),
+          accountName: document.getElementById('setAccountName').value.trim()
+        },
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      try {
+        await db.collection('business_profiles').doc(currentUser.uid).set(updates, { merge: true });
+        await db.collection('users').doc(currentUser.uid).update({ businessName: updates.businessName, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+        showToast('Settings saved!', 'success');
+        loadProfile();
+      } catch (error) { console.error('Save error:', error); showToast('Error saving settings', 'error'); }
+    });
+
+    // ===== Logout =====
+    window.logout = function() {
+      if (confirm('Logout?')) {
+        auth.signOut().then(() => { localStorage.removeItem('yanflows_cart'); window.location.href = 'login.html'; });
+      }
+    };
+    console.log('✅ Profile page loaded with fixes!');
+  </script>
+</body>
+</html>

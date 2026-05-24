@@ -1,13 +1,9 @@
-/**
- * ==========================================
- * YAN-FLOWS CORE ENGINE (app.js)
- * Centralized utilities, Firebase helpers, 
- * Cloudinary & Paystack integration
- * ==========================================
- */
+// ============================================
+// YAN-FLOWS CORE ENGINE v2.0 - FIXED VERSION
+// ============================================
 
-// ===== 1. FIREBASE CONFIGURATION & INIT =====
-const YF_FIREBASE_CONFIG = {
+// ===== FIREBASE CONFIGURATION =====
+const firebaseConfig = {
   apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
   authDomain: "yan-flow.firebaseapp.com",
   projectId: "yan-flow",
@@ -17,354 +13,243 @@ const YF_FIREBASE_CONFIG = {
   measurementId: "G-4PC6ENND61"
 };
 
-// Initialize Firebase (Compat v10)
-firebase.initializeApp(YF_FIREBASE_CONFIG);
-const YF_AUTH = firebase.auth();
-const YF_DB = firebase.firestore();
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-// Enable offline persistence for faster dashboard loads
-YF_DB.enablePersistence().catch(err => {
-  if (err.code === 'failed-precondition') console.warn('Firestore persistence failed-precondition');
-  else if (err.code === 'unimplemented') console.warn('Firestore persistence not supported in this browser');
+// Enable persistence
+db.enablePersistence().catch(err => {
+  console.log('Persistence:', err.code);
 });
 
-// ===== 2. EXTERNAL SERVICE CONFIGS =====
-const YF_CLOUDINARY = {
-  cloudName: 'dytzpxabq',      // Replace with your Cloudinary cloud name
-  uploadPreset: 'Yan-Flow' // Replace with your unsigned upload preset
-};
+// ===== ADMIN CONFIGURATION =====
+const ADMIN_EMAILS = [
+  "admin@yanflows.com",
+  "youremail@gmail.com",
+  "support@yanflows.com"
+];
 
-const YF_PAYSTACK_PUBLIC_KEY = 'pk_live_d265096a47801eaa597f27f6674e5a6d051e4959'; // Replace with your Paystack public key
+// ===== GLOBAL UTILITIES =====
+const YF = {
 
-// ===== 3. GLOBAL NAMESPACE (window.YF) =====
-window.YF = {
-  auth: YF_AUTH,
-  db: YF_DB,
-  
-  // ========================================
-  // 🔐 AUTHENTICATION HELPERS
-  // ========================================
-  
-  /**
-   * Check if user is authenticated. Redirect to login if not.
-   * @param {string} redirectUrl - URL to redirect if not logged in (default: login.html)   */
-  requireAuth(redirectUrl = 'login.html') {
-    YF_AUTH.onAuthStateChanged(user => {
-      if (!user) {
-        window.location.replace(redirectUrl);
-      }
-    });
+  // Get current user
+  getCurrentUser() {
+    return auth.currentUser;
   },
 
-  /**
-   * Redirect logged-in users away from auth pages
-   * @param {string} targetUrl - Where to send authenticated users (default: dashboard.html)
-   */
-  redirectIfLoggedIn(targetUrl = 'dashboard.html') {
-    YF_AUTH.onAuthStateChanged(user => {
-      if (user) {
-        window.location.replace(targetUrl);
-      }
-    });
-  },
-
-  /**
-   * Secure logout handler
-   */
-  logout() {
-    YF_AUTH.signOut()
-      .then(() => {
-        window.location.replace('index.html');
-      })
-      .catch(err => {
-        console.error('Logout failed:', err);
-        YF.ui.toast('Logout failed. Please try again.', 'error');
-      });
-  },
-
-  // ========================================
-  //  FIRESTORE DATA HELPERS
-  // ========================================
-  
-  /**
-   * Fetch current user document from Firestore
-   * @returns {Promise<Object>} User data or null
-   */
-  async getUserData() {
-    const user = YF_AUTH.currentUser;
-    if (!user) return null;
-    
+  // Get user data from Firestore
+  async getUserData(uid) {
     try {
-      const doc = await YF_DB.collection('users').doc(user.uid).get();
-      return doc.exists ? { id: doc.id, ...doc.data() } : null;    } catch (err) {
-      console.error('getUserData error:', err);
+      const doc = await db.collection('users').doc(uid).get();
+      return doc.exists ? { id: doc.id, ...doc.data() } : null;
+    } catch (error) {
+      console.error('Get user data error:', error);
       return null;
     }
   },
 
-  /**
-   * Update user coins balance (increment/decrement)
-   * @param {string} uid - User ID
-   * @param {number} amount - Positive to add, negative to deduct
-   * @returns {Promise<void>}
-   */
-  async updateCoins(uid, amount) {
+  // Generate referral code
+  generateReferralCode(name) {
+    const cleanName = name.replace(/[^a-zA-Z]/g, '').substring(0, 4).toUpperCase();
+    const random = Math.floor(1000 + Math.random() * 9000);
+    return `${cleanName}${random}`;
+  },
+
+  // Get referral from URL
+  getReferralFromURL() {
     try {
-      await YF_DB.collection('users').doc(uid).update({
-        coins: firebase.firestore.FieldValue.increment(amount)
-      });
-      return true;
-    } catch (err) {
-      console.error('updateCoins error:', err);
-      throw new Error('Failed to update coin balance.');
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('ref')?.toUpperCase() || '';
+    } catch {
+      return '';
     }
   },
 
-  /**
-   * Create a new order document
-   * @param {Object} orderData - Order payload
-   * @returns {Promise<string>} New order document ID
-   */
-  async createOrder(orderData) {
+  // Validate email
+  isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).toLowerCase());
+  },
+
+  // Validate Nigerian phone
+  isValidPhone(phone) {
+    const clean = phone.replace(/\D/g, '');
+    return /^0\d{10}$/.test(clean) || /^234\d{10}$/.test(clean);
+  },
+
+  // Password strength
+  getPasswordStrength(password) {
+    const checks = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /[0-9]/.test(password),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    };
+    const score = Object.values(checks).filter(Boolean).length;
+
+    return {
+      score,
+      label: ['Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'][Math.min(score, 4)],
+      color: ['#FF6B6B', '#FFD93D', '#FFA726', '#4ECDC4', '#2ECC71'][Math.min(score, 4)],
+      checks
+    };
+  },
+
+  // Show toast
+  showToast(message, type = 'success', duration = 4000) {
+    document.querySelectorAll('.yf-toast').forEach(t => t.remove());
+
+    const iconMap = {
+      success: 'fa-check-circle',
+      error: 'fa-exclamation-circle',
+      info: 'fa-info-circle'
+    };
+
+    const toast = document.createElement('div');
+    toast.className = `yf-toast yf-toast--${type}`;
+    toast.innerHTML = `
+      <i class="fas ${iconMap[type] || 'fa-info-circle'}"></i>
+      <span>${message}</span>
+    `;
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  },
+
+  // Show loading
+  showLoading(message = 'Processing...') {
+    this.hideLoading();
+    const overlay = document.createElement('div');
+    overlay.className = 'yf-loading';
+    overlay.id = 'yfLoading';
+    overlay.innerHTML = `
+      <div class="yf-loading__spinner"></div>
+      <p>${message}</p>
+    `;
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+  },
+
+  // Hide loading
+  hideLoading() {
+    const overlay = document.getElementById('yfLoading');
+    if (overlay) {
+      overlay.remove();
+      document.body.style.overflow = '';
+    }
+  },
+
+  // Redirect after login (ONLY called after successful login/signup)
+  redirectAfterLogin(user) {
+    const isAdmin = ADMIN_EMAILS.includes(user.email?.toLowerCase());
+    const target = isAdmin ? 'admin-panel.html' : 'dashboard.html';
+    const separator = target.includes('?') ? '&' : '?';
+    window.location.href = `${target}${separator}uid=${user.uid}`;
+  },
+
+  // Format currency
+  formatCurrency(amount) {
+    return '₦' + Number(amount).toLocaleString('en-NG');
+  },
+
+  // Format date
+  formatDate(timestamp) {
+    if (!timestamp) return 'N/A';
     try {
-      const orderRef = await YF_DB.collection('orders').add({
-        ...orderData,
-        status: 'pending',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      
-      // Update seller coin balance (-1 per order)
-      if (orderData.sellerId) {
-        await this.updateCoins(orderData.sellerId, -1);
-      }
-      
-      return orderRef.id;
-    } catch (err) {
-      console.error('createOrder error:', err);
-      throw new Error('Order submission failed. Check your connection.');
-    }
-  },
-  /**
-   * Fetch orders for a specific seller
-   * @param {string} sellerId - Seller UID
-   * @returns {Promise<Array>} Array of order objects
-   */
-  async getOrdersBySeller(sellerId) {
-    try {
-      const snapshot = await YF_DB.collection('orders')
-        .where('sellerId', '==', sellerId)
-        .orderBy('createdAt', 'desc')
-        .get();
-      
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    } catch (err) {
-      console.error('getOrdersBySeller error:', err);
-      return [];
-    }
-  },
-
-  /**
-   * Update order status
-   * @param {string} orderId - Order document ID
-   * @param {string} newStatus - New status string
-   * @returns {Promise<void>}
-   */
-  async updateOrderStatus(orderId, newStatus) {
-    try {
-      await YF_DB.collection('orders').doc(orderId).update({
-        status: newStatus,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      return true;
-    } catch (err) {
-      console.error('updateOrderStatus error:', err);
-      throw new Error('Failed to update order status.');
-    }
-  },
-
-  /**
-   * Add product to Firestore
-   * @param {Object} productData - Product payload
-   * @returns {Promise<string>} New product document ID
-   */
-  async addProduct(productData) {
-    try {
-      const docRef = await YF_DB.collection('products').add({
-        ...productData,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        inStock: true
-      });      return docRef.id;
-    } catch (err) {
-      console.error('addProduct error:', err);
-      throw new Error('Product upload failed.');
-    }
-  },
-
-  // ========================================
-  // ☁️ CLOUDINARY UPLOAD WRAPPER
-  // ========================================
-  
-  /**
-   * Upload image to Cloudinary
-   * @param {File} file - Image file from input
-   * @returns {Promise<string>} Secure URL of uploaded image
-   */
-  async uploadImage(file) {
-    if (!file) throw new Error('No file selected.');
-    
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', YF_CLOUDINARY.uploadPreset);
-    formData.append('cloud_name', YF_CLOUDINARY.cloudName);
-    
-    try {
-      YF.ui.toast('Uploading image...', 'info');
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${YF_CLOUDINARY.cloudName}/image/upload`, {
-        method: 'POST',
-        body: formData
-      });
-      
-      if (!res.ok) throw new Error('Cloudinary upload failed.');
-      
-      const data = await res.json();
-      return data.secure_url;
-    } catch (err) {
-      console.error('Cloudinary upload error:', err);
-      throw new Error('Image upload failed. Check your Cloudinary config.');
-    }
-  },
-
-  // ========================================
-  // 💳 PAYSTACK PAYMENT HANDLER
-  // ========================================
-  
-  /**
-   * Initialize Paystack payment
-   * @param {number} amount - Amount in Kobo (100 = 10000 kobo)
-   * @param {string} email - Customer email
-   * @param {Object} metadata - Extra data (userId, packageType, coins)   * @param {Function} onSuccess - Callback after successful payment
-   * @param {Function} onClose - Callback when popup closes
-   */
-  pay(amount, email, metadata, onSuccess, onClose) {
-    if (typeof PaystackPop === 'undefined') {
-      throw new Error('Paystack SDK not loaded. Include <script src="https://js.paystack.co/v1/inline.js"></script>');
-    }
-    
-    const handler = PaystackPop.setup({
-      key: YF_PAYSTACK_PUBLIC_KEY,
-      email: email,
-      amount: amount * 100, // Convert Naira to Kobo
-      currency: 'NGN',
-      ref: `YF_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
-      metadata: metadata,
-      callback: function(response) {
-        YF.ui.toast('Payment successful! 💰', 'success');
-        if (onSuccess) onSuccess(response);
-      },
-      onClose: function() {
-        if (onClose) onClose();
-      }
-    });
-    
-    handler.openIframe();
-  },
-
-  // ========================================
-  // 🎨 UI & FORMATTING UTILITIES
-  // ========================================
-  
-  ui: {
-    /**
-     * Show toast notification
-     * @param {string} message - Notification text
-     * @param {string} type - 'success', 'error', 'info', 'warning'
-     * @param {number} duration - Auto-close time in ms
-     */
-    toast(message, type = 'info', duration = 4000) {
-      // Create container if it doesn't exist
-      let container = document.getElementById('yf-toast-container');
-      if (!container) {
-        container = document.createElement('div');
-        container.id = 'yf-toast-container';
-        container.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;';
-        document.body.appendChild(container);
-      }
-
-      const colors = {
-        success: '#4ECDC4',        error: '#FF6B6B',
-        warning: '#FFD93D',
-        info: '#1B3A5F'
-      };
-
-      const toast = document.createElement('div');
-      toast.style.cssText = `
-        background:#fff;padding:1rem 1.25rem;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);
-        display:flex;align-items:center;gap:0.75rem;min-width:280px;transform:translateX(120%);
-        transition:transform 0.3s ease;border-left:4px solid ${colors[type] || colors.info};
-        font-family:Inter,sans-serif;font-size:0.95rem;color:#1B3A5F;
-      `;
-      toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}" style="color:${colors[type]};font-size:1.25rem;"></i><span>${message}</span>`;
-      
-      container.appendChild(toast);
-      requestAnimationFrame(() => toast.style.transform = 'translateX(0)');
-      
-      setTimeout(() => {
-        toast.style.transform = 'translateX(120%)';
-        setTimeout(() => toast.remove(), 300);
-      }, duration);
-    },
-
-    /**
-     * Format number to Nigerian Naira
-     */
-    formatNaira(amount) {
-      return new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: 'NGN',
-        minimumFractionDigits: 0
-      }).format(amount);
-    },
-
-    /**
-     * Format Firestore timestamp to readable date
-     */
-    formatDate(timestamp) {
-      if (!timestamp) return 'N/A';
       const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
       return date.toLocaleDateString('en-NG', {
-        year: 'numeric', month: 'short', day: 'numeric'
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
       });
-    },
+    } catch {
+      return 'Invalid date';
+    }
+  },
 
-    /**
-     * Copy text to clipboard
-     */
-    copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {        YF.ui.toast('Copied to clipboard!', 'success', 2000);
-      }).catch(() => {
-        // Fallback for older browsers
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        YF.ui.toast('Copied!', 'success', 2000);
-      });
+  // Sanitize input
+  sanitizeInput(str) {
+    if (typeof str !== 'string') return str;
+    return str.replace(/[<>]/g, '').trim();
+  },
+
+  // Logout function
+  async logout() {
+    try {
+      await auth.signOut();
+      console.log('✅ Logged out');
+      window.location.href = 'login.html';
+      return true;
+    } catch (error) {
+      console.error('Logout error:', error);
+      return false;
     }
   }
+
 };
 
-// ===== 4. GLOBAL ERROR HANDLER =====
-window.addEventListener('unhandledrejection', event => {
-  console.error(' Unhandled Promise Rejection:', event.reason);
-  YF.ui.toast('Something went wrong. Please refresh the page.', 'error');
+// ===== AUTH PROTECTION FOR DASHBOARD ONLY =====
+// This runs ONLY on protected pages (dashboard, profile, etc.)
+// It does NOT run on login.html or signup.html
+function protectPage() {
+  const currentPage = window.location.pathname.split('/').pop().split('?')[0].toLowerCase();
+  const publicPages = ['index.html', 'signup.html', 'login.html', 'forgot-password.html', ''];
+
+  // Skip protection for public pages
+  if (publicPages.includes(currentPage)) {
+    console.log('📄 Public page:', currentPage, '- No protection needed');
+    return;
+  }
+
+  // Protect protected pages
+  console.log('🔒 Protected page:', currentPage, '- Checking auth...');
+
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) {
+      console.log('❌ Not logged in - Redirecting to login');
+      YF.showToast('Please sign in to continue', 'info');
+      window.location.href = 'login.html';
+      return;
+    }
+
+    // User is logged in, check if they have Firestore data
+    const userData = await YF.getUserData(user.uid);
+    if (!userData) {
+      console.log('⚠️ No user data - Redirecting to complete profile');
+      window.location.href = 'complete-profile.html';
+      return;
+    }
+
+    console.log('✅ Auth verified for:', user.email);
+  });
+}
+
+// Initialize protection on DOM load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', protectPage);
+} else {
+  protectPage();
+}
+
+// ===== ERROR HANDLING =====
+window.addEventListener('error', (e) => {
+  console.error('Global error:', e.message);
 });
 
-// ===== 5. INITIALIZATION LOG =====
-console.log('✅ YAN-FLOWS Core Engine Loaded');
-console.log('🔥 Firebase Auth & Firestore Ready');
-console.log('️ Cloudinary Wrapper Active');
-console.log('💳 Paystack Handler Initialized');
-console.log('📦 window.YF namespace available globally');
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('Unhandled rejection:', e.reason);
+});
+
+// ===== DEBUG INFO =====
+console.log('✅ YAN-FLOWS Core Engine v2.0 Loaded');
+console.log('🔥 Firebase:', firebase.apps.length > 0 ? 'Connected' : 'Failed');
+console.log('🌐 Page:', window.location.pathname);

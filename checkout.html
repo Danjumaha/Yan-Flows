@@ -1,138 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Checkout | YAN-FLOWS</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-
+  
   <style>
-    /* ========================================
-       YAN-FLOWS - CHECKOUT PAGE STYLES
-       Luxury Theme: Navy Blue + White + Accents
-       ======================================== */
     :root {
       --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
       --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
-      --coral: #FF6B6B; --coral-hover: #EE5A5A;
-      --teal: #4ECDC4; --teal-hover: #3DBDB4;
-      --gold: #FFD93D; --danger: #FF4757;
-      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
-      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
-      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
       --radius-sm: 8px; --radius-md: 16px;
-      --space-sm: 1rem; --space-md: 2rem;
+      --transition: all 0.3s ease;
     }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; padding: 2rem 1rem; }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
-    a { text-decoration: none; color: inherit; }
-    button { font-family: inherit; cursor: pointer; border: none; }
-    input, textarea, select { font-family: inherit; }
+    .checkout-container { max-width: 1000px; margin: 0 auto; }
+    .page-header {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+    }
+    .back-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--white); display: flex; align-items: center; justify-content: center;
+      color: var(--navy); text-decoration: none; box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .back-btn:hover { transform: translateY(-2px); }
+    .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); }
 
-    /* ===== NAVBAR ===== */
-    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
-    .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
-    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
-    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
-    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
-    .nav-back:hover { color: var(--navy); }
+    .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 1.5rem; }
 
-    /* ===== MAIN LAYOUT ===== */
-    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--space-md); align-items: start; }
-    @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; } }
-
-    .page-header { grid-column: 1 / -1; margin-bottom: 1rem; }
-    .page-header h1 { font-size: 1.75rem; color: var(--navy-dark); }
-    .page-header p { color: var(--gray); }
-    /* Forms */
-    .checkout-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-md); }
-    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy-dark); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
-    .section-title i { color: var(--teal); }
-
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-group { margin-bottom: 1rem; }
-    .form-group.full { grid-column: span 2; }
-    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .form-group.full { grid-column: span 1; } }
-
-    .form-label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--navy); }
+    /* Delivery Form */
+    .delivery-section {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 2rem; box-shadow: var(--shadow-sm);
+    }
+    .section-title {
+      font-size: 1.25rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--light-bg);
+    }
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;
+    }
+    .form-group { margin-bottom: 0; }    .form-group.full { grid-column: 1 / -1; }
+    .form-label {
+      display: block; font-weight: 600; color: var(--navy);
+      margin-bottom: 0.5rem; font-size: 0.9rem;
+    }
     .form-input, .form-textarea {
-      width: 100%; padding: 0.875rem 1rem; border: 2px solid #E2E8F0; border-radius: var(--radius-sm);
-      font-size: 1rem; transition: var(--transition); background: var(--light-bg);
+      width: 100%; padding: 0.875rem 1rem;
+      border: 2px solid #E5E7EB; border-radius: var(--radius-sm);
+      font-size: 1rem; font-family: inherit;
+      transition: var(--transition); background: var(--white);
     }
-    .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--teal); background: var(--white); box-shadow: 0 0 0 4px rgba(78,205,196,0.15); }
+    .form-input:focus, .form-textarea:focus {
+      outline: none; border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.15);
+    }
     .form-textarea { resize: vertical; min-height: 80px; }
-
-    /* Payment Section */
-    .payment-methods { display: flex; gap: 1rem; margin-bottom: 1.25rem; }
-    .payment-option {
-      flex: 1; border: 2px solid #E2E8F0; border-radius: var(--radius-sm); padding: 1rem;
-      text-align: center; cursor: pointer; transition: var(--transition);
+    .checkbox-wrapper {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-top: 1rem; cursor: pointer;
     }
-    .payment-option.active { border-color: var(--teal); background: rgba(78,205,196,0.05); }
-    .payment-option i { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; color: var(--navy); }
-    .payment-option span { font-weight: 600; font-size: 0.9rem; }
+    .checkbox-wrapper input { width: 18px; height: 18px; accent-color: var(--teal); }
+    .checkbox-wrapper span { color: var(--gray); font-size: 0.9rem; }
 
-    /* Order Summary (Right Side) */
-    .summary-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-md); position: sticky; top: 90px; }
-    .summary-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #F1F5F9; }
-    
-    .summary-items { max-height: 300px; overflow-y: auto; margin-bottom: 1rem; }
-    .summary-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; font-size: 0.9rem; }
-    .item-info { flex: 1; }
-    .item-name { font-weight: 600; color: var(--navy-dark); }
-    .item-qty { color: var(--gray); font-size: 0.8rem; }
-    .item-total { font-weight: 600; color: var(--navy); }
-
-    .summary-rows { border-top: 1px solid #F1F5F9; padding-top: 1rem; }
-    .summary-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--gray); }
-    .summary-row.total { font-size: 1.25rem; font-weight: 800; color: var(--navy-dark); margin-top: 0.75rem; border-top: 2px dashed #E2E8F0; padding-top: 0.75rem; }
-
-    /* Submit Button */
-    .submit-btn {
-      width: 100%; padding: 1rem; background: #25D366; color: var(--white); border-radius: var(--radius-sm);
-      font-weight: 700; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem;
-      transition: var(--transition); margin-top: 1.25rem;
+    /* Order Review */
+    .review-section {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 2rem; box-shadow: var(--shadow-sm);
+      height: fit-content; position: sticky; top: 2rem;
     }
-    .submit-btn:hover { background: #128C7E; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }    .submit-btn:disabled { background: var(--gray); cursor: not-allowed; transform: none; box-shadow: none; }
+    .review-item {
+      display: flex; gap: 1rem; padding: 1rem 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .review-item:last-child { border-bottom: none; }
+    .review-img {
+      width: 60px; height: 60px; border-radius: var(--radius-sm);
+      background: var(--light-bg); overflow: hidden; flex-shrink: 0;
+    }
+    .review-img img { width: 100%; height: 100%; object-fit: cover; }
+    .review-details { flex: 1; }
+    .review-name { font-weight: 600; color: var(--navy); margin-bottom: 0.25rem; }
+    .review-qty { font-size: 0.85rem; color: var(--gray); }
+    .review-price { font-weight: 700; color: var(--teal); }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      margin: 0.75rem 0; color: var(--gray);
+    }
+    .summary-row.total {
+      font-size: 1.25rem; font-weight: 800; color: var(--navy);
+      padding-top: 0.75rem; border-top: 2px solid var(--light-bg);      margin-top: 0.75rem;
+    }
+    .place-order-btn {
+      width: 100%; padding: 1.25rem;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: var(--white); border: none; border-radius: var(--radius-sm);
+      font-size: 1.1rem; font-weight: 700; margin-top: 1.5rem;
+      cursor: pointer; transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+    }
+    .place-order-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+    .place-order-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .place-order-btn .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: var(--white); border-radius: 50%;
+      animation: spin 0.8s linear infinite; display: none;
+    }
+    .place-order-btn.loading .spinner { display: block; }
+    .place-order-btn.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .payment-note {
+      background: rgba(37, 211, 102, 0.1);
+      border-left: 4px solid #25D366;
+      padding: 1rem; border-radius: var(--radius-sm);
+      margin-top: 1rem; font-size: 0.9rem; color: var(--gray);
+    }
+    .payment-note strong { color: #128C7E; display: block; margin-bottom: 0.25rem; }
 
     /* Toast */
-    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-    .toast { background: var(--white); padding: 1rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.75rem; min-width: 280px; transform: translateX(120%); transition: transform 0.3s ease; border-left: 4px solid var(--coral); }
-    .toast.success { border-left-color: var(--teal); }
-    .toast.show { transform: translateX(0); }
+    .yf-toast {
+      position: fixed; top: 80px; right: 2rem;
+      padding: 1rem 1.5rem; border-radius: var(--radius-sm);
+      display: flex; align-items: center; gap: 0.75rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 9999;
+      opacity: 0; transform: translateX(100%); transition: all 0.3s ease;
+      font-weight: 600; font-size: 0.9rem;
+    }
+    .yf-toast.show { opacity: 1; transform: translateX(0); }
+    .yf-toast--success { background: #2ECC71; color: white; }
+    .yf-toast--error { background: var(--coral); color: white; }
+
+    @media (max-width: 768px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .review-section { position: static; }
+    }
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar-container">
-      <a href="index.html" class="logo">
-        <div class="logo-icon">YF</div>
-        YAN-FLOWS
-      </a>
-      <a href="cart.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Cart</a>
+  <div class="checkout-container">
+    <div class="page-header">
+      <a href="cart.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+      <h1 class="page-title">Checkout</h1>
     </div>
-  </nav>
 
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <!-- Main Content -->
-  <main class="main-container">
-    <header class="page-header">
-      <h1>Checkout</h1>
-      <p>Complete your order details below</p>
-    </header>
-
-    <!-- Left Column: Forms -->
-    <div class="left-column">
-      <!-- Delivery Info -->
-      <div class="checkout-card" style="margin-bottom: var(--space-md);">
-        <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Delivery Information</h2>
+    <div class="checkout-layout">
+      <!-- Delivery Details Form -->
+      <div class="delivery-section">
+        <h2 class="section-title">Delivery Information</h2>
         <form id="checkoutForm">
           <div class="form-grid">
             <div class="form-group">
@@ -141,226 +164,383 @@
             </div>
             <div class="form-group">
               <label class="form-label">Phone Number *</label>
-              <input type="tel" id="phone" class="form-input" placeholder="08012345678" required/>
+              <input type="tel" id="phoneNumber" class="form-input" placeholder="08012345678" required/>
             </div>
-            <div class="form-group">
-              <label class="form-label">Alternative Phone</label>
-              <input type="tel" id="altPhone" class="form-input" placeholder="09012345678"/>            </div>
+            <div class="form-group full">
+              <label class="form-label">Address Line 1 *</label>
+              <input type="text" id="address1" class="form-input" placeholder="Street address, P.O. box" required/>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Address Line 2</label>
+              <input type="text" id="address2" class="form-input" placeholder="Apartment, suite, unit, building, floor, etc."/>
+            </div>
             <div class="form-group">
               <label class="form-label">City *</label>
-              <input type="text" id="city" class="form-input" placeholder="e.g. Lagos" required/>
+              <input type="text" id="city" class="form-input" placeholder="Lagos" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">State *</label>
+              <input type="text" id="state" class="form-input" placeholder="Lagos State" required/>
             </div>
             <div class="form-group full">
-              <label class="form-label">Full Address *</label>
-              <input type="text" id="address" class="form-input" placeholder="House No, Street Name, Landmark" required/>
+              <label class="form-label">Country *</label>
+              <input type="text" id="country" class="form-input" placeholder="Nigeria" value="Nigeria" required/>
             </div>
             <div class="form-group full">
-              <label class="form-label">Delivery Note (Optional)</label>
-              <textarea id="note" class="form-textarea" placeholder="e.g. Call before delivery, Leave at gate..."></textarea>
+              <label class="form-label">Delivery Instructions</label>
+              <textarea id="instructions" class="form-textarea" placeholder="Any special delivery instructions..."></textarea>
             </div>
           </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Right Column: Summary -->
-    <aside class="summary-card">
-      <h2 class="summary-title">Order Summary</h2>
-      
-      <div class="summary-items" id="summaryItems">
-        <!-- Injected by JS -->
+          <label class="checkbox-wrapper">
+            <input type="checkbox" id="saveAddress"/>
+            <span>Save this address for next time</span>
+          </label>        </form>
       </div>
 
-      <div class="summary-rows">
+      <!-- Order Review -->
+      <div class="review-section">
+        <h2 class="section-title">Order Summary</h2>
+        <div id="orderItems">
+          <!-- Items loaded via JS -->
+        </div>
         <div class="summary-row">
           <span>Subtotal</span>
-          <span id="subtotalAmount">₦0</span>
+          <span id="subtotal">₦0</span>
         </div>
         <div class="summary-row">
-          <span>Delivery Fee</span>
-          <span id="deliveryAmount">₦1,500</span>
+          <span>Delivery</span>
+          <span>Calculated by seller</span>
         </div>
         <div class="summary-row total">
-          <span>Total to Pay</span>
-          <span id="totalAmount">₦0</span>
+          <span>Total</span>
+          <span id="total">₦0</span>
+        </div>
+        <button class="place-order-btn" id="placeOrderBtn" onclick="placeOrder()">
+          <span class="btn-text">
+            <i class="fab fa-whatsapp"></i> Place Order via WhatsApp
+          </span>
+          <div class="spinner"></div>
+        </button>
+        <div class="payment-note">
+          <strong><i class="fas fa-info-circle"></i> How it works:</strong>
+          Your order will be sent to the seller's WhatsApp with their bank details for payment.
         </div>
       </div>
+    </div>
+  </div>
 
-      <div style="background: var(--light-bg); padding: 0.75rem; border-radius: var(--radius-sm); margin-top: 1rem; font-size: 0.85rem; color: var(--gray);">
-        <i class="fas fa-info-circle"></i> You will receive bank details for payment via WhatsApp after submitting.
-      </div>
-
-      <button class="submit-btn" id="submitOrderBtn">
-        <i class="fab fa-whatsapp"></i> Submit Order on WhatsApp
-      </button>
-    </aside>
-  </main>
-  <!-- Core Engine -->
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="app.js"></script>
 
-  <!-- Page Script -->
   <script>
-    // ===== DOM ELEMENTS =====
-    const form = document.getElementById('checkoutForm');
-    const submitBtn = document.getElementById('submitOrderBtn');
-    const summaryItems = document.getElementById('summaryItems');
-    const subtotalEl = document.getElementById('subtotalAmount');
-    const totalEl = document.getElementById('totalAmount');
+    let cart = [];
+    let currentUser = null;
+    let sellerProfiles = {};
 
-    // State
-    const cart = JSON.parse(localStorage.getItem('yf_cart') || '[]');
-    const deliveryFee = 1500;
-    let sellerId = null; // We will try to get this from the first product or config
+    console.log('✅ Checkout page loaded');
 
-    // ===== INITIALIZATION =====
-    document.addEventListener('DOMContentLoaded', () => {
-      if (cart.length === 0) {
-        window.location.href = 'storefront.html';
+    // ===== Auth Check =====
+    auth.onAuthStateChanged(async (user) => {      currentUser = user;
+      if (!user) {
+        window.location.href = 'login.html';
         return;
       }
-
-      renderSummary();
-      
-      // Try to identify seller from cart items (assuming single seller checkout for now)
-      if (cart.length > 0 && cart[0].sellerId) {
-        sellerId = cart[0].sellerId;
-      }
+      await loadCheckout();
     });
 
-    // ===== RENDER SUMMARY =====
-    function renderSummary() {
-      summaryItems.innerHTML = '';
-      let subtotal = 0;
-
-      cart.forEach(item => {
-        const total = item.price * item.qty;
-        subtotal += total;
-
-        const div = document.createElement('div');
-        div.className = 'summary-item';
-        div.innerHTML = `
-          <div class="item-info">
-            <div class="item-name">${item.name}</div>
-            <div class="item-qty">Qty: ${item.qty} x ${YF.ui.formatNaira(item.price)}</div>
-          </div>
-          <div class="item-total">${YF.ui.formatNaira(total)}</div>        `;
-        summaryItems.appendChild(div);
-      });
-
-      subtotalEl.textContent = YF.ui.formatNaira(subtotal);
-      totalEl.textContent = YF.ui.formatNaira(subtotal + deliveryFee);
-    }
-
-    // ===== SUBMIT ORDER =====
-    submitBtn.addEventListener('click', async () => {
-      // Validation
-      const fullName = document.getElementById('fullName').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const city = document.getElementById('city').value.trim();
-      const address = document.getElementById('address').value.trim();
-      const note = document.getElementById('note').value.trim();
-
-      if (!fullName || !phone || !city || !address) {
-        YF.ui.toast('Please fill in all required delivery fields.', 'error');
-        return;
-      }
-
-      // UI Loading
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Order...';
-
+    // ===== Load Checkout Data =====
+    async function loadCheckout() {
       try {
-        // 1. Create Order Object
-        const orderData = {
-          items: cart,
-          customer: {
-            name: fullName,
-            phone: phone,
-            altPhone: document.getElementById('altPhone').value.trim(),
-            city: city,
-            address: address,
-            note: note
-          },
-          totals: {
-            subtotal: cart.reduce((sum, i) => sum + (i.price * i.qty), 0),
-            delivery: deliveryFee,
-            grandTotal: cart.reduce((sum, i) => sum + (i.price * i.qty), 0) + deliveryFee
-          },
-          sellerId: sellerId || 'unknown',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          status: 'pending'
-        };
-
-        // 2. Save to Firestore
-        const docRef = await firebase.firestore().collection('orders').add(orderData);        const orderId = docRef.id;
-
-        // 3. Generate WhatsApp Message
-        const message = generateWhatsAppMessage(orderData, orderId);
-        
-        // 4. Clear Cart
-        localStorage.removeItem('yf_cart');
-
-        // 5. Success Feedback
-        YF.ui.toast('Order placed successfully! Redirecting to WhatsApp...', 'success');
-
-        // 6. Redirect to WhatsApp
-        // Note: We need the seller's phone number. 
-        // Since we don't have it in the cart item directly (only ID), 
-        // in a real app we'd query the seller doc. 
-        // For this demo, we'll assume a placeholder or fetch it.
-        // Let's fetch it quickly:
-        
-        let sellerPhone = "2348000000000"; // Fallback
-        if (sellerId && sellerId !== 'unknown') {
-           const bizDoc = await firebase.firestore().collection('business_profiles').doc(sellerId).get();
-           if (bizDoc.exists) {
-             sellerPhone = bizDoc.data().whatsappNumber.replace(/\D/g, '');
-           }
+        // Get cart from localStorage
+        const cartData = localStorage.getItem('yanflows_cart');
+        if (cartData) {
+          try {
+            cart = JSON.parse(cartData);
+            console.log('📦 Cart loaded:', cart.length, 'items');
+          } catch (e) {
+            console.error('❌ Error parsing cart:', e);
+            cart = [];
+          }
         }
 
-        const whatsappUrl = `https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`;
+        if (!cart || cart.length === 0) {
+          YF.showToast('Your cart is empty', 'error');
+          setTimeout(() => window.location.href = 'dashboard.html', 2000);
+          return;
+        }
+
+        // Load seller profiles for WhatsApp numbers
+        const sellerIds = [...new Set(cart.map(item => item.sellerId).filter(id => id))];
+        console.log('🔍 Loading seller profiles for:', sellerIds);
         
-        setTimeout(() => {
-          window.location.href = whatsappUrl;
-        }, 1500);
+        for (const sellerId of sellerIds) {
+          try {
+            const profile = await db.collection('business_profiles').doc(sellerId).get();
+            if (profile.exists) {
+              sellerProfiles[sellerId] = profile.data();
+              console.log('✅ Seller profile loaded:', sellerId);
+            }
+          } catch (err) {
+            console.warn('⚠️ Could not load seller profile:', sellerId);
+            // Fallback
+            const cartItem = cart.find(i => i.sellerId === sellerId);
+            if (cartItem) {
+              sellerProfiles[sellerId] = {
+                businessName: cartItem.sellerName,
+                whatsapp: '2348000000000',
+                bankDetails: { bankName: 'Unknown', accountNumber: '0000000000', accountName: 'Unknown' },
+                customMessage: 'Please pay before delivery.',                thankYouMessage: 'Thanks for patronage! 🙏'
+              };
+            }
+          }
+        }
 
-      } catch (err) {
-        console.error('Checkout Error:', err);
-        YF.ui.toast('Failed to place order. Please try again.', 'error');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Submit Order on WhatsApp';
+        // Load saved address if exists
+        if (currentUser) {
+          try {
+            const userData = await YF.getUserData(currentUser.uid);
+            if (userData && userData.savedAddress) {
+              const addr = userData.savedAddress;
+              document.getElementById('fullName').value = addr.fullName || '';
+              document.getElementById('phoneNumber').value = addr.phone || '';
+              document.getElementById('address1').value = addr.address1 || '';
+              document.getElementById('address2').value = addr.address2 || '';
+              document.getElementById('city').value = addr.city || '';
+              document.getElementById('state').value = addr.state || '';
+              document.getElementById('country').value = addr.country || 'Nigeria';
+              console.log('✅ Saved address loaded');
+            }
+          } catch (err) {
+            console.warn('⚠️ Could not load saved address');
+          }
+        }
+
+        renderOrderSummary();
+      } catch (error) {
+        console.error('❌ Error loading checkout:', error);
+        YF.showToast('Error loading checkout', 'error');
       }
-    });
-
-    // ===== WHATSAPP MESSAGE GENERATOR =====
-    function generateWhatsAppMessage(order, id) {
-      const date = new Date().toLocaleDateString('en-NG');
-      let itemsList = order.items.map(i => `• ${i.name} (x${i.qty}) - ${YF.ui.formatNaira(i.price * i.qty)}`).join('\n');
-      
-      return `
-*🛒 NEW ORDER: #${id.substring(0, 6)}*
- Date: ${date}
-
-👤 *Customer Details:*Name: ${order.customer.name}
-Phone: ${order.customer.phone}
-City: ${order.customer.city}
-Address: ${order.customer.address}
-${order.customer.note ? `Note: ${order.customer.note}` : ''}
-
- *Order Items:*
-${itemsList}
-
-💰 *Totals:*
-Subtotal: ${YF.ui.formatNaira(order.totals.subtotal)}
-Delivery: ${YF.ui.formatNaira(order.totals.delivery)}
-*Total: ${YF.ui.formatNaira(order.totals.grandTotal)}*
-
-Please confirm availability and provide payment details. Thank you! 
-      `.trim();
     }
 
-    console.log('✅ Checkout Page Loaded');
+    // ===== Render Order Summary =====
+    function renderOrderSummary() {
+      const container = document.getElementById('orderItems');
+      if (!container) return;
+      
+      let html = '';
+      let total = 0;
+
+      const itemsBySeller = {};
+      cart.forEach(item => {
+        if (!item.sellerId) return;
+        if (!itemsBySeller[item.sellerId]) itemsBySeller[item.sellerId] = [];
+        itemsBySeller[item.sellerId].push(item);
+        total += (item.price || 0) * (item.quantity || 1);
+      });
+
+      if (Object.keys(itemsBySeller).length === 0) {        container.innerHTML = '<p style="color:var(--coral)">No valid items in cart</p>';
+        return;
+      }
+
+      Object.keys(itemsBySeller).forEach(sellerId => {
+        itemsBySeller[sellerId].forEach(item => {
+          const itemTotal = (item.price || 0) * (item.quantity || 1);
+          html += `
+            <div class="review-item">
+              <div class="review-img">
+                <img src="${item.image || 'https://via.placeholder.com/60?text=No+Image'}" 
+                     alt="${item.name || 'Product'}"
+                     onerror="this.src='https://via.placeholder.com/60?text=No+Image'"/>
+              </div>
+              <div class="review-details">
+                <div class="review-name">${item.name || 'Unnamed Product'}</div>
+                <div class="review-qty">Qty: ${item.quantity || 1} × ${YF.formatCurrency(item.price || 0)}</div>
+              </div>
+              <div class="review-price">${YF.formatCurrency(itemTotal)}</div>
+            </div>
+          `;
+        });
+      });
+
+      container.innerHTML = html;
+      document.getElementById('subtotal').textContent = YF.formatCurrency(total);
+      document.getElementById('total').textContent = YF.formatCurrency(total);
+      
+      console.log('✅ Order summary rendered. Total:', YF.formatCurrency(total));
+    }
+
+    // ===== Place Order =====
+    async function placeOrder() {
+      const btn = document.getElementById('placeOrderBtn');
+      
+      // Validate form
+      const fullName = document.getElementById('fullName').value.trim();
+      const phoneNumber = document.getElementById('phoneNumber').value.trim();
+      const address1 = document.getElementById('address1').value.trim();
+      const address2 = document.getElementById('address2').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const state = document.getElementById('state').value.trim();
+      const country = document.getElementById('country').value.trim();
+      const instructions = document.getElementById('instructions').value.trim();
+      const saveAddress = document.getElementById('saveAddress').checked;
+
+      if (!fullName || !phoneNumber || !address1 || !city || !state || !country) {
+        YF.showToast('Please fill in all required fields', 'error');
+        return;
+      }
+      if (!currentUser) {
+        YF.showToast('Please login to place order', 'error');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      btn.classList.add('loading');
+      btn.disabled = true;
+      YF.showLoading('Processing order...');
+
+      try {
+        // Save address if requested
+        if (saveAddress) {
+          await db.collection('users').doc(currentUser.uid).update({
+            savedAddress: {
+              fullName, phoneNumber, address1, address2, city, state, country, instructions,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }
+          });
+          console.log('✅ Address saved');
+        }
+
+        // Group items by seller
+        const itemsBySeller = {};
+        cart.forEach(item => {
+          if (!item.sellerId) return;
+          if (!itemsBySeller[item.sellerId]) itemsBySeller[item.sellerId] = [];
+          itemsBySeller[item.sellerId].push(item);
+        });
+
+        // Create order records
+        for (const [sellerId, items] of Object.entries(itemsBySeller)) {
+          const seller = sellerProfiles[sellerId];
+          if (!seller) {
+            console.warn('⚠️ No seller profile for:', sellerId);
+            continue;
+          }
+
+          const orderTotal = items.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+          const orderData = {
+            orderId: 'ORD_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+            buyerId: currentUser.uid,
+            buyerName: fullName,
+            buyerPhone: phoneNumber,
+            sellerId: sellerId,
+            sellerName: seller.businessName || 'Unknown Seller',
+            items: items,
+            total: orderTotal,
+            deliveryDetails: { fullName, phoneNumber, address1, address2, city, state, country, instructions },            status: 'pending',
+            paymentStatus: 'unpaid',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          };
+
+          // Save to orders collection
+          await db.collection('orders').add(orderData);
+          console.log('✅ Order saved:', orderData.orderId);
+        }
+
+        // Generate WhatsApp message for first seller
+        const firstSellerId = Object.keys(itemsBySeller)[0];
+        const firstSeller = sellerProfiles[firstSellerId];
+        const firstSellerItems = itemsBySeller[firstSellerId];
+        
+        if (firstSeller && firstSellerItems) {
+          const firstOrderTotal = firstSellerItems.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+          const message = generateWhatsAppMessage(firstSeller, firstSellerItems, firstOrderTotal, {
+            fullName, phoneNumber, address1, address2, city, state, country, instructions
+          });
+          
+          const whatsappNumber = (firstSeller.whatsapp || '2348000000000').replace(/\D/g, '');
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+          
+          console.log('📱 Opening WhatsApp');
+          
+          // Clear cart
+          localStorage.removeItem('yanflows_cart');
+          if (currentUser) {
+            await db.collection('carts').doc(currentUser.uid).delete().catch(() => {});
+          }
+
+          // Open WhatsApp
+          setTimeout(() => {
+            window.open(whatsappUrl, '_blank');
+          }, 500);
+        }
+
+        YF.hideLoading();
+        YF.showToast('✅ Order placed! Opening WhatsApp...', 'success');
+
+        setTimeout(() => {
+          window.location.href = 'orders.html';
+        }, 3000);
+
+      } catch (error) {
+        console.error('❌ Order error:', error);
+        YF.hideLoading();
+        btn.classList.remove('loading');
+        btn.disabled = false;        
+        let errorMsg = error.message || 'Unknown error';
+        if (error.code === 'permission-denied') {
+          errorMsg = 'Permission denied. Please contact support.';
+        }
+        
+        YF.showToast('Error: ' + errorMsg, 'error');
+      }
+    }
+
+    // ===== Generate WhatsApp Message =====
+    function generateWhatsAppMessage(seller, items, total, delivery) {
+      let message = `🛍️ *NEW ORDER from ${seller.businessName || 'YAN-FLOWS Seller'}*\n`;
+      message += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+      
+      message += `📦 *ITEMS:*\n`;
+      items.forEach(item => {
+        const itemTotal = (item.price || 0) * (item.quantity || 1);
+        message += `• ${item.name || 'Product'} ×${item.quantity || 1} = ${YF.formatCurrency(itemTotal)}\n`;
+      });
+      
+      message += `\n💰 *TOTAL: ${YF.formatCurrency(total)}*\n`;
+      
+      message += `\n🚚 *DELIVERY DETAILS:*\n`;
+      message += `Name: ${delivery.fullName}\n`;
+      message += `Phone: ${delivery.phoneNumber}\n`;
+      if (delivery.address2) {
+        message += `Address: ${delivery.address1}, ${delivery.address2}\n`;
+      } else {
+        message += `Address: ${delivery.address1}\n`;
+      }
+      message += `City: ${delivery.city}\n`;
+      message += `State: ${delivery.state}\n`;
+      message += `Country: ${delivery.country}\n`;
+      if (delivery.instructions) {
+        message += `Instructions: ${delivery.instructions}\n`;
+      }
+      
+      message += `\n💳 *PAYMENT INFO:*\n`;
+      if (seller.bankDetails) {
+        message += `Bank: ${seller.bankDetails.bankName || 'N/A'}\n`;
+        message += `Account: ${seller.bankDetails.accountNumber || 'N/A'}\n`;
+        message += `Name: ${seller.bankDetails.accountName || 'N/A'}\n`;
+      } else {
+        message += `Contact seller for payment details\n`;
+      }
+      
+      message += `\n📝 ${seller.customMessage || 'Please pay before delivery.'}\n`;
+      message += `\n${seller.thankYouMessage || 'Thanks for patronage! 🙏'}`;
+            return message;
+    }
+
+    console.log('✅ Checkout page fully initialized');
   </script>
 </body>
-<script src="app.js"></script>
 </html>

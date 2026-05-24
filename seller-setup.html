@@ -1,348 +1,657 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Seller Setup | YAN-FLOWS Commerce Platform</title>
+  <title>Setup Business | YAN-FLOWS</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
   <style>
-    /* ========================================
-       YAN-FLOWS - SELLER SETUP STYLES
-       Luxury Theme: Navy Blue + White + Accents
-       ======================================== */
     :root {
-      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
-      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
-      --coral: #FF6B6B; --coral-hover: #EE5A5A;
-      --teal: #4ECDC4; --teal-hover: #3DBDB4;
+      --navy: #1B3A5F;
+      --navy-dark: #0F1F33;
+      --navy-light: #2C5282;
+      --white: #FFFFFF;
+      --light-bg: #F8F9FA;
+      --gray: #6C757D;
+      --light-gray: #ADB5BD;
+      --coral: #FF6B6B;
+      --teal: #4ECDC4;
       --gold: #FFD93D;
       --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
       --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
       --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --radius-sm: 8px; --radius-md: 16px;
-      --space-sm: 1rem; --space-md: 2rem;
     }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
-    a { text-decoration: none; color: inherit; }
-    button { font-family: inherit; cursor: pointer; border: none; }
-    input, textarea, select { font-family: inherit; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* ===== NAVBAR ===== */
-    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
-    .navbar-container { max-width: 900px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
-    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
-    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
-    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
-    .nav-back:hover { color: var(--navy); }
-
-    /* ===== MAIN CONTAINER ===== */
-    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 900px; margin: 0 auto; width: 100%; }
-    
-    .setup-header { text-align: center; margin-bottom: var(--space-md); }
-    .setup-header h1 { font-size: 2rem; color: var(--navy-dark); margin-bottom: 0.5rem; }
-    .setup-header p { color: var(--gray); max-width: 600px; margin: 0 auto; }
-
-    /* Progress Bar */    .progress-container { margin-bottom: var(--space-md); }
-    .progress-bar { height: 6px; background: #E2E8F0; border-radius: 3px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--navy)); width: 0%; transition: width 0.5s ease; }
-    .progress-labels { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: var(--gray); font-weight: 500; }
-
-    /* Form Sections */
-    .setup-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-md); margin-bottom: 1.5rem; }
-    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy-dark); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
-    .section-title i { color: var(--teal); }
-
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-    .form-group.full-width { grid-column: span 2; }
-    .form-label { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
-    .form-input, .form-textarea {
-      padding: 0.875rem 1rem;
-      border: 2px solid #E2E8F0;
-      border-radius: var(--radius-sm);
-      font-size: 1rem;
-      transition: var(--transition);
-      background: var(--light-bg);
-    }
-    .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--teal); background: var(--white); box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.15); }
-    .form-textarea { resize: vertical; min-height: 100px; }
-    .form-hint { font-size: 0.8rem; color: var(--gray); }
-
-    /* Submit Area */
-    .submit-area { text-align: center; margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid #F1F5F9; }
-    .btn {
-      padding: 1rem 2.5rem;
-      font-weight: 600;
-      font-size: 1rem;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-      display: inline-flex;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #F8F9FA 0%, #E8EEF5 100%);
+      min-height: 100vh;
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
+      padding: 2rem 1rem;
     }
-    .btn-primary { background: var(--coral); color: var(--white); box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
-    .btn-primary:hover { background: var(--coral-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,107,107,0.4); }
-    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
-    /* Toast */
-    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-    .toast { background: var(--white); padding: 1rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.75rem; min-width: 280px; transform: translateX(120%); transition: transform 0.3s ease; border-left: 4px solid var(--coral); }
-    .toast.success { border-left-color: var(--teal); }
-    .toast.show { transform: translateX(0); }
+    .setup-container {
+      width: 100%;
+      max-width: 800px;
+    }
 
-    /* Responsive */
+    .setup-card {      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ===== HEADER ===== */
+    .setup-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .setup-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .setup-logo-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--navy), var(--teal));
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .setup-logo-text {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .setup-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .setup-subtitle {
+      color: var(--gray);      font-size: 0.95rem;
+    }
+
+    /* ===== PROFILE PICTURE UPLOAD ===== */
+    .profile-upload-section {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .profile-image-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid var(--white);
+      box-shadow: var(--shadow-md);
+      background: #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .profile-image-wrapper:hover { opacity: 0.9; }
+
+    .profile-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-image-wrapper .profile-placeholder-icon {
+      font-size: 2rem;
+      color: var(--gray);
+    }
+
+    .upload-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: var(--transition);
+      color: white;
+    }
+    .profile-image-wrapper:hover .upload-overlay { opacity: 1; }
+
+    .profile-upload-label {
+      display: inline-block;
+      margin-top: 0.75rem;
+      color: var(--teal);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .upload-progress {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--gray);
+      display: none;
+    }
+    .upload-progress.show { display: block; }
+
+    #profileInput { display: none; }
+
+    /* ===== FORM GRID ===== */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group { margin-bottom: 0; }
+
+    .form-group.full-width { grid-column: 1 / -1; }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid #E5E7EB;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;      font-family: inherit;
+      transition: var(--transition);
+      background: var(--white);
+      color: var(--navy-dark);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.15);
+    }
+
+    .form-input.error { border-color: var(--coral); }
+
+    .input-with-icon { position: relative; }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--light-gray);
+    }
+
+    .input-with-icon .form-input { padding-left: 2.75rem; }
+
+    /* ===== SECTION DIVIDER ===== */
+    .section-divider {
+      margin: 1.75rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E5E7EB;
+    }
+
+    .section-divider span {      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    /* ===== SUBMIT BUTTON ===== */
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-submit .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== TOAST ===== */
+    .yf-toast {
+      position: fixed;
+      top: 2rem; right: 2rem;
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 0.9rem;
+      max-width: 350px;
+    }
+    .yf-toast.show { opacity: 1; transform: translateX(0); }
+    .yf-toast--success { background: #2ECC71; color: white; }
+    .yf-toast--error   { background: var(--coral); color: white; }
+    .yf-toast--info    { background: var(--navy); color: white; }
+
+    /* ===== LOADING OVERLAY ===== */
+    .yf-loading {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 31, 51, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      color: white;
+    }
+    .yf-loading__spinner {
+      width: 48px; height: 48px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 1rem;
+    }
+    .yf-loading p { font-weight: 600; font-size: 1rem; }
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 640px) {      .form-grid { grid-template-columns: 1fr; }
-      .form-group.full-width { grid-column: span 1; }
-      h1 { font-size: 1.5rem !important; }
-      .setup-card { padding: 1.25rem; }
+      .setup-card { padding: 1.5rem; }
+      .setup-title { font-size: 1.25rem; }
+      .yf-toast { top: 1rem; right: 1rem; left: 1rem; max-width: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar-container">
-      <a href="index.html" class="logo">
-        <div class="logo-icon">YF</div>
-        YAN-FLOWS
-      </a>
-      <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-    </div>
-  </nav>
+  <div class="setup-container">
+    <div class="setup-card">
 
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <!-- Main Content -->
-  <main class="main-container">
-    <div class="setup-header">
-      <h1>Activate Your Business</h1>
-      <p>Complete your store profile to start receiving orders, manage payments, and automate WhatsApp messages.</p>
-    </div>
-
-    <!-- Progress -->
-    <div class="progress-container">
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-labels">
-        <span>Business Info</span>
-        <span>Payment Details</span>
-        <span>Messaging & Policies</span>
+      <!-- Header -->
+      <div class="setup-header">
+        <div class="setup-logo">
+          <div class="setup-logo-icon">YF</div>
+          <span class="setup-logo-text">YAN-FLOWS</span>
+        </div>
+        <h1 class="setup-title">Complete Your Business Setup</h1>
+        <p class="setup-subtitle">Add your details so customers can find you and pay you easily.</p>
       </div>
-    </div>
 
-    <form id="sellerSetupForm" novalidate>
-      <!-- Section 1: Business Information -->
-      <div class="setup-card" id="section1">
-        <h2 class="section-title"><i class="fas fa-store"></i> Business Information</h2>
+      <form id="setupForm" novalidate>
+
+        <!-- Profile Picture -->
+        <div class="profile-upload-section">
+          <label for="profileInput" class="profile-image-wrapper" id="profileWrapper">
+            <img id="profilePreview" src="" alt="" style="display:none;"/>
+            <i class="fas fa-camera profile-placeholder-icon" id="profileIcon"></i>
+            <div class="upload-overlay">
+              <i class="fas fa-camera"></i>
+            </div>
+          </label>
+          <input type="file" id="profileInput" accept="image/*"/>
+          <label for="profileInput" class="profile-upload-label">Upload Profile Picture</label>
+          <div class="upload-progress" id="uploadProgress">Uploading...</div>
+        </div>
+
+        <!-- Business Information -->
+        <div class="section-divider"><span>Business Information</span></div>
+
         <div class="form-grid">
           <div class="form-group">
-            <label class="form-label">Company / Store Name *</label>
-            <input type="text" id="companyName" class="form-input" placeholder="e.g. Zuri Fashion Hub" required/>
+            <label class="form-label" for="businessName">Business / Store Name *</label>
+            <input type="text" id="businessName" class="form-input" placeholder="e.g., Mary's Kitchen" required/>
           </div>
-          <div class="form-group">            <label class="form-label">Business Title / Tagline</label>
-            <input type="text" id="businessTitle" class="form-input" placeholder="e.g. Premium Affordable Fashion"/>
+
+          <div class="form-group">
+            <label class="form-label" for="whatsapp">WhatsApp Number *</label>
+            <div class="input-with-icon">              <i class="fab fa-whatsapp"></i>
+              <input type="tel" id="whatsapp" class="form-input" placeholder="2348012345678" required/>
+            </div>
           </div>
+
           <div class="form-group full-width">
-            <label class="form-label">Business Description</label>
-            <textarea id="businessDesc" class="form-textarea" placeholder="Tell customers what you sell and why they should buy from you..."></textarea>
+            <label class="form-label" for="description">Business Description</label>
+            <textarea id="description" class="form-textarea" placeholder="Tell customers about your business..."></textarea>
           </div>
+
           <div class="form-group full-width">
-            <label class="form-label">WhatsApp Hotline *</label>
-            <input type="tel" id="whatsappNumber" class="form-input" placeholder="e.g. +2348012345678" required/>
-            <span class="form-hint">This number will receive automated order notifications.</span>
+            <label class="form-label" for="location">Location (City, State)</label>
+            <input type="text" id="location" class="form-input" placeholder="e.g., Lagos, Nigeria"/>
           </div>
         </div>
-      </div>
 
-      <!-- Section 2: Payment Details -->
-      <div class="setup-card" id="section2">
-        <h2 class="section-title"><i class="fas fa-university"></i> Bank & Payment Details</h2>
+        <!-- Payment Details -->
+        <div class="section-divider"><span>Payment Details</span></div>
+
         <div class="form-grid">
           <div class="form-group">
-            <label class="form-label">Bank Name *</label>
-            <input type="text" id="bankName" class="form-input" placeholder="e.g. Access Bank, GTBank" required/>
+            <label class="form-label" for="bankName">Bank Name *</label>
+            <select id="bankName" class="form-select" required>
+              <option value="">Select Bank</option>
+              <option value="Access Bank">Access Bank</option>
+              <option value="GTBank">GTBank</option>
+              <option value="UBA">UBA</option>
+              <option value="First Bank">First Bank</option>
+              <option value="Zenith Bank">Zenith Bank</option>
+              <option value="Kuda Bank">Kuda Bank</option>
+              <option value="Opay">Opay</option>
+              <option value="Palmpay">Palmpay</option>
+              <option value="Moniepoint">Moniepoint</option>
+              <option value="Sterling Bank">Sterling Bank</option>
+              <option value="Wema Bank">Wema Bank</option>
+              <option value="Others">Others</option>
+            </select>
           </div>
-          <div class="form-group">
-            <label class="form-label">Account Number *</label>
-            <input type="text" id="accountNumber" class="form-input" placeholder="10-digit account number" maxlength="10" required/>
-          </div>
-          <div class="form-group full-width">
-            <label class="form-label">Account Name *</label>
-            <input type="text" id="accountName" class="form-input" placeholder="Name on the bank account" required/>
-            <span class="form-hint">Customers will see this name on payment instructions.</span>
-          </div>
-        </div>
-      </div>
 
-      <!-- Section 3: Messaging & Policies -->
-      <div class="setup-card" id="section3">
-        <h2 class="section-title"><i class="fas fa-comment-dots"></i> Messaging & Policies</h2>
-        <div class="form-grid">
-          <div class="form-group full-width">
-            <label class="form-label">Delivery Disclaimer</label>
-            <textarea id="deliveryDisclaimer" class="form-textarea" placeholder="e.g. Delivery takes 2-4 business days. Nationwide shipping available."></textarea>
+          <div class="form-group">
+            <label class="form-label" for="accountNumber">Account Number *</label>
+            <input type="text" id="accountNumber" class="form-input" placeholder="10 digits" maxlength="10" required/>
           </div>
+
           <div class="form-group full-width">
-            <label class="form-label">Thank-You Message</label>
-            <textarea id="thankYouMessage" class="form-textarea" placeholder="e.g. Thank you for shopping with us! Your order will be processed within 24 hours."></textarea>
-            <span class="form-hint">Shown to customers after successful checkout.</span>
+            <label class="form-label" for="accountName">Account Name *</label>
+            <input type="text" id="accountName" class="form-input" placeholder="Name on bank account" required/>
           </div>
         </div>
-      </div>
-      <!-- Submit -->
-      <div class="submit-area">
-        <button type="submit" class="btn btn-primary" id="submitBtn">
-          <i class="fas fa-check-circle"></i>
-          <span>Activate Business & Go to Dashboard</span>
+        <!-- Order Message Template -->
+        <div class="section-divider"><span>Order Message Template</span></div>
+
+        <div class="form-group">
+          <label class="form-label" for="customMessage">Custom WhatsApp Message</label>
+          <textarea id="customMessage" class="form-textarea" placeholder="Message sent with every order...">Please pay before delivery. We deliver within 24hrs.</textarea>
+          <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.5rem;">
+            <i class="fas fa-info-circle"></i>
+            This message will appear at the bottom of every order sent to your WhatsApp.
+          </p>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text"><i class="fas fa-check-circle"></i> Save & Go to Dashboard</span>
+          <div class="spinner"></div>
         </button>
-      </div>
-    </form>
-  </main>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  
-  <!-- Core Engine -->
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="app.js"></script>
 
-  <!-- Page Script -->
   <script>
-    // ===== DOM ELEMENTS =====
-    const form = document.getElementById('sellerSetupForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const progressFill = document.getElementById('progressFill');
-    const toastContainer = document.getElementById('toastContainer');
-    
-    const inputs = {
-      companyName: document.getElementById('companyName'),
-      businessTitle: document.getElementById('businessTitle'),
-      businessDesc: document.getElementById('businessDesc'),
-      whatsappNumber: document.getElementById('whatsappNumber'),
-      bankName: document.getElementById('bankName'),
-      accountNumber: document.getElementById('accountNumber'),
-      accountName: document.getElementById('accountName'),
-      deliveryDisclaimer: document.getElementById('deliveryDisclaimer'),
-      thankYouMessage: document.getElementById('thankYouMessage')
-    };
+    // ===== Cloudinary Config =====
+    const CLOUDINARY_CLOUD_NAME = 'dytzpxabq';
+    const CLOUDINARY_UPLOAD_PRESET = 'Yan-Flow';
 
-    // ===== AUTH GUARD =====
-    YF.requireAuth('login.html');
+    // ===== DOM Elements =====
+    const form           = document.getElementById('setupForm');
+    const profileInput   = document.getElementById('profileInput');
+    const profilePreview = document.getElementById('profilePreview');
+    const profileIcon    = document.getElementById('profileIcon');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const submitBtn      = document.getElementById('submitBtn');
 
-    // ===== PROGRESS TRACKER =====
-    function updateProgress() {
-      let filled = 0;
-      const total = Object.keys(inputs).length;
-      Object.values(inputs).forEach(input => {
-        if (input.value.trim() !== '') filled++;
-      });
-      const percent = Math.round((filled / total) * 100);      progressFill.style.width = `${percent}%`;
-    }
+    let uploadedImageUrl = '';
 
-    // Attach listeners to all inputs
-    Object.values(inputs).forEach(input => {
-      input.addEventListener('input', updateProgress);
+    // ===== Auth Guard =====
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      // If already set up, skip to dashboard      const userData = await YF.getUserData(user.uid);
+      if (userData && userData.businessSetup) {
+        window.location.href = 'dashboard.html';
+      }
     });
 
-    // ===== LOAD EXISTING DATA (Edit Mode) =====
-    async function loadBusinessProfile() {
-      const user = firebase.auth().currentUser;
-      if (!user) return;
-      
-      try {
-        const doc = await firebase.firestore().collection('business_profiles').doc(user.uid).get();
-        if (doc.exists) {
-          const data = doc.data();
-          inputs.companyName.value = data.companyName || '';
-          inputs.businessTitle.value = data.businessTitle || '';
-          inputs.businessDesc.value = data.description || '';
-          inputs.whatsappNumber.value = data.whatsappNumber || '';
-          inputs.bankName.value = data.bankName || '';
-          inputs.accountNumber.value = data.accountNumber || '';
-          inputs.accountName.value = data.accountName || '';
-          inputs.deliveryDisclaimer.value = data.deliveryDisclaimer || '';
-          inputs.thankYouMessage.value = data.thankYouMessage || '';
-          updateProgress();
-          submitBtn.innerHTML = '<i class="fas fa-save"></i> <span>Save Changes</span>';
-        }
-      } catch (err) {
-        console.error('Load profile error:', err);
-      }
-    }
+    // ===== Profile Image Upload =====
+    profileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
 
-    // ===== FORM SUBMISSION =====
+      // Show local preview immediately
+      const localURL = URL.createObjectURL(file);
+      profilePreview.src = localURL;
+      profilePreview.style.display = 'block';
+      profileIcon.style.display    = 'none';
+
+      // Upload to Cloudinary
+      uploadProgress.textContent = 'Uploading image...';
+      uploadProgress.classList.add('show');
+      submitBtn.disabled = true;
+
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+          { method: 'POST', body: formData }
+        );
+
+        const data = await response.json();
+
+        if (data.secure_url) {
+          uploadedImageUrl = data.secure_url;
+          profilePreview.src = uploadedImageUrl;
+          uploadProgress.textContent = '✅ Image uploaded successfully!';
+          YF.showToast('Profile picture uploaded!', 'success');
+        } else {
+          throw new Error(data.error?.message || 'Upload failed');
+        }
+      } catch (error) {
+        console.error('Image upload error:', error);
+        uploadProgress.textContent = '❌ Upload failed. You can still save without a picture.';
+        YF.showToast('Image upload failed: ' + error.message, 'error');
+        uploadedImageUrl = '';
+      } finally {
+        submitBtn.disabled = false;
+      }    });
+
+    // Only allow digits in account number
+    document.getElementById('accountNumber').addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+    });
+
+    // ===== Form Submission =====
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // Validation
-      const requiredFields = ['companyName', 'whatsappNumber', 'bankName', 'accountNumber', 'accountName'];
-      for (const field of requiredFields) {
-        if (!inputs[field].value.trim()) {
-          YF.ui.toast(`Please fill in ${inputs[field].previousElementSibling.textContent.replace('*','').trim()}.`, 'error');
-          inputs[field].focus();
-          return;
-        }
+
+      const user = auth.currentUser;
+      if (!user) {
+        YF.showToast('Session expired. Please log in again.', 'error');
+        window.location.href = 'login.html';
+        return;
       }
 
-      // UI Loading
-      submitBtn.disabled = true;      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Activating Store...</span>';
+      // Get values
+      const businessName   = document.getElementById('businessName').value.trim();
+      const whatsapp       = document.getElementById('whatsapp').value.trim();
+      const description    = document.getElementById('description').value.trim();
+      const location       = document.getElementById('location').value.trim();
+      const bankName       = document.getElementById('bankName').value;
+      const accountNumber  = document.getElementById('accountNumber').value.trim();
+      const accountName    = document.getElementById('accountName').value.trim();
+      const customMessage  = document.getElementById('customMessage').value.trim();
+
+      // Validation
+      const required = [
+        { val: businessName,  id: 'businessName',  label: 'Business Name' },
+        { val: whatsapp,      id: 'whatsapp',      label: 'WhatsApp Number' },
+        { val: bankName,      id: 'bankName',      label: 'Bank Name' },
+        { val: accountNumber, id: 'accountNumber', label: 'Account Number' },
+        { val: accountName,   id: 'accountName',   label: 'Account Name' }
+      ];
+
+      let firstError = null;
+      required.forEach(field => {
+        const el = document.getElementById(field.id);
+        if (!field.val) {
+          el.classList.add('error');
+          if (!firstError) firstError = field.label;
+        } else {
+          el.classList.remove('error');
+        }
+      });
+
+      if (accountNumber && accountNumber.length !== 10) {
+        document.getElementById('accountNumber').classList.add('error');        firstError = firstError || 'Account Number must be exactly 10 digits';
+      }
+
+      if (firstError) {
+        YF.showToast(`Please fill in: ${firstError}`, 'error');
+        return;
+      }
+
+      // Show loading
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+      YF.showLoading('Saving business details...');
 
       try {
-        const user = firebase.auth().currentUser;
-        const uid = user.uid;
+        // ✅ Save to business_profiles collection (matches Firestore rules)
+        await db.collection('business_profiles').doc(user.uid).set({
+          userId:        user.uid,
+          businessName:  businessName,
+          whatsapp:      whatsapp,
+          description:   description,
+          location:      location,
+          profilePic:    uploadedImageUrl || '',
+          bankDetails: {
+            bankName:      bankName,
+            accountNumber: accountNumber,
+            accountName:   accountName
+          },
+          customMessage:   customMessage || 'Please pay before delivery. We deliver within 24hrs.',
+          thankYouMessage: 'Thanks for patronage! 🙏',
+          updatedAt:       firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
 
-        // Prepare Data
-        const profileData = {
-          companyName: inputs.companyName.value.trim(),
-          businessTitle: inputs.businessTitle.value.trim(),
-          description: inputs.businessDesc.value.trim(),
-          whatsappNumber: inputs.whatsappNumber.value.trim(),
-          bankName: inputs.bankName.value.trim(),
-          accountNumber: inputs.accountNumber.value.trim(),
-          accountName: inputs.accountName.value.trim(),
-          deliveryDisclaimer: inputs.deliveryDisclaimer.value.trim(),
-          thankYouMessage: inputs.thankYouMessage.value.trim(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-          isComplete: true
-        };
-
-        // Save to Firestore
-        await firebase.firestore().collection('business_profiles').doc(uid).set(profileData);
-        
-        // Update User Status
-        await firebase.firestore().collection('users').doc(uid).update({
-          businessActive: true,
-          storeUrl: `yan-flows.com/store/${profileData.companyName.toLowerCase().replace(/\s+/g, '-')}`
+        // ✅ Update users collection
+        await db.collection('users').doc(user.uid).update({
+          businessSetup: true,
+          businessName:  businessName,
+          profilePic:    uploadedImageUrl || '',
+          updatedAt:     firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        // Success
-        YF.ui.toast('Business activated successfully! 🚀', 'success');
-        
-        // Redirect
+        YF.hideLoading();
+        YF.showToast('✅ Business setup complete!', 'success');
+
         setTimeout(() => {
           window.location.href = 'dashboard.html';
         }, 1500);
 
-      } catch (err) {
-        console.error('Setup Error:', err);
-        YF.ui.toast('Failed to save profile. Please try again.', 'error');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> <span>Activate Business & Go to Dashboard</span>';
+      } catch (error) {
+        YF.hideLoading();
+        submitBtn.classList.remove('loading');        submitBtn.disabled = false;
+        
+        console.error('Setup error:', error.code, error.message);
+        
+        if (error.code === 'permission-denied') {
+          YF.showToast('❌ Permission denied. Check Firestore rules.', 'error');
+        } else {
+          YF.showToast('Error saving: ' + error.message, 'error');
+        }
       }
     });
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', loadBusinessProfile);
-    updateProgress();
-    console.log('✅ Seller Setup Page Loaded');
+    // Clear error highlight on input
+    document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(el => {
+      el.addEventListener('input', () => el.classList.remove('error'));
+      el.addEventListener('change', () => el.classList.remove('error'));
+    });
   </script>
-<script src="app.js"></script>
 </body>
 </html>

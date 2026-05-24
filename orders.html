@@ -1,411 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Order Management | YAN-FLOWS</title>
+  <title>My Orders | YAN-FLOWS</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-
   <style>
-    /* ========================================
-       YAN-FLOWS - ORDERS PAGE STYLES
-       Luxury Theme: Navy Blue + White + Accents
-       ======================================== */
     :root {
       --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
-      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
-      --coral: #FF6B6B; --coral-hover: #EE5A5A;
-      --teal: #4ECDC4; --teal-hover: #3DBDB4;
-      --gold: #FFD93D; --danger: #FF4757;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D; --light-gray: #ADB5BD;
+      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
       --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
-      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
-      --shadow-lg: 0 8px 40px rgba(27, 58, 95, 0.18);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --radius-sm: 8px; --radius-md: 16px;
-      --space-sm: 1rem; --space-md: 2rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: var(--light-bg); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
-    a { text-decoration: none; color: inherit; }
-    button { font-family: inherit; cursor: pointer; border: none; }
-    input, select { font-family: inherit; }
-
-    /* ===== NAVBAR ===== */
-    .navbar { background: var(--white); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
-    .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-sm); display: flex; justify-content: space-between; align-items: center; }
-    .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; color: var(--navy); }
-    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--navy), var(--teal)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; }
-    .nav-back { font-weight: 500; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
-    .nav-back:hover { color: var(--navy); }
-
-    /* ===== MAIN CONTAINER ===== */
-    .main-container { flex: 1; padding: var(--space-md) var(--space-sm); max-width: 1200px; margin: 0 auto; width: 100%; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; padding: 2rem 1rem; }
     
-    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); flex-wrap: wrap; gap: 1rem; }
-    .page-title h1 { font-size: 1.75rem; color: var(--navy-dark); margin-bottom: 0.25rem; }
-    .page-title p { color: var(--gray); font-size: 0.95rem; }
+    .orders-container { max-width: 900px; margin: 0 auto; }
+    .page-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .back-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--navy); text-decoration: none; box-shadow: var(--shadow-sm); }
+    .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); }
 
-    /* Filter Tabs */    .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-    .filter-tab {
-      padding: 0.5rem 1rem; border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 600;
-      background: var(--white); color: var(--gray); border: 1px solid #E2E8F0; cursor: pointer; transition: var(--transition);
-    }
-    .filter-tab:hover { background: var(--light-bg); color: var(--navy); }
+    .filter-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
+    .filter-tab { padding: 0.6rem 1.25rem; border-radius: var(--radius-md); background: var(--white); color: var(--gray); font-weight: 600; border: 1px solid #E5E7EB; cursor: pointer; white-space: nowrap; transition: var(--transition); }
     .filter-tab.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
-    .filter-tab .count { background: rgba(255,255,255,0.2); padding: 0.1rem 0.4rem; border-radius: 50%; font-size: 0.7rem; margin-left: 0.25rem; }
-    .filter-tab.active .count { background: rgba(255,255,255,0.3); }
 
-    /* Orders List */
-    .orders-list { display: flex; flex-direction: column; gap: 1rem; }
-    .order-card {
-      background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
-      overflow: hidden; transition: var(--transition); border-left: 4px solid var(--gray);
-    }
-    .order-card:hover { box-shadow: var(--shadow-md); }
-    .order-card.status-pending { border-left-color: var(--gold); }
-    .order-card.status-confirmed { border-left-color: var(--teal); }
-    .order-card.status-processing { border-left-color: var(--navy-light); }
-    .order-card.status-out_for_delivery { border-left-color: var(--coral); }
-    .order-card.status-delivered { border-left-color: #2ED573; }
-    .order-card.status-cancelled { border-left-color: var(--danger); }
+    .order-card { background: var(--white); border-radius: var(--radius-md); padding: 1.5rem; box-shadow: var(--shadow-sm); margin-bottom: 1rem; transition: var(--transition); }
+    .order-card:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    
+    .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .order-id { font-weight: 700; color: var(--navy); }
+    .order-date { color: var(--gray); font-size: 0.9rem; }
+    .order-status { padding: 0.375rem 0.75rem; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+    .status-pending { background: #FFF3CD; color: #856404; }
+    .status-completed { background: #D4EDDA; color: #155724; }
+    .status-cancelled { background: #F8D7DA; color: #721C24; }
 
-    .order-header {
-      padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center;
-      cursor: pointer; user-select: none;
-    }
-    .order-id { font-weight: 700; color: var(--navy-dark); }
-    .order-date { font-size: 0.85rem; color: var(--gray); margin-top: 0.25rem; }
-    .order-status-badge {
-      padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-    }
-    .badge-pending { background: rgba(255,217,61,0.15); color: #B7860B; }
-    .badge-confirmed { background: rgba(78,205,196,0.15); color: #1A8A7D; }
-    .badge-processing { background: rgba(44,82,130,0.15); color: var(--navy-light); }
-    .badge-out_for_delivery { background: rgba(255,107,107,0.15); color: var(--coral); }
-    .badge-delivered { background: rgba(46,213,115,0.15); color: #15803D; }
-    .badge-cancelled { background: rgba(255,71,87,0.15); color: var(--danger); }
+    .order-items { margin-bottom: 1rem; }
+    .order-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #F0F0F0; }
+    .order-item:last-child { border-bottom: none; }
+    .item-img { width: 50px; height: 50px; border-radius: 8px; background: var(--light-bg); overflow: hidden; }
+    .item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .item-info { flex: 1; }
+    .item-name { font-weight: 600; color: var(--navy-dark); font-size: 0.95rem; }
+    .item-qty { color: var(--gray); font-size: 0.85rem; }
+    .item-price { font-weight: 700; color: var(--navy); }
+    .order-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F0F0F0; padding-top: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+    .order-total { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .order-actions { display: flex; gap: 0.5rem; }
+    .btn-action { padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.85rem; cursor: pointer; border: none; transition: var(--transition); display: flex; align-items: center; gap: 0.375rem; }
+    .btn-reorder { background: var(--navy); color: white; }
+    .btn-reorder:hover { background: var(--navy-light); }
+    .btn-contact { background: var(--light-bg); color: var(--navy); }
+    .btn-contact:hover { background: #E5E7EB; }
 
-    .order-details {
-      padding: 0 1.25rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
-    }
-    .order-card.expanded .order-details { max-height: 1000px; padding: 0 1.25rem 1.25rem; }
-    .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-    .detail-item h4 { font-size: 0.8rem; color: var(--gray); text-transform: uppercase; margin-bottom: 0.25rem; }
-    .detail-item p { font-weight: 500; color: var(--navy); }
-    .order-items { margin: 1rem 0; }
-    .order-item-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed #F1F5F9; font-size: 0.9rem; }
-    .order-item-row:last-child { border-bottom: none; }    .order-totals { background: var(--light-bg); padding: 1rem; border-radius: var(--radius-sm); margin-top: 1rem; }
-    .total-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
-    .total-row.grand { font-weight: 800; color: var(--navy-dark); font-size: 1.1rem; border-top: 1px solid #E2E8F0; padding-top: 0.5rem; margin-top: 0.5rem; }
-
-    /* Status Update Actions */
-    .status-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #F1F5F9; }
-    .status-btn {
-      padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600;
-      border: 1px solid #E2E8F0; background: var(--white); color: var(--gray); cursor: pointer; transition: var(--transition);
-    }
-    .status-btn:hover { background: var(--light-bg); color: var(--navy); }
-    .status-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
-    .status-btn.cancel { border-color: var(--danger); color: var(--danger); }
-    .status-btn.cancel:hover { background: var(--danger); color: var(--white); }
-
-    /* Empty State */
-    .empty-state { text-align: center; padding: 3rem 1rem; color: var(--gray); }
-    .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
-    .empty-state h3 { color: var(--navy); margin-bottom: 0.5rem; }
-
-    /* Toast */
-    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-    .toast { background: var(--white); padding: 1rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.75rem; min-width: 280px; transform: translateX(120%); transition: transform 0.3s ease; border-left: 4px solid var(--coral); }
-    .toast.success { border-left-color: var(--teal); }
-    .toast.show { transform: translateX(0); }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .details-grid { grid-template-columns: 1fr; }
-      .page-header { flex-direction: column; align-items: flex-start; }
-      .status-actions { flex-direction: column; }
-      .status-btn { width: 100%; text-align: center; }
-    }
+    .empty-state { text-align: center; padding: 4rem 2rem; background: var(--white); border-radius: var(--radius-md); }
+    .empty-state i { font-size: 3rem; color: var(--light-gray); margin-bottom: 1rem; }
+    .yf-toast { position: fixed; top: 2rem; right: 2rem; padding: 1rem 1.5rem; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 0.75rem; box-shadow: var(--shadow-lg); z-index: 9999; opacity: 0; transform: translateX(100%); transition: all 0.3s ease; font-weight: 600; font-size: 0.9rem; }
+    .yf-toast.show { opacity: 1; transform: translateX(0); }
+    .yf-toast--success { background: #2ECC71; color: white; }
+    @media (max-width: 640px) { .order-header { flex-direction: column; align-items: flex-start; } }
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar-container">
-      <a href="dashboard.html" class="logo">
-        <div class="logo-icon">YF</div>
-        YAN-FLOWS
-      </a>
-      <a href="dashboard.html" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-    </div>
-  </nav>
-
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
-  <!-- Main Content -->
-  <main class="main-container">
-    <header class="page-header">
-      <div class="page-title">
-        <h1>Order Management</h1>
-        <p>Track, update, and fulfill customer orders</p>
-      </div>
-    </header>
-
-    <!-- Filter Tabs -->
-    <div class="filter-tabs" id="filterTabs">
-      <button class="filter-tab active" data-status="all">All <span class="count" id="count-all">0</span></button>
-      <button class="filter-tab" data-status="pending">Pending <span class="count" id="count-pending">0</span></button>
-      <button class="filter-tab" data-status="confirmed">Confirmed <span class="count" id="count-confirmed">0</span></button>
-      <button class="filter-tab" data-status="processing">Processing <span class="count" id="count-processing">0</span></button>
-      <button class="filter-tab" data-status="out_for_delivery">Out for Delivery <span class="count" id="count-out_for_delivery">0</span></button>
-      <button class="filter-tab" data-status="delivered">Delivered <span class="count" id="count-delivered">0</span></button>
-      <button class="filter-tab" data-status="cancelled">Cancelled <span class="count" id="count-cancelled">0</span></button>
+  <div class="orders-container">
+    <div class="page-header">
+      <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+      <h1 class="page-title">My Orders</h1>
     </div>
 
-    <!-- Orders List -->
-    <div class="orders-list" id="ordersList">
-      <div class="empty-state" id="emptyState">
-        <i class="fas fa-inbox"></i>
-        <h3>No orders yet</h3>
-        <p>When customers place orders, they will appear here in real-time.</p>
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">All Orders</button>
+      <button class="filter-tab" data-filter="pending">Pending</button>
+      <button class="filter-tab" data-filter="completed">Completed</button>
+      <button class="filter-tab" data-filter="cancelled">Cancelled</button>
+    </div>
+
+    <div id="ordersList">
+      <div class="empty-state">
+        <i class="fas fa-spinner fa-spin"></i>
+        <h3>Loading orders...</h3>
       </div>
     </div>
-  </main>
+  </div>
 
-  <!-- Core Engine -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="app.js"></script>
-
-  <!-- Page Script -->
   <script>
-    // ===== DOM ELEMENTS =====
-    const ordersList = document.getElementById('ordersList');
-    const emptyState = document.getElementById('emptyState');
-    const filterTabs = document.getElementById('filterTabs');
-    const toastContainer = document.getElementById('toastContainer');
-
-    // State
     let allOrders = [];
     let currentFilter = 'all';
-    let currentUser = null;
 
-    // ===== AUTH GUARD =====
-    YF.requireAuth('login.html');
-    // Initialize
-    firebase.auth().onAuthStateChanged(async user => {
-      if (!user) return;
-      currentUser = user;
-      setupRealtimeOrders();
-    });
+    auth.onAuthStateChanged(user => {
+      if (!user) window.location.href = 'login.html';
+      else loadOrders(user.uid);    });
 
-    // ===== REALTIME ORDERS LISTENER =====
-    function setupRealtimeOrders() {
-      if (!currentUser) return;
-      
-      firebase.firestore().collection('orders')
-        .where('sellerId', '==', currentUser.uid)
-        .orderBy('createdAt', 'desc')
-        .onSnapshot(snapshot => {
-          allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          updateCounts();
-          renderOrders();
-        }, error => {
-          console.error('Orders listener error:', error);
-          YF.ui.toast('Failed to load orders.', 'error');
-        });
+    async function loadOrders(uid) {
+      const container = document.getElementById('ordersList');
+      try {
+        const snapshot = await db.collection('orders').where('buyerId', '==', uid).orderBy('createdAt', 'desc').get();
+        allOrders = [];
+        snapshot.forEach(doc => allOrders.push({ id: doc.id, ...doc.data() }));
+        renderOrders();
+      } catch (err) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-bug"></i><h3>Error loading orders</h3></div>`;
+      }
     }
 
-    // ===== UPDATE COUNTS =====
-    function updateCounts() {
-      const counts = { all: allOrders.length, pending: 0, confirmed: 0, processing: 0, out_for_delivery: 0, delivered: 0, cancelled: 0 };
-      
-      allOrders.forEach(order => {
-        if (counts.hasOwnProperty(order.status)) {
-          counts[order.status]++;
-        }
-      });
-
-      document.getElementById('count-all').textContent = counts.all;
-      document.getElementById('count-pending').textContent = counts.pending;
-      document.getElementById('count-confirmed').textContent = counts.confirmed;
-      document.getElementById('count-processing').textContent = counts.processing;
-      document.getElementById('count-out_for_delivery').textContent = counts.out_for_delivery;
-      document.getElementById('count-delivered').textContent = counts.delivered;
-      document.getElementById('count-cancelled').textContent = counts.cancelled;
-    }
-
-    // ===== RENDER ORDERS =====
     function renderOrders() {
+      const container = document.getElementById('ordersList');
       const filtered = currentFilter === 'all' ? allOrders : allOrders.filter(o => o.status === currentFilter);
-      
-      if (allOrders.length === 0) {
-        ordersList.innerHTML = '';
-        ordersList.appendChild(emptyState);        emptyState.style.display = 'block';
-        return;
-      }
 
-      ordersList.innerHTML = '';
-      
       if (filtered.length === 0) {
-        const noMatch = document.createElement('div');
-        noMatch.className = 'empty-state';
-        noMatch.innerHTML = `<i class="fas fa-filter"></i><h3>No ${currentFilter} orders</h3><p>Try changing the filter to see other orders.</p>`;
-        ordersList.appendChild(noMatch);
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-shopping-bag"></i><h3>No orders found</h3><p>Your order history will appear here</p></div>`;
         return;
       }
 
-      filtered.forEach(order => {
-        const card = document.createElement('div');
-        card.className = `order-card status-${order.status}`;
-        card.dataset.id = order.id;
+      container.innerHTML = filtered.map(order => {
+        const date = order.createdAt ? YF.formatDate(order.createdAt) : 'Recently';
+        const statusClass = `status-${order.status || 'pending'}`;
+        const statusLabel = (order.status || 'pending').charAt(0).toUpperCase() + (order.status || 'pending').slice(1);
         
-        const date = order.createdAt ? YF.ui.formatDate(order.createdAt) : 'Just now';
-        const statusBadge = `<span class="order-status-badge badge-${order.status}">${order.status.replace(/_/g, ' ')}</span>`;
-        
-        // Build items list
-        const itemsHtml = order.items.map(item => `
-          <div class="order-item-row">
-            <span>${item.name} x${item.qty}</span>
-            <span>${YF.ui.formatNaira(item.price * item.qty)}</span>
-          </div>
-        `).join('');
-
-        // Build status buttons
-        const statusButtons = getStatusButtons(order.status);
-
-        card.innerHTML = `
-          <div class="order-header" onclick="toggleOrder('${order.id}')">
-            <div>
-              <div class="order-id">Order #${order.id.substring(0, 8).toUpperCase()}</div>
-              <div class="order-date">${date}</div>
-            </div>
-            <div style="text-align:right;">
-              <div style="font-weight:700; color:var(--navy-dark); margin-bottom:0.25rem;">${YF.ui.formatNaira(order.totals.grandTotal)}</div>
-              ${statusBadge}
-            </div>
-          </div>
-          <div class="order-details" id="details-${order.id}">
-            <div class="details-grid">
-              <div class="detail-item">
-                <h4>Customer</h4>
-                <p>${order.customer.name}</p>
-                <p style="font-size:0.9rem; color:var(--gray);">${order.customer.phone}</p>              </div>
-              <div class="detail-item">
-                <h4>Delivery Address</h4>
-                <p>${order.customer.address}, ${order.customer.city}</p>
-                ${order.customer.note ? `<p style="font-size:0.85rem; color:var(--gray); margin-top:0.25rem;"><i class="fas fa-sticky-note"></i> ${order.customer.note}</p>` : ''}
+        return `
+          <div class="order-card">
+            <div class="order-header">
+              <div>
+                <div class="order-id">Order #${order.orderId || order.id.slice(-6).toUpperCase()}</div>
+                <div class="order-date">${date} • From: ${order.sellerName}</div>
               </div>
+              <span class="order-status ${statusClass}">${statusLabel}</span>
             </div>
-            
             <div class="order-items">
-              <h4 style="font-size:0.9rem; color:var(--gray); margin-bottom:0.5rem;">Items Ordered</h4>
-              ${itemsHtml}
+              ${(order.items || []).map(item => `
+                <div class="order-item">
+                  <div class="item-img"><img src="${item.image || 'https://via.placeholder.com/50'}" alt="${item.name}"/></div>
+                  <div class="item-info">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-qty">Qty: ${item.quantity}</div>
+                  </div>
+                  <div class="item-price">${YF.formatCurrency(item.price * item.quantity)}</div>
+                </div>
+              `).join('')}
             </div>
-
-            <div class="order-totals">
-              <div class="total-row"><span>Subtotal</span><span>${YF.ui.formatNaira(order.totals.subtotal)}</span></div>
-              <div class="total-row"><span>Delivery Fee</span><span>${YF.ui.formatNaira(order.totals.delivery)}</span></div>
-              <div class="total-row grand"><span>Total</span><span>${YF.ui.formatNaira(order.totals.grandTotal)}</span></div>
-            </div>
-
-            <div class="status-actions">
-              ${statusButtons}
+            <div class="order-footer">              <div class="order-total">Total: ${YF.formatCurrency(order.total)}</div>
+              <div class="order-actions">
+                <button class="btn-action btn-reorder" onclick="reorder('${order.id}')"><i class="fas fa-redo"></i> Reorder</button>
+                <button class="btn-action btn-contact" onclick="contactSeller('${order.sellerId}')"><i class="fab fa-whatsapp"></i> Contact</button>
+              </div>
             </div>
           </div>
         `;
-        ordersList.appendChild(card);
-      });
+      }).join('');
     }
 
-    // ===== GET STATUS BUTTONS =====
-    function getStatusButtons(currentStatus) {
-      const statuses = [
-        { id: 'pending', label: 'Pending' },
-        { id: 'confirmed', label: 'Confirmed' },
-        { id: 'processing', label: 'Processing' },
-        { id: 'out_for_delivery', label: 'Out for Delivery' },
-        { id: 'delivered', label: 'Delivered' },
-        { id: 'cancelled', label: 'Cancelled' }
-      ];
-
-      // Define valid transitions
-      const transitions = {
-        pending: ['confirmed', 'cancelled'],
-        confirmed: ['processing', 'cancelled'],
-        processing: ['out_for_delivery', 'cancelled'],
-        out_for_delivery: ['delivered', 'cancelled'],
-        delivered: [],
-        cancelled: []
-      };
-
-      const allowed = transitions[currentStatus] || [];      
-      return statuses
-        .filter(s => allowed.includes(s.id))
-        .map(s => `
-          <button class="status-btn ${currentStatus === s.id ? 'active' : ''} ${s.id === 'cancelled' ? 'cancel' : ''}" 
-                  onclick="updateOrderStatus('${s.id}', this)">
-            ${s.label}
-          </button>
-        `).join('');
-    }
-
-    // ===== TOGGLE ORDER DETAILS =====
-    window.toggleOrder = (id) => {
-      const details = document.getElementById(`details-${id}`);
-      const card = details.parentElement;
-      const isExpanded = card.classList.contains('expanded');
-      
-      // Close all others
-      document.querySelectorAll('.order-card.expanded').forEach(c => c.classList.remove('expanded'));
-      
-      if (!isExpanded) {
-        card.classList.add('expanded');
-      }
-    };
-
-    // ===== UPDATE ORDER STATUS =====
-    window.updateOrderStatus = async (newStatus, btn) => {
-      const card = btn.closest('.order-card');
-      const orderId = card.dataset.id;
-      
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
-
-      try {
-        await firebase.firestore().collection('orders').doc(orderId).update({
-          status: newStatus,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        YF.ui.toast(`Order marked as ${newStatus.replace(/_/g, ' ')}! ✅`, 'success');
-      } catch (err) {
-        console.error('Update error:', err);
-        YF.ui.toast('Failed to update order status.', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = btn.textContent.replace('Updating...', '').trim();
-      }
-    };
-
-    // ===== FILTER TABS =====    filterTabs.addEventListener('click', (e) => {
-      if (e.target.classList.contains('filter-tab') || e.target.closest('.filter-tab')) {
-        const tab = e.target.closest('.filter-tab');
-        currentFilter = tab.dataset.status;
-        
+    // Filter Tabs
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
         document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        
+        currentFilter = tab.dataset.filter;
         renderOrders();
-      }
+      });
     });
 
-    console.log('✅ Orders Management Page Loaded');
-    console.log('🔄 Real-time Firestore Listener Active');
-    console.log('📊 Status Workflow & Filtering Ready');
+    function reorder(orderId) {
+      const order = allOrders.find(o => o.id === orderId);
+      if (order) {
+        localStorage.setItem('yanflows_cart', JSON.stringify(order.items.map(i => ({...i, productId: i.productId || i.id, stock: i.stock || 99}))));
+        window.location.href = 'cart.html';
+        YF.showToast('Items added to cart!', 'success');
+      }
+    }
+
+    function contactSeller(sellerId) {
+      window.location.href = `storefront.html?id=${sellerId}`;
+    }
   </script>
-<script src="app.js"></script>
 </body>
 </html>
