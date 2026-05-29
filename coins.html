@@ -28,7 +28,7 @@
     .balance-info h3 { font-size: 1rem; opacity: 0.8; margin-bottom: 0.25rem; }
     .balance-amount { font-size: 2.5rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; }
     .balance-amount i { color: var(--gold); }
-    .low-balance-warning { background: rgba(255, 107, 107, 0.2); border: 1px solid var(--coral); color: #FFE4E4; padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-top: 1rem; display: none; }
+    .low-balance-warning { background: rgba(255, 107, 107, 0.2); border: 1px solid var(--coral); color: #FFE4E4; padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-top: 1rem; display: none; max-width: 400px; }
     .low-balance-warning.show { display: block; }
 
     /* Packages Grid */
@@ -47,7 +47,8 @@
 
     /* Transactions */
     .transactions-section { background: var(--white); border-radius: var(--radius-md); padding: 1.5rem; box-shadow: var(--shadow-sm); }
-    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; }    .transaction-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid #F0F0F0; }
+    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; }
+    .transaction-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid #F0F0F0; }
     .transaction-item:last-child { border-bottom: none; }
     .txn-info { display: flex; align-items: center; gap: 1rem; }
     .txn-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--light-bg); display: flex; align-items: center; justify-content: center; color: var(--teal); }
@@ -63,7 +64,7 @@
     .yf-toast--success { background: #2ECC71; color: white; }
     .yf-toast--error { background: var(--coral); color: white; }
     
-    @media (max-width: 640px) { .balance-card { flex-direction: column; text-align: center; } .packages-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .balance-card { flex-direction: column; text-align: center; gap: 1rem; } .packages-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -74,29 +75,41 @@
       <h1 class="page-title">Buy Coins</h1>
     </div>
 
-    <!-- Balance -->
     <div class="balance-card">
       <div class="balance-info">
         <h3>Current Balance</h3>
-        <div class="balance-amount"><i class="fas fa-coins"></i> <span id="coinBalance">0</span></div>
+        <div class="balance-amount"><i class="fas fa-coins"></i> <span id="coinBalance">Loading...</span></div>
       </div>
       <div class="low-balance-warning" id="lowBalanceWarning">
-        <i class="fas fa-exclamation-triangle"></i> Low Balance! You may not be able to receive orders.
+        <i class="fas fa-exclamation-triangle"></i> Low Balance! You need at least 1 coin to receive future customer orders via WhatsApp.
       </div>
     </div>
 
-    <!-- Packages -->
+
+
+    <div class="packages-grid">
+      <div class="package-card">
+        <div class="package-coins">10</div>
+        <div class="package-price">₦1,000</div>
+        <div class="package-bonus">Starter Pack</div>
+        <button class="btn-buy" onclick="payWithPaystack(1000, 10)">Buy Now</button>
+      </div>
+
+
+
+
     <div class="packages-grid">
       <div class="package-card">
         <div class="package-coins">50</div>
         <div class="package-price">₦5,000</div>
-        <div class="package-bonus">Starter Pack</div>
+        <div class="package-bonus">Medium Pack</div>
         <button class="btn-buy" onclick="payWithPaystack(5000, 50)">Buy Now</button>
       </div>
       
       <div class="package-card featured">
         <div class="badge-popular">POPULAR</div>
-        <div class="package-coins">120</div>        <div class="package-price">₦10,000</div>
+        <div class="package-coins">120</div>
+        <div class="package-price">₦10,000</div>
         <div class="package-bonus">+20 Bonus Coins</div>
         <button class="btn-buy" onclick="payWithPaystack(10000, 120)">Buy Now</button>
       </div>
@@ -123,7 +136,6 @@
       </div>
     </div>
 
-    <!-- History -->
     <div class="transactions-section">
       <h2 class="section-title">Transaction History</h2>
       <div id="transactionList">
@@ -135,39 +147,65 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="https://js.paystack.co/v1/inline.js"></script> <!-- Paystack SDK -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
   <script src="app.js"></script>
 
   <script>
-    // Paystack Public Key - REPLACE WITH YOUR OWN KEY
-    const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-
+    const PAYSTACK_PUBLIC_KEY = 'pk_live_d265096a47801eaa597f27f6674e5a6d051e4959';
     let currentUser = null;
 
     auth.onAuthStateChanged(async user => {
-      if (!user) window.location.href = 'login.html';      currentUser = user;
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      currentUser = user;
       loadBalance();
       loadTransactions();
     });
 
     async function loadBalance() {
       if (!currentUser) return;
-      const userData = await YF.getUserData(currentUser.uid);
-      const balance = userData.coins || 0;
+      
+      // Fetch or set up onboarding document safely
+      const userRef = db.collection('users').doc(currentUser.uid);
+      const doc = await userRef.get();
+      
+      let balance = 0;
+      if (doc.exists) {
+        if (doc.data().coins === undefined) {
+          // New user logic fallback: inject 10 free trial coins if missing
+          await userRef.update({ coins: 10 });
+          balance = 10;
+        } else {
+          balance = doc.data().coins;
+        }
+      } else {
+        // Fallback document initialization
+        await userRef.set({ coins: 10, email: currentUser.email });
+        balance = 10;
+      }
+
       document.getElementById('coinBalance').textContent = balance;
       
       if (balance < 5) {
         document.getElementById('lowBalanceWarning').classList.add('show');
+      } else {
+        document.getElementById('lowBalanceWarning').classList.remove('show');
       }
     }
 
     async function loadTransactions() {
       const container = document.getElementById('transactionList');
       try {
-        const snapshot = await db.collection('transactions').where('userId', '==', currentUser.uid).orderBy('date', 'desc').limit(10).get();
+        const snapshot = await db.collection('transactions')
+          .where('userId', '==', currentUser.uid)
+          .orderBy('date', 'desc')
+          .limit(10)
+          .get();
         
         if (snapshot.empty) {
-          container.innerHTML = '<p style="text-align: center; color: var(--gray);">No transactions yet.</p>';
+          container.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 1rem;">No transactions found.</p>';
           return;
         }
 
@@ -178,13 +216,18 @@
           const amountClass = isPlus ? 'plus' : 'minus';
           const sign = isPlus ? '+' : '';
           
+          let dateString = 'Recently';
+          if (txn.date && txn.date.toDate) {
+            dateString = txn.date.toDate().toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+          }
+          
           return `
             <div class="transaction-item">
               <div class="txn-info">
                 <div class="txn-icon ${isPlus ? '' : 'expense'}"><i class="fas ${iconClass}"></i></div>
                 <div class="txn-details">
                   <h4>${txn.description || 'Transaction'}</h4>
-                  <p>${txn.date ? YF.formatDate(txn.date) : 'Recently'}</p>
+                  <p>${dateString}</p>
                 </div>
               </div>
               <div class="txn-amount ${amountClass}">${sign}${txn.amount} Coins</div>
@@ -192,84 +235,80 @@
           `;
         }).join('');
       } catch (err) {
-        console.error(err);
+        console.error("Error pulling history: ", err);
+        container.innerHTML = '<p style="text-align: center; color: var(--coral);">Could not render transaction ledger.</p>';
       }
     }
-    // Paystack Integration
+
     function payWithPaystack(amountNaira, coinAmount) {
       if (!currentUser) return;
 
       const handler = PaystackPop.setup({
         key: PAYSTACK_PUBLIC_KEY,
         email: currentUser.email,
-        amount: amountNaira * 100, // Paystack is in kobo
+        amount: amountNaira * 100, 
         currency: 'NGN',
         ref: 'YF_' + Math.floor((Math.random() * 1000000000) + 1),
         callback: function(response) {
-          // Payment successful
           processSuccessfulPayment(response.reference, amountNaira, coinAmount);
         },
         onClose: function() {
-          YF.showToast('Payment cancelled', 'error');
+          if (window.YF && YF.showToast) YF.showToast('Payment cancelled', 'error');
         }
       });
-
       handler.openIframe();
     }
 
     async function processSuccessfulPayment(reference, naira, coins) {
-      YF.showLoading('Verifying payment...');
+      if(window.YF && YF.showLoading) YF.showLoading('Verifying transaction...');
       
       try {
-        // 1. Update user balance
         const userRef = db.collection('users').doc(currentUser.uid);
         await db.runTransaction(async (transaction) => {
           const doc = await transaction.get(userRef);
-          const newBalance = (doc.data().coins || 0) + coins;
-          transaction.update(userRef, { coins: newBalance });
+          const currentCoins = doc.exists ? (doc.data().coins || 0) : 0;
+          transaction.set(userRef, { coins: currentCoins + coins }, { merge: true });
         });
 
-        // 2. Save transaction record
         await db.collection('transactions').add({
           userId: currentUser.uid,
           type: 'purchase',
           amount: coins,
           nairaSpent: naira,
           reference: reference,
-          description: `Bought ${coins} coins for ₦${naira.toLocaleString()}`,
+          description: `Purchased ${coins} coins bundle`,
           date: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        // 3. Check Referral Bonus (If this user was referred, give referrer 20 coins)
-        const userData = await YF.getUserData(currentUser.uid);
-        if (userData.referredBy) {
-          const referrerRef = db.collection('users').doc(userData.referredBy);          await db.runTransaction(async (transaction) => {
+        // Referral tracking engine
+        const userDoc = await userRef.get();
+        const userData = userDoc.data();
+        if (userData && userData.referredBy) {
+          const referrerRef = db.collection('users').doc(userData.referredBy);
+          await db.runTransaction(async (transaction) => {
             const refDoc = await transaction.get(referrerRef);
-            const newRefBalance = (refDoc.data().coins || 0) + 20;
-            transaction.update(referrerRef, { coins: newRefBalance });
+            const refCurrent = refDoc.exists ? (refDoc.data().coins || 0) : 0;
+            transaction.set(referrerRef, { coins: refCurrent + 20 }, { merge: true });
           });
           
-          // Log bonus for referrer
           await db.collection('transactions').add({
             userId: userData.referredBy,
             type: 'referral_bonus',
             amount: 20,
-            description: `Referral bonus: ${userData.fullName} bought coins`,
+            description: `Referral bonus: ${userData.fullName || 'User'} bought coins`,
             date: firebase.firestore.FieldValue.serverTimestamp()
           });
         }
 
-        YF.hideLoading();
-        YF.showToast(`✅ Success! ${coins} coins added to your balance.`, 'success');
+        if(window.YF && YF.hideLoading) YF.hideLoading();
+        if(window.YF && YF.showToast) YF.showToast(`✅ Added ${coins} coins successfully!`, 'success');
         
-        // Reload data
         loadBalance();
         loadTransactions();
-
       } catch (error) {
-        YF.hideLoading();
-        console.error('Payment processing error:', error);
-        YF.showToast('Payment successful but coin addition failed. Contact support.', 'error');
+        if(window.YF && YF.hideLoading) YF.hideLoading();
+        console.error('Payment verification system failure:', error);
+        if(window.YF && YF.showToast) YF.showToast('Balance sync issue. Please alert support details.', 'error');
       }
     }
   </script>

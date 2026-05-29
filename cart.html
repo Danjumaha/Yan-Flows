@@ -20,9 +20,7 @@
     body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; padding: 2rem 1rem; }
 
     .cart-container { max-width: 900px; margin: 0 auto; }
-    .page-header {
-      display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
-    }
+    .page-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
     .back-btn {
       width: 40px; height: 40px; border-radius: 50%;
       background: var(--white); display: flex; align-items: center; justify-content: center;
@@ -32,36 +30,42 @@
     .back-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); }
 
-    .cart-layout { display: grid; grid-template-columns: 1fr 350px; gap: 1.5rem; }
-
-    /* Cart Items */
-    .cart-items {
-      background: var(--white); border-radius: var(--radius-md);
-      padding: 1.5rem; box-shadow: var(--shadow-sm);
+    /* Seller Block Configurations */
+    .seller-block { 
+      background: var(--white); border-radius: var(--radius-md); 
+      padding: 1.5rem; box-shadow: var(--shadow-sm); margin-bottom: 2rem;
     }
+    .seller-header { 
+      display: flex; align-items: center; gap: 0.5rem; 
+      color: var(--navy); font-size: 1.25rem; font-weight: 700;
+      border-bottom: 2px solid var(--light-bg); padding-bottom: 0.75rem; margin-bottom: 1rem;
+    }
+    
     .cart-item {
       display: grid; grid-template-columns: 80px 1fr auto;
       gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #E5E7EB;
     }
-    .cart-item:last-child { border-bottom: none; }
+    .cart-item:last-of-type { border-bottom: none; }
     .item-image {
       width: 80px; height: 80px; border-radius: var(--radius-sm);
       background: var(--light-bg); overflow: hidden; flex-shrink: 0;
-    }    .item-image img { width: 100%; height: 100%; object-fit: cover; }
+    }
+    .item-image img { width: 100%; height: 100%; object-fit: cover; }
     .item-details { display: flex; flex-direction: column; justify-content: space-between; }
     .item-name { font-weight: 700; color: var(--navy-dark); margin-bottom: 0.25rem; font-size: 0.95rem; }
     .item-seller { color: var(--gray); font-size: 0.8rem; margin-bottom: 0.5rem; }
     .item-price { font-weight: 700; color: var(--teal); font-size: 1rem; }
+    
     .item-actions {
       display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 0.5rem;
     }
     .remove-btn {
       color: var(--coral); background: none; border: none;
       cursor: pointer; font-size: 0.8rem; font-weight: 600;
-      display: flex; align-items: center; gap: 0.25rem;
-      transition: var(--transition);
+      display: flex; align-items: center; gap: 0.25rem; transition: var(--transition);
     }
     .remove-btn:hover { opacity: 0.8; }
+    
     .quantity-control {
       display: flex; align-items: center; gap: 0.5rem;
       background: var(--light-bg); border-radius: 9999px; padding: 0.25rem;
@@ -77,55 +81,38 @@
     .qty-value { font-weight: 700; min-width: 28px; text-align: center; font-size: 0.9rem; }
     .item-subtotal { font-weight: 800; color: var(--navy); font-size: 1rem; }
 
-    /* Order Summary */
-    .order-summary {
-      background: var(--white); border-radius: var(--radius-md);
-      padding: 1.5rem; box-shadow: var(--shadow-sm);
-      height: fit-content; position: sticky; top: 2rem;
+    /* Block Specific Checkout Summaries */
+    .seller-summary-box {
+      margin-top: 1rem; padding-top: 1rem; border-top: 2px dashed var(--light-bg);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
     }
-    .summary-title {
-      font-size: 1.25rem; font-weight: 700; color: var(--navy);
-      margin-bottom: 1.25rem; padding-bottom: 0.75rem;
-      border-bottom: 2px solid var(--light-bg);
-    }
-    .summary-row {
-      display: flex; justify-content: space-between;
-      margin-bottom: 0.75rem; color: var(--gray); font-size: 0.95rem;
-    }
-    .summary-row.total {
-      font-size: 1.25rem; font-weight: 800; color: var(--navy);
-      padding-top: 0.75rem; border-top: 2px solid var(--light-bg);
-      margin-top: 0.75rem;
-    }    .checkout-btn {
-      width: 100%; padding: 1rem;
+    .seller-total-lbl { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .seller-total-lbl span { color: var(--teal); font-size: 1.25rem; margin-left: 0.25rem;}
+
+    .checkout-btn {
+      padding: 0.75rem 1.5rem;
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
       color: var(--white); border: none; border-radius: var(--radius-sm);
-      font-size: 1rem; font-weight: 700; margin-top: 1.25rem;
-      cursor: pointer; transition: var(--transition);
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      text-decoration: none;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
     }
-    .checkout-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-    .checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .continue-shopping {
-      display: block; text-align: center; margin-top: 1rem;
-      color: var(--teal); text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    
+    .grand-cart-total {
+      background: var(--navy-dark); color: var(--white); padding: 1.25rem;
+      border-radius: var(--radius-md); text-align: center; font-size: 1.1rem;
+      font-weight: 700; margin-top: 2rem; margin-bottom: 1rem;
     }
-    .continue-shopping:hover { text-decoration: underline; }
 
     /* Empty Cart */
-    .empty-cart {
-      text-align: center; padding: 4rem 2rem;
-      background: var(--white); border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-    }
+    .empty-cart { text-align: center; padding: 4rem 2rem; background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
     .empty-cart i { font-size: 4rem; color: var(--gray); margin-bottom: 1rem; }
     .empty-cart h2 { color: var(--navy); margin-bottom: 0.5rem; }
     .empty-cart p { color: var(--gray); margin-bottom: 1.5rem; }
 
     /* Toast */
     .yf-toast {
-      position: fixed; top: 80px; right: 2rem;
+      position: fixed; top: 20px; right: 2rem;
       padding: 1rem 1.5rem; border-radius: var(--radius-sm);
       display: flex; align-items: center; gap: 0.75rem;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 9999;
@@ -137,15 +124,13 @@
     .yf-toast--error { background: var(--coral); color: white; }
 
     @media (max-width: 768px) {
-      .cart-layout { grid-template-columns: 1fr; }
       .cart-item { grid-template-columns: 70px 1fr; }
-      .item-actions {
-        grid-column: 1 / -1; flex-direction: row;
-        justify-content: space-between; margin-top: 0.5rem;
-      }
-      .order-summary { position: static; }
+      .item-actions { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; margin-top: 0.5rem; }
+      .seller-summary-box { flex-direction: column; align-items: flex-start; }
+      .checkout-btn { width: 100%; justify-content: center; }
     }
-  </style></head>
+  </style>
+</head>
 <body>
 
   <div class="cart-container">
@@ -157,17 +142,15 @@
     <div id="cartContent">
       <div style="text-align:center;padding:3rem;color:var(--gray);">
         <i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;"></i>
-        <p>Loading cart...</p>
+        <p>Loading cart streams...</p>
       </div>
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   
-  <!-- Initialize Firebase -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
@@ -184,17 +167,16 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
     
-    // Simple format currency
     function formatCurrency(amount) {
       return '₦' + Number(amount).toLocaleString('en-NG');
     }
     
-    // Simple toast
     function showToast(message, type = 'success') {
       const toast = document.createElement('div');
       toast.className = `yf-toast yf-toast--${type}`;
       toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${message}</span>`;
-      document.body.appendChild(toast);      setTimeout(() => toast.classList.add('show'), 10);
+      document.body.appendChild(toast);      
+      setTimeout(() => toast.classList.add('show'), 10);
       setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
@@ -205,183 +187,165 @@
   <script>
     let cart = [];
     let currentUser = null;
+    let cartListener = null;
 
-    console.log('✅ Cart page loaded');
-
-    // ===== Auth Check =====
     auth.onAuthStateChanged((user) => {
       currentUser = user;
-      console.log('User:', user ? user.email : 'Not logged in');
-      loadCart();
+      if (user) {
+        if(cartListener) cartListener();
+        cartListener = db.collection('carts').doc(user.uid).collection('items')
+          .onSnapshot((snapshot) => {
+            cart = [];
+            snapshot.docs.forEach(doc => {
+              let data = doc.data();
+              data.productId = doc.id; // Sync Document Key
+              cart.push(data);
+            });
+            localStorage.setItem('yanflows_cart', JSON.stringify(cart));
+            renderCart();
+          }, (err) => {
+            console.error(err);
+            loadCartFallback();
+          });
+      } else {
+        loadCartFallback();
+      }
     });
 
-    // ===== Load Cart =====
-    function loadCart() {
-      try {
-        const savedCart = localStorage.getItem('yanflows_cart');
-        if (savedCart) {
-          cart = JSON.parse(savedCart);
-          console.log('📦 Cart loaded:', cart.length, 'items');
-        } else {
-          cart = [];
-          console.log('📦 Empty cart');
-        }
-        renderCart();
-      } catch (e) {
-        console.error('❌ Error loading cart:', e);
-        cart = [];
-        renderCart();
-      }
+    function loadCartFallback() {
+      const savedCart = localStorage.getItem('yanflows_cart');
+      cart = savedCart ? JSON.parse(savedCart) : [];
+      renderCart();
     }
 
-    // ===== Render Cart =====
     function renderCart() {
       const container = document.getElementById('cartContent');
-      
       if (!cart || cart.length === 0) {
         container.innerHTML = `
           <div class="empty-cart">
             <i class="fas fa-shopping-cart"></i>
             <h2>Your cart is empty</h2>
-            <p>Add products from the marketplace to get started</p>            <a href="dashboard.html" class="checkout-btn" style="display: inline-block; width: auto; text-decoration: none;">
-              <i class="fas fa-home"></i> Continue Shopping
-            </a>
+            <p>Add unique merchant items to start processing orders.</p>            
+            <a href="dashboard.html" class="checkout-btn"><i class="fas fa-home"></i> Browse Marketplace</a>
           </div>
         `;
         return;
       }
 
-      // Group items by seller
+      // Group products strictly by sellerId
       const itemsBySeller = {};
       cart.forEach(item => {
-        if (!itemsBySeller[item.sellerId]) {
-          itemsBySeller[item.sellerId] = [];
-        }
-        itemsBySeller[item.sellerId].push(item);
+        const sId = item.sellerId || 'unknown_seller';
+        if (!itemsBySeller[sId]) itemsBySeller[sId] = [];
+        itemsBySeller[sId].push(item);
       });
 
-      let html = '<div class="cart-layout"><div class="cart-items">';
-      
+      let html = '';
+      let runningGrandTotal = 0;
+
       Object.keys(itemsBySeller).forEach(sellerId => {
         const sellerItems = itemsBySeller[sellerId];
-        const seller = sellerItems[0];
+        const displaySellerName = sellerItems[0].sellerName || 'Merchant Vendor';
         
-        html += `<h3 style="margin: 1.5rem 0 1rem; color: var(--navy); font-size: 1.1rem;">
-          <i class="fas fa-store" style="margin-right: 0.5rem;"></i>From: ${seller.sellerName || 'Unknown Seller'}
-        </h3>`;
+        let sellerSubtotal = 0;
         
-        sellerItems.forEach((item) => {
+        html += `
+          <div class="seller-block">
+            <div class="seller-header">
+              <i class="fas fa-store"></i> Vendor: ${displaySellerName}
+            </div>
+        `;
+
+        sellerItems.forEach(item => {
           const itemTotal = (item.price || 0) * (item.quantity || 1);
-          const cartIndex = cart.findIndex(i => 
-            i.productId === item.productId && i.sellerId === item.sellerId
-          );
-          
+          sellerSubtotal += itemTotal;
+          runningGrandTotal += itemTotal;
+
           html += `
             <div class="cart-item">
               <div class="item-image">
-                <img src="${item.image || 'https://via.placeholder.com/80'}" 
-                     alt="${item.name}" 
-                     onerror="this.src='https://via.placeholder.com/80?text=No+Image'"/>
+                <img src="${item.image || 'https://via.placeholder.com/80'}" alt="${item.name}"/>
               </div>
               <div class="item-details">
                 <div>
-                  <div class="item-name">${item.name || 'Unnamed Product'}</div>
-                  <div class="item-seller">${seller.sellerName || 'Unknown Seller'}</div>
+                  <div class="item-name">${item.name || 'Product Item'}</div>
                   <div class="item-price">${formatCurrency(item.price)}</div>
                 </div>
                 <div class="item-actions">
                   <div class="quantity-control">
-                    <button class="qty-btn" onclick="updateQuantity(${cartIndex}, -1)">-</button>
-                    <span class="qty-value">${item.quantity || 1}</span>                    <button class="qty-btn" onclick="updateQuantity(${cartIndex}, 1)">+</button>
+                    <button class="qty-btn" onclick="updateQuantity('${item.productId}', -1)">-</button>
+                    <span class="qty-value">${item.quantity || 1}</span>                    
+                    <button class="qty-btn" onclick="updateQuantity('${item.productId}', 1)">+</button>
                   </div>
                   <div class="item-subtotal">Subtotal: ${formatCurrency(itemTotal)}</div>
                 </div>
               </div>
-              <button class="remove-btn" onclick="removeItem(${cartIndex})">
+              <button class="remove-btn" onclick="removeItem('${item.productId}')">
                 <i class="fas fa-trash"></i> Remove
               </button>
             </div>
           `;
         });
+
+        // Unique Isolated Block Actions
+        html += `
+            <div class="seller-summary-box">
+              <div class="seller-total-lbl">Vendor Total: <span>${formatCurrency(sellerSubtotal)}</span></div>
+              <button class="checkout-btn" onclick="proceedToCheckout('${sellerId}')">
+                <i class="fas fa-shopping-bag"></i> Checkout From This Seller Only
+              </button>
+            </div>
+          </div>
+        `;
       });
 
-      // Calculate totals
-      const subtotal = cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
-      const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
-      html += `</div>
-        <div class="order-summary">
-          <div class="summary-title">Order Summary</div>
-          <div class="summary-row">
-            <span>Items (${itemCount})</span>
-            <span>${formatCurrency(subtotal)}</span>
-          </div>
-          <div class="summary-row">
-            <span>Delivery Fee</span>
-            <span>Calculated by seller</span>
-          </div>
-          <div class="summary-row total">
-            <span>Total</span>
-            <span>${formatCurrency(subtotal)}</span>
-          </div>
-          <a href="checkout.html" class="checkout-btn">
-            <i class="fas fa-lock"></i> Proceed to Checkout
-          </a>
-          <a href="dashboard.html" class="continue-shopping">Continue Shopping</a>
-        </div>
-      </div>`;
-
+      // Show Overall running summary at base
+      html += `<div class="grand-cart-total"><i class="fas fa-layer-group"></i> Total Combined Basket Value: ${formatCurrency(runningGrandTotal)}</div>`;
       container.innerHTML = html;
     }
 
-    // ===== Update Quantity =====
-    window.updateQuantity = function(index, change) {
-      if (index < 0 || index >= cart.length) return;
-      
-      const item = cart[index];
+    window.updateQuantity = function(productId, change) {
+      const item = cart.find(i => i.productId === productId);
+      if (!item) return;
       const newQuantity = (item.quantity || 1) + change;
-      
-      if (newQuantity < 1) {        removeItem(index);
-        return;
-      }
+      if (newQuantity < 1) { removeItem(productId); return; }
 
-      if (newQuantity > (item.stock || 99)) {
-        showToast('Maximum stock reached', 'error');
-        return;
-      }
-
-      item.quantity = newQuantity;
-      saveCart();
-      renderCart();
-      showToast('Quantity updated', 'success');
-    };
-
-    // ===== Remove Item =====
-    window.removeItem = function(index) {
-      if (index < 0 || index >= cart.length) return;
-      
-      if (confirm('Remove this item from cart?')) {
-        const removed = cart.splice(index, 1)[0];
-        saveCart();
-        renderCart();
-        showToast(`Removed: ${removed.name}`, 'success');
-      }
-    };
-
-    // ===== Save Cart =====
-    function saveCart() {
-      localStorage.setItem('yanflows_cart', JSON.stringify(cart));
-      
-      // Also save to Firebase if logged in
       if (currentUser) {
-        db.collection('carts').doc(currentUser.uid).set({
-          items: cart,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true }).catch(err => console.error('Firebase save error:', err));
+        db.collection('carts').doc(currentUser.uid).collection('items').doc(productId).update({
+          quantity: newQuantity
+        }).catch(err => console.error(err));
+      } else {
+        item.quantity = newQuantity;
+        localStorage.setItem('yanflows_cart', JSON.stringify(cart));
+        renderCart();
       }
-    }
+    };
 
-    console.log('✅ Cart page fully initialized');
+    window.removeItem = function(productId) {
+      const item = cart.find(i => i.productId === productId);
+      if (!item) return;
+      if (confirm(`Remove ${item.name} from cart?`)) {
+        if (currentUser) {
+          db.collection('carts').doc(currentUser.uid).collection('items').doc(productId).delete()
+            .then(() => showToast('Removed from cart stream', 'success'))
+            .catch(() => showToast('Error clearing data item', 'error'));
+        } else {
+          cart = cart.filter(i => i.productId !== productId);
+          localStorage.setItem('yanflows_cart', JSON.stringify(cart));
+          renderCart();
+        }
+      }
+    };
+
+    // Standardize routing payload down to 1 designated vendor
+    window.proceedToCheckout = function(sellerId) {
+      const checkoutSubset = cart.filter(item => item.sellerId === sellerId);
+      if(checkoutSubset.length === 0) return;
+
+      // Store only this vendor's processing payload for checkout window consumption
+      localStorage.setItem('yanflows_checkout_processing_items', JSON.stringify(checkoutSubset));
+      window.location.href = 'checkout.html';
+    };
   </script>
 </body>
 </html>

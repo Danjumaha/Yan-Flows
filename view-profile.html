@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile | YAN-FLOWS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
+      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D;
+      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+      --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px;
+      --transition: all 0.3s ease;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; }
+
+    /* Top Navigation */
+    .top-nav { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      height: 64px; 
+      background: var(--white); 
+      box-shadow: var(--shadow-sm); 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      padding: 0 1.5rem; 
+      z-index: 1000; 
+    }
+    .nav-logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 0.75rem; 
+      font-size: 1.5rem; 
+      font-weight: 800; 
+      color: var(--navy); 
+      text-decoration: none; 
+    }
+    .nav-logo-icon { 
+      width: 40px; 
+      height: 40px; 
+      background: linear-gradient(135deg, var(--navy), var(--teal)); 
+      border-radius: 10px;       display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      color: white; 
+      font-weight: 700; 
+    }
+    .nav-actions { 
+      display: flex; 
+      align-items: center; 
+      gap: 0.75rem; 
+    }
+    .nav-btn { 
+      padding: 0.5rem 1rem; 
+      border-radius: var(--radius-sm); 
+      font-weight: 600; 
+      font-size: 0.9rem; 
+      text-decoration: none; 
+      transition: var(--transition); 
+      cursor: pointer; 
+      border: none; 
+      background: var(--light-bg); 
+      color: var(--navy); 
+    }
+    .nav-btn:hover { background: #E5E7EB; }
+    .nav-btn.primary { 
+      background: var(--navy); 
+      color: white; 
+    }
+    .nav-btn.primary:hover { background: var(--navy-light); }
+
+    /* Profile Header */
+    .profile-header { 
+      background: var(--white); 
+      padding: 2rem 1.5rem; 
+      border-bottom: 1px solid #E5E7EB; 
+      margin-top: 64px; 
+    }
+    .profile-container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      display: flex; 
+      gap: 2rem; 
+      align-items: flex-start; 
+      flex-wrap: wrap; 
+    }
+    
+    /* Profile Avatar Section */
+    .profile-avatar-section {
+      position: relative;
+      flex-shrink: 0;      text-align: center;
+    }
+    .profile-avatar { 
+      width: 180px; 
+      height: 180px; 
+      border-radius: 50%; 
+      background: var(--light-bg); 
+      border: 5px solid var(--white); 
+      box-shadow: var(--shadow-md); 
+      overflow: hidden; 
+      margin: 0 auto 1rem;
+      transition: var(--transition);
+    }
+    .profile-avatar img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+    }
+    .profile-avatar .placeholder { 
+      width: 100%; 
+      height: 100%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      background: linear-gradient(135deg, var(--navy), var(--teal)); 
+      color: white; 
+      font-size: 4rem; 
+      font-weight: 700; 
+    }
+
+    .profile-info { 
+      flex: 1; 
+      min-width: 250px; 
+    }
+    .profile-name { 
+      font-size: 2.2rem; 
+      font-weight: 800; 
+      color: var(--navy-dark); 
+      margin-bottom: 0.25rem; 
+    }
+    .profile-handle { 
+      color: var(--gray); 
+      font-size: 1.1rem; 
+      margin-bottom: 1rem; 
+    }
+    .profile-bio { 
+      color: var(--gray); 
+      margin-bottom: 1.25rem; 
+      line-height: 1.6; 
+      font-size: 1rem;      max-width: 600px;
+    }
+    .profile-meta { 
+      display: flex; 
+      gap: 1rem; 
+      margin-bottom: 1.5rem; 
+      font-size: 0.95rem; 
+      color: var(--navy); 
+      flex-wrap: wrap; 
+    }
+    .profile-meta span { 
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--light-bg);
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+    }
+    .profile-meta i { 
+      color: var(--teal);
+      font-size: 1rem;
+    }
+    .profile-actions { 
+      display: flex; 
+      gap: 0.75rem; 
+      flex-wrap: wrap; 
+    }
+    
+    /* Action Buttons */
+    .btn-follow { 
+      background: var(--teal); 
+      color: var(--navy-dark); 
+      padding: 0.875rem 2rem; 
+      border-radius: var(--radius-sm); 
+      font-weight: 700; 
+      text-decoration: none; 
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem; 
+      transition: var(--transition); 
+      border: none; 
+      cursor: pointer; 
+      font-size: 1rem;
+    }
+    .btn-follow:hover { 
+      background: #3dbdb4;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }    .btn-following {
+      background: var(--light-bg);
+      color: var(--navy);
+      border: 2px solid var(--navy);
+    }
+    .btn-following:hover {
+      background: var(--navy);
+      color: white;
+    }
+    
+    .btn-message { 
+      background: #25D366; 
+      color: white; 
+      padding: 0.875rem 1.5rem; 
+      border-radius: var(--radius-sm); 
+      font-weight: 700; 
+      text-decoration: none; 
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem; 
+      transition: var(--transition); 
+      border: none; 
+      cursor: pointer; 
+      font-size: 1rem;
+    }
+    .btn-message:hover { 
+      background: #128C7E;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn-edit-profile {
+      background: var(--navy);
+      color: white;
+      padding: 0.875rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn-edit-profile:hover {
+      background: var(--navy-light);
+      transform: translateY(-2px);
+    }
+    /* Profile Tabs */
+    .profile-tabs { 
+      background: var(--white); 
+      border-bottom: 1px solid #E5E7EB; 
+      position: sticky; 
+      top: 64px; 
+      z-index: 900; 
+    }
+    .tabs-container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      display: flex; 
+      gap: 0; 
+      overflow-x: auto; 
+    }
+    .tab-btn { 
+      padding: 1rem 1.5rem; 
+      font-weight: 600; 
+      color: var(--gray); 
+      background: none; 
+      border: none; 
+      cursor: pointer; 
+      border-bottom: 3px solid transparent; 
+      transition: var(--transition); 
+      white-space: nowrap; 
+      font-size: 0.95rem; 
+    }
+    .tab-btn:hover { 
+      color: var(--navy); 
+    }
+    .tab-btn.active { 
+      color: var(--teal); 
+      border-bottom-color: var(--teal); 
+    }
+
+    .tab-content { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 2rem 1.5rem; 
+      display: none; 
+    }
+    .tab-content.active { 
+      display: block; 
+    }
+
+    /* Products Grid - View Only */
+    .products-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));       gap: 1.5rem; 
+    }
+    .product-card { 
+      background: var(--white); 
+      border-radius: var(--radius-md); 
+      overflow: hidden; 
+      box-shadow: var(--shadow-sm); 
+      transition: var(--transition); 
+      position: relative; 
+      cursor: pointer;
+    }
+    .product-card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12); 
+    }
+    .product-img { 
+      width: 100%; 
+      aspect-ratio: 1/1; 
+      background: var(--light-bg); 
+      overflow: hidden; 
+      position: relative; 
+    }
+    .product-img img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      transition: var(--transition);
+    }
+    .product-card:hover .product-img img {
+      transform: scale(1.05);
+    }
+    .product-badge { 
+      position: absolute; 
+      top: 10px; 
+      left: 10px; 
+      background: var(--coral); 
+      color: white; 
+      padding: 0.25rem 0.5rem; 
+      border-radius: 4px; 
+      font-size: 0.75rem; 
+      font-weight: 700; 
+    }
+    .product-body { 
+      padding: 1rem; 
+    }
+    .product-name { 
+      font-weight: 700; 
+      color: var(--navy-dark); 
+      margin-bottom: 0.5rem; 
+      font-size: 1rem;       display: -webkit-box; 
+      -webkit-line-clamp: 2; 
+      -webkit-box-orient: vertical; 
+      overflow: hidden; 
+    }
+    .product-price { 
+      font-size: 1.2rem; 
+      font-weight: 800; 
+      color: var(--navy); 
+      margin-bottom: 0.75rem; 
+    }
+    .product-seller {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 0.75rem;
+    }
+    .product-actions { 
+      display: flex; 
+      gap: 0.5rem; 
+    }
+    .btn-view { 
+      flex: 1; 
+      padding: 0.6rem; 
+      font-size: 0.9rem; 
+      border-radius: var(--radius-sm); 
+      border: 2px solid var(--navy); 
+      background: var(--light-bg);
+      color: var(--navy);
+      cursor: pointer; 
+      transition: var(--transition); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 0.25rem; 
+      font-weight: 600;
+    }
+    .btn-view:hover { 
+      background: var(--navy);
+      color: white;
+    }
+
+    /* Stats Grid */
+    .stats-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+      gap: 1rem; 
+      margin-bottom: 2rem; 
+    }
+    .stat-card { 
+      background: var(--white);       border-radius: var(--radius-md); 
+      padding: 1.25rem; 
+      box-shadow: var(--shadow-sm); 
+      text-align: center; 
+    }
+    .stat-value { 
+      font-size: 1.75rem; 
+      font-weight: 800; 
+      color: var(--navy); 
+      margin-bottom: 0.25rem; 
+    }
+    .stat-label { 
+      color: var(--gray); 
+      font-size: 0.9rem; 
+    }
+
+    /* Empty State */
+    .empty-state { 
+      text-align: center; 
+      padding: 4rem 2rem; 
+      background: var(--white); 
+      border-radius: var(--radius-md); 
+      color: var(--gray); 
+    }
+    .empty-state i { 
+      font-size: 3.5rem; 
+      color: #DEE2E6; 
+      margin-bottom: 1.25rem; 
+    }
+    .empty-state h3 { 
+      color: var(--navy); 
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+    .empty-state p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Toast Notification */
+    .yf-toast { 
+      position: fixed; 
+      top: 80px; 
+      right: 2rem; 
+      padding: 1rem 1.5rem; 
+      border-radius: var(--radius-sm); 
+      display: flex; 
+      align-items: center; 
+      gap: 0.75rem; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+      z-index: 9999;       opacity: 0; 
+      transform: translateX(100%); 
+      transition: all 0.3s ease; 
+      font-weight: 600; 
+      font-size: 0.95rem; 
+    }
+    .yf-toast.show { 
+      opacity: 1; 
+      transform: translateX(0); 
+    }
+    .yf-toast--success { 
+      background: #2ECC71; 
+      color: white; 
+    }
+    .yf-toast--error { 
+      background: var(--coral); 
+      color: white; 
+    }
+    .yf-toast--info { 
+      background: var(--navy); 
+      color: white; 
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .profile-container { 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+      }
+      .profile-avatar {
+        width: 140px;
+        height: 140px;
+      }
+      .profile-avatar .placeholder {
+        font-size: 3rem;
+      }
+      .profile-name {
+        font-size: 1.75rem;
+      }
+      .profile-meta, .profile-actions { 
+        justify-content: center; 
+      }
+      .products-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+      }
+      .profile-actions {
+        width: 100%;
+        justify-content: center;
+      }      .btn-follow, .btn-message, .btn-edit-profile {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="top-nav">
+    <a href="dashboard.html" class="nav-logo">
+      <div class="nav-logo-icon">YF</div>
+      <span>YAN-FLOWS</span>
+    </a>
+    <div class="nav-actions" id="navActions">
+      <!-- Dynamic content based on auth state -->
+    </div>
+  </nav>
+
+  <!-- Profile Header -->
+  <header class="profile-header">
+    <div class="profile-container">
+      <!-- Profile Avatar -->
+      <div class="profile-avatar-section">
+        <div class="profile-avatar" id="profileAvatar">
+          <div class="placeholder" id="avatarPlaceholder">U</div>
+        </div>
+        <div id="profileActions" class="profile-actions" style="width:100%;justify-content:center;">
+          <!-- Dynamic buttons loaded by JS -->
+        </div>
+      </div>
+
+      <!-- Profile Info -->
+      <div class="profile-info">
+        <h1 class="profile-name" id="profileName">Loading...</h1>
+        <div class="profile-handle" id="profileHandle">@username</div>
+        <p class="profile-bio" id="profileBio">Loading profile description...</p>
+        
+        <div class="profile-meta">
+          <span><i class="fas fa-map-marker-alt"></i> <span id="profileLocation">Loading...</span></span>
+          <span><i class="fas fa-box"></i> <span id="productCount">0</span> Products</span>
+          <span><i class="fas fa-users"></i> <span id="followerCount">0</span> Followers</span>
+          <span><i class="fas fa-user-check"></i> <span id="followingCount">0</span> Following</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Profile Tabs -->
+  <div class="profile-tabs">    <div class="tabs-container">
+      <button class="tab-btn active" onclick="showTab('products')">Products</button>
+      <button class="tab-btn" onclick="showTab('about')">About</button>
+    </div>
+  </div>
+
+  <!-- Products Tab -->
+  <div id="products" class="tab-content active">
+    <h2 style="font-size:1.4rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;">
+      <i class="fas fa-box-open" style="color:var(--teal);margin-right:0.5rem;"></i>
+      Products by <span id="sellerNameDisplay">this seller</span>
+    </h2>
+    <div class="products-grid" id="productsGrid">
+      <div class="empty-state">
+        <i class="fas fa-spinner fa-spin"></i>
+        <h3>Loading products...</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Tab -->
+  <div id="about" class="tab-content">
+    <h2 style="font-size:1.4rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;">
+      <i class="fas fa-info-circle" style="color:var(--teal);margin-right:0.5rem;"></i>
+      About <span id="aboutNameDisplay">this seller</span>
+    </h2>
+    <div style="background:var(--white);border-radius:var(--radius-md);padding:2rem;box-shadow:var(--shadow-sm);max-width:700px;">
+      <div style="margin-bottom:1.5rem;">
+        <h3 style="color:var(--navy);margin-bottom:0.75rem;font-size:1.1rem;">
+          <i class="fas fa-user" style="color:var(--teal);margin-right:0.5rem;"></i>
+          Business Information
+        </h3>
+        <p id="aboutBio" style="color:var(--gray);line-height:1.6;">Loading...</p>
+      </div>
+      
+      <div style="margin-bottom:1.5rem;">
+        <h3 style="color:var(--navy);margin-bottom:0.75rem;font-size:1.1rem;">
+          <i class="fas fa-map-marker-alt" style="color:var(--teal);margin-right:0.5rem;"></i>
+          Location
+        </h3>
+        <p id="aboutLocation" style="color:var(--gray);">Loading...</p>
+      </div>
+      
+      <div>
+        <h3 style="color:var(--navy);margin-bottom:0.75rem;font-size:1.1rem;">
+          <i class="fas fa-comments" style="color:var(--teal);margin-right:0.5rem;"></i>
+          Contact
+        </h3>
+        <p style="color:var(--gray);">
+          <i class="fab fa-whatsapp" style="color:#25D366;margin-right:0.5rem;"></i>          <a id="aboutWhatsapp" href="#" target="_blank" style="color:var(--navy);text-decoration:none;font-weight:500;">
+            Chat on WhatsApp
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
+      authDomain: "yan-flow.firebaseapp.com",
+      projectId: "yan-flow",
+      storageBucket: "yan-flow.firebasestorage.app",
+      messagingSenderId: "373204559623",
+      appId: "1:373204559623:web:56e1c8abf07945c53187a2"
+    };
+    
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    
+    // Utility Functions
+    function formatCurrency(amount) { 
+      return '₦' + Number(amount).toLocaleString('en-NG'); 
+    }
+    
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `yf-toast yf-toast--${type}`;
+      const icon = type === 'success' ? 'fa-check-circle' : 
+                   type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+      toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => { 
+        toast.classList.remove('show'); 
+        setTimeout(() => toast.remove(), 300); 
+      }, 3000);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function dname(u) {
+      if (!u) return 'Unknown Seller';
+      return u.businessName || u.shopName || u.storeName || u.fullName || u.displayName || u.username || 'Unknown Seller';
+    }
+
+    // Global Variables
+    let currentUser = null;
+    let profileUserId = null;
+    let profileData = {};
+    let isFollowing = false;
+
+    // Get profile user ID from URL
+    function getProfileUserId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('uid');
+    }
+
+    // Initialize Page
+    async function initPage() {
+      // Setup navigation
+      setupNav();
+      
+      // Get profile user ID
+      profileUserId = getProfileUserId();
+      if (!profileUserId) {
+        showToast('Invalid profile link', 'error');
+        setTimeout(() => window.location.href = 'dashboard.html', 2000);
+        return;
+      }
+      
+      // Check auth state
+      auth.onAuthStateChanged(async (user) => {
+        currentUser = user;
+        
+        // Load profile data
+        await loadProfileData();
+        
+        // Load products
+        await loadProfileProducts();
+        
+        // Check follow status if user is logged in
+        if (currentUser) {
+          await checkFollowStatus();
+        }
+        
+        // Setup action buttons        setupActionButtons();
+      });
+    }
+
+    // Setup Navigation
+    function setupNav() {
+      const navActions = document.getElementById('navActions');
+      
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          navActions.innerHTML = `
+            <a href="dashboard.html" class="nav-btn">Back to Feed</a>
+            <a href="profile.html" class="nav-btn primary">
+              <i class="fas fa-user"></i> My Profile
+            </a>
+          `;
+        } else {
+          navActions.innerHTML = `
+            <a href="login.html" class="nav-btn">Login</a>
+            <a href="signup.html" class="nav-btn primary">Sign Up</a>
+          `;
+        }
+      });
+    }
+
+    // Load Profile Data
+    async function loadProfileData() {
+      try {
+        // Get user data
+        const userDoc = await db.collection('users').doc(profileUserId).get();
+        if (!userDoc.exists) {
+          showToast('Profile not found', 'error');
+          setTimeout(() => window.location.href = 'dashboard.html', 2000);
+          return;
+        }
+        profileData = userDoc.data();
+        
+        // Get business profile
+        const profileDoc = await db.collection('business_profiles').doc(profileUserId).get();
+        const businessData = profileDoc.exists ? profileDoc.data() : {};
+        
+        const mergedData = { ...profileData, ...businessData };
+        
+        // Fetch actual follower/following counts
+        const followersSnap = await db.collection('followers')
+          .where('followingId', '==', profileUserId)
+          .get();
+        
+        const followingSnap = await db.collection('followers')
+          .where('followerId', '==', profileUserId)          .get();
+        
+        // Update UI
+        const name = dname(mergedData);
+        document.getElementById('profileName').textContent = name;
+        document.getElementById('profileHandle').textContent = '@' + (mergedData.username || name.toLowerCase().replace(/\s/g, ''));
+        document.getElementById('profileBio').textContent = mergedData.description || mergedData.bio || 'No description yet.';
+        document.getElementById('profileLocation').textContent = mergedData.location || 'Nigeria';
+        document.getElementById('productCount').textContent = mergedData.productCount || 0;
+        document.getElementById('followerCount').textContent = followersSnap.size;
+        document.getElementById('followingCount').textContent = followingSnap.size;
+        
+        // About tab
+        document.getElementById('aboutNameDisplay').textContent = name.split(' ')[0];
+        document.getElementById('sellerNameDisplay').textContent = name.split(' ')[0] + "'s";
+        document.getElementById('aboutBio').textContent = mergedData.description || mergedData.bio || 'No description yet.';
+        document.getElementById('aboutLocation').textContent = mergedData.location || 'Nigeria';
+        
+        // WhatsApp link
+        const wa = mergedData.whatsapp || mergedData.phone || '';
+        const waLink = wa ? `https://wa.me/${wa.replace(/\D/g, '')}` : '#';
+        document.getElementById('aboutWhatsapp').href = waLink;
+        
+        // Load Avatar
+        const pic = mergedData.profilePic;
+        const avatarEl = document.getElementById('profileAvatar');
+        const placeholderEl = document.getElementById('avatarPlaceholder');
+        
+        if (pic) {
+          avatarEl.innerHTML = `<img src="${escapeHtml(pic)}" alt="${escapeHtml(name)}"/>`;
+          placeholderEl.style.display = 'none';
+        } else {
+          placeholderEl.textContent = name.charAt(0).toUpperCase();
+          placeholderEl.style.display = 'flex';
+        }
+        
+      } catch (error) {
+        console.error('Load profile error:', error);
+        showToast('Error loading profile', 'error');
+      }
+    }
+
+    // Load Profile Products
+    async function loadProfileProducts() {
+      const grid = document.getElementById('productsGrid');
+      try {
+        const snapshot = await db.collection('products')
+          .where('sellerId', '==', profileUserId)
+          .get();
+                if (snapshot.empty) {
+          grid.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1">
+              <i class="fas fa-box-open"></i>
+              <h3>No products yet</h3>
+              <p>${profileData.businessName || 'This seller'} hasn't added any products yet.</p>
+            </div>`;
+          return;
+        }
+        
+        grid.innerHTML = '';
+        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+          .sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+        
+        products.forEach(product => grid.appendChild(createProductCard(product)));
+      } catch (error) {
+        console.error('Load products error:', error);
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Error loading products</h3>
+          </div>`;
+      }
+    }
+
+    // Create Product Card (View Only)
+    function createProductCard(product) {
+      const div = document.createElement('div');
+      div.className = 'product-card';
+      div.onclick = () => window.location.href = `product-detail.html?id=${product.id}`;
+      
+      div.innerHTML = `
+        <div class="product-img">
+          <img src="${escapeHtml(product.image||product.imageUrl||'https://via.placeholder.com/220')}" 
+            alt="${escapeHtml(product.name)}" 
+            onerror="this.src='https://via.placeholder.com/220?text=No+Image'"/>
+          ${product.stock<=5?'<span class="product-badge">Low Stock</span>':''}
+        </div>
+        <div class="product-body">
+          <div class="product-name">${escapeHtml(product.name||'Unnamed')}</div>
+          <div class="product-price">${formatCurrency(product.price)}</div>
+          <div class="product-actions">
+            <button class="btn-view" onclick="event.stopPropagation();window.location.href='product-detail.html?id=${product.id}'">
+              <i class="fas fa-eye"></i> View
+            </button>
+          </div>
+        </div>`;
+      return div;
+    }
+    // Check Follow Status
+    async function checkFollowStatus() {
+      if (!currentUser) return;
+      
+      try {
+        const snapshot = await db.collection('followers')
+          .where('followerId', '==', currentUser.uid)
+          .where('followingId', '==', profileUserId)
+          .limit(1)
+          .get();
+        
+        isFollowing = !snapshot.empty;
+      } catch (error) {
+        console.error('Check follow error:', error);
+      }
+    }
+
+    // Setup Action Buttons
+    function setupActionButtons() {
+      const container = document.getElementById('profileActions');
+      
+      if (!currentUser) {
+        // Visitor not logged in
+        container.innerHTML = `
+          <a href="login.html" class="btn-follow">
+            <i class="fas fa-sign-in-alt"></i> Login to Follow
+          </a>
+          <a href="#" id="waBtn" class="btn-message" target="_blank">
+            <i class="fab fa-whatsapp"></i> Message
+          </a>
+        `;
+        document.getElementById('waBtn').href = document.getElementById('aboutWhatsapp').href;
+      } else if (currentUser.uid === profileUserId) {
+        // Viewing own profile
+        container.innerHTML = `
+          <a href="profile.html" class="btn-edit-profile">
+            <i class="fas fa-edit"></i> Edit Profile
+          </a>
+          <a href="#" id="waBtn" class="btn-message" target="_blank">
+            <i class="fab fa-whatsapp"></i> Chat
+          </a>
+        `;
+        document.getElementById('waBtn').href = document.getElementById('aboutWhatsapp').href;
+      } else {
+        // Viewing someone else's profile
+        const followText = isFollowing ? 'Following' : 'Follow';
+        const followClass = isFollowing ? 'btn-follow btn-following' : 'btn-follow';
+        const followIcon = isFollowing ? 'fa-user-check' : 'fa-user-plus';
+        
+        container.innerHTML = `          <button class="${followClass}" id="followBtn" onclick="toggleFollow()">
+            <i class="fas ${followIcon}"></i> <span id="followText">${followText}</span>
+          </button>
+          <a href="#" id="waBtn" class="btn-message" target="_blank">
+            <i class="fab fa-whatsapp"></i> Message
+          </a>
+        `;
+        document.getElementById('waBtn').href = document.getElementById('aboutWhatsapp').href;
+      }
+    }
+
+    // Toggle Follow
+    window.toggleFollow = async function() {
+      if (!currentUser) {
+        showToast('Please login to follow', 'error');
+        return;
+      }
+      
+      try {
+        const followRef = db.collection('followers')
+          .doc(`${currentUser.uid}_${profileUserId}`);
+        
+        if (isFollowing) {
+          // Unfollow
+          await followRef.delete();
+          isFollowing = false;
+          showToast('Unfollowed', 'info');
+        } else {
+          // Follow
+          await followRef.set({
+            followerId: currentUser.uid,
+            followingId: profileUserId,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          isFollowing = true;
+          showToast('Following!', 'success');
+          
+          // Create notification for the followed user
+          await db.collection('notifications').add({
+            userId: profileUserId,
+            type: 'new_follower',
+            message: `${currentUser.displayName || 'Someone'} started following you`,
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            followerId: currentUser.uid
+          });
+        }
+        
+        // Update UI
+        setupActionButtons();        
+        // Refresh follower count
+        const followersSnap = await db.collection('followers')
+          .where('followingId', '==', profileUserId)
+          .get();
+        document.getElementById('followerCount').textContent = followersSnap.size;
+        
+      } catch (error) {
+        console.error('Toggle follow error:', error);
+        showToast('Error updating follow status', 'error');
+      }
+    };
+
+    // Tab Navigation
+    window.showTab = function(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', initPage);
+    
+    console.log('✅ View Profile page loaded!');
+  </script>
+</body>
+</html>

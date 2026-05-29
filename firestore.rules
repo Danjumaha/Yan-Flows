@@ -2,7 +2,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // ===== HELPER FUNCTIONS (KEEP YOURS) =====
+    // ===== HELPER FUNCTIONS =====
     function isSignedIn() {
       return request.auth != null;
     }
@@ -16,25 +16,28 @@ service cloud.firestore {
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // ===== 🔐 USERS COLLECTION + SUBCOLLECTIONS =====
+    // ===== 🔐 USERS COLLECTION =====
     match /users/{userId} {
-      allow read: if isSignedIn() && (isOwner(userId) || isAdmin());
+      allow read: if isSignedIn();
       allow create: if isSignedIn() && request.auth.uid == userId;
-      allow update: if isSignedIn() && (isOwner(userId) || isAdmin());
+      
+      // FIX: Allow updates if the logged-in user owns the account, is an admin,
+      // OR if it's a buyer deducting exactly 1 coin from a seller's balance for an order processing fee.
+      allow update: if isSignedIn() && (
+        isOwner(userId) || 
+        isAdmin() ||
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['coins']) &&
+          request.resource.data.coins == resource.data.coins - 1
+        )
+      );
       allow delete: if isAdmin();
       
-      // 🔥 NEW: Following subcollection - COMPLETE ISOLATION
-      match /following/{targetUserId} {
-        allow read, write: if isOwner(userId);
-      }
-      
-      // 🔥 NEW: Wishlist subcollection - COMPLETE ISOLATION  
-      match /wishlist/{productId} {
-        allow read, write: if isOwner(userId);
-      }
+      match /following/{targetUserId} { allow read, write: if isOwner(userId); }
+      match /wishlist/{productId} { allow read, write: if isOwner(userId); }
     }
 
-    // ===== BUSINESS PROFILES (KEEP YOURS) =====
+    // ===== BUSINESS PROFILES =====
     match /business_profiles/{profileId} {
       allow read: if true;
       allow create: if isSignedIn() && request.auth.uid == profileId;
@@ -42,14 +45,15 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // ===== PRODUCTS (KEEP YOURS - PUBLIC READ IS FINE) =====
+    // ===== PRODUCTS =====
     match /products/{productId} {
       allow read: if true;
       allow create: if isSignedIn() && request.resource.data.sellerId == request.auth.uid;
       allow update: if isSignedIn() && (resource.data.sellerId == request.auth.uid || isAdmin());
-      allow delete: if isSignedIn() && (resource.data.sellerId == request.auth.uid || isAdmin());    }
+      allow delete: if isSignedIn() && (resource.data.sellerId == request.auth.uid || isAdmin());    
+    }
 
-    // ===== ORDERS (KEEP YOURS - GOOD ISOLATION) =====
+    // ===== ORDERS =====
     match /orders/{orderId} {
       allow read: if isSignedIn() && 
         (resource.data.buyerId == request.auth.uid || 
@@ -60,13 +64,14 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // ===== CUSTOMERS (KEEP YOURS) =====
-    match /customers/{customerId} {
+    // ===== TRANSACTIONS =====
+    match /transactions/{transactionId} {
       allow read: if isSignedIn();
-      allow write: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
     }
 
-    // ===== COIN TRANSACTIONS (KEEP YOURS) =====
     match /coin_transactions/{transactionId} {
       allow read: if isSignedIn();
       allow create: if isSignedIn();
@@ -74,57 +79,27 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // ===== REFERRAL BONUSES (KEEP YOURS) =====
-    match /referral_bonuses/{bonusId} {
-      allow read: if isSignedIn();
-      allow write: if isSignedIn();
-    }
-
-    // ===== SUPPORT MESSAGES (KEEP YOURS) =====
-    match /support_messages/{messageId} {
-      allow read: if isSignedIn();
-      allow create: if isSignedIn();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
-    }
-
-    // ===== 🔥 FIXED: WISHLIST ISOLATION (TOP-LEVEL FALLBACK) =====
-    // If you're NOT using /users/{userId}/wishlist subcollection yet,
-    // this ensures users can ONLY access their own wishlist items
-    match /wishlist/{itemId} {
-      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
-      allow write: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      // Optional: Block if you migrate to subcollection
-      // allow read, write: if false;
-    }
-    // ===== 🔥 FIXED: CART ISOLATION - NEW STRUCTURE (RECOMMENDED) =====
-    // NEW: /carts/{userId}/items/{productId} = COMPLETE ISOLATION
+    match /customers/{customerId} { allow read, write: if isSignedIn(); }
+    match /referral_bonuses/{bonusId} { allow read, write: if isSignedIn(); }
+    match /support_messages/{messageId} { allow read, write: if isSignedIn(); allow update, delete: if isAdmin(); }
+    
+    // ===== CART ISOLATION =====
     match /carts/{userId}/items/{itemId} {
       allow read, write: if isOwner(userId);
     }
     
-    // OPTIONAL: Keep old cart structure but ADD userId validation as backup
     match /cart/{cartId} {
-      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
-      allow write: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      // After migration, uncomment below to disable old structure:
-      // allow read, write: if false;
+      allow read, write: if isSignedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // ===== 🔥 NEW: NOTIFICATIONS COLLECTION (FOR FOLLOW/ORDER ALERTS) =====
     match /notifications/{notifId} {
-      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
-      allow create: if isSignedIn(); // Anyone can send notifications to others
-      allow update: if isSignedIn() && resource.data.userId == request.auth.uid;
-      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow read, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn(); 
     }
 
-    // ===== REFERRALS (KEEP YOURS) =====
     match /referrals/{referralId} {
-      allow read: if isSignedIn();
-      allow create: if isSignedIn();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow read, create: if isSignedIn();
+      allow update, delete: if isAdmin();
     }
   }
 }

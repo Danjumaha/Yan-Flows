@@ -47,7 +47,8 @@ a{text-decoration:none;color:inherit;}
 /* ===== LAYOUT ===== */
 .wrap{display:grid;grid-template-columns:240px 1fr 280px;gap:1.25rem;max-width:1380px;margin:68px auto 0;padding:1.25rem;}
 
-/* ===== LEFT SIDEBAR ===== */.left{display:flex;flex-direction:column;gap:1rem;position:sticky;top:76px;height:calc(100vh - 80px);overflow-y:auto;}
+/* ===== LEFT SIDEBAR ===== */
+.left{display:flex;flex-direction:column;gap:1rem;position:sticky;top:76px;height:calc(100vh - 80px);overflow-y:auto;}
 .card{background:#fff;border-radius:var(--r12);border:1px solid var(--border);}
 .prof-card{padding:1.25rem;text-align:center;}
 .prof-pic{width:76px;height:76px;border-radius:50%;margin:0 auto .7rem;overflow:hidden;border:3px solid var(--teal);cursor:pointer;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gray);transition:.2s;}
@@ -71,12 +72,12 @@ a{text-decoration:none;color:inherit;}
 /* ===== FEED ===== */
 .mid{max-width:600px;margin:0 auto;width:100%;}
 
-/* SEARCH BAR - MOVED HERE */
-.search-container{background:#fff;border:1px solid var(--border);border-radius:var(--r12);padding:1rem;margin-bottom:1rem;}
+/* SEARCH BAR */
+.search-container{background:#fff;border:1px solid var(--border);border-radius:var(--r12);padding:1rem;margin-bottom:1rem;position:relative;}
 .search-container input{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:2px solid var(--border);border-radius:999px;font-size:.9rem;font-family:'DM Sans',sans-serif;background:var(--bg);transition:.2s;}
 .search-container input:focus{outline:none;border-color:var(--teal);background:#fff;}
-.search-icon{position:relative;top:-32px;left:35px;color:var(--gray);font-size:.9rem;pointer-events:none;}
-#searchDrop{position:relative;top:-25px;background:#fff;border:1px solid var(--border);border-radius:var(--r12);box-shadow:var(--shd);max-height:460px;overflow-y:auto;z-index:100;display:none;}
+.search-icon{position:absolute;top:50%;left:2rem;transform:translateY(-50%);color:var(--gray);font-size:.9rem;pointer-events:none;}
+#searchDrop{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:var(--r12);box-shadow:var(--shd);max-height:460px;overflow-y:auto;z-index:100;display:none;margin-top:0.5rem;}
 #searchDrop.open{display:block;}
 .sdrop-hd{padding:.45rem .85rem;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);background:var(--bg);}
 .srow{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .12s;}
@@ -146,8 +147,7 @@ a{text-decoration:none;color:inherit;}
 /* empty */
 .empty{text-align:center;padding:2.5rem 1rem;color:var(--gray);}
 .empty i{font-size:2.5rem;margin-bottom:.9rem;opacity:.35;display:block;}.empty h3{font-family:'Sora',sans-serif;color:var(--navy);margin-bottom:.4rem;font-size:.95rem;}
-.empty p{font-size:.82rem;margin-bottom:1rem;}
-.empty a,.empty button{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.1rem;background:var(--navy);color:#fff;border:none;border-radius:var(--r8);font-weight:700;cursor:pointer;text-decoration:none;font-size:.82rem;}
+.empty p{font-size:.82rem;margin-bottom:1rem;}.empty a,.empty button{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.1rem;background:var(--navy);color:#fff;border:none;border-radius:var(--r8);font-weight:700;cursor:pointer;text-decoration:none;font-size:.82rem;}
 
 /* ===== RIGHT ===== */
 .right{display:flex;flex-direction:column;gap:1rem;position:sticky;top:76px;height:calc(100vh - 80px);overflow-y:auto;}
@@ -197,14 +197,11 @@ a{text-decoration:none;color:inherit;}
 }@media(max-width:480px){.tb-inner{gap:.4rem;padding:.55rem .7rem;}}
 </style></head>
 <body>
-
-<!-- Loading Overlay -->
 <div class="loading-overlay" id="loadingOverlay">
   <i class="fas fa-circle-notch fa-spin fa-3x"></i>
   <span style="font-size:1.1rem">Loading your feed...</span>
 </div>
 
-<!-- Error State -->
 <div class="error-state" id="errorState">
   <i class="fas fa-exclamation-triangle"></i>
   <h2>Oops! Something went wrong</h2>
@@ -212,7 +209,6 @@ a{text-decoration:none;color:inherit;}
   <button onclick="location.reload()"><i class="fas fa-redo"></i> Retry</button>
 </div>
 
-<!-- ===== TOPBAR ===== -->
 <div id="topbar">
   <div class="tb-inner">
     <button id="menuBtn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
@@ -238,14 +234,13 @@ a{text-decoration:none;color:inherit;}
   </div>
 </div>
 
-<!-- ===== MAIN WRAP ===== -->
 <div class="wrap">
-  <!-- LEFT -->
   <aside class="left" id="sidebar">
     <div class="card prof-card">
-      <div class="prof-pic" id="profPic" onclick="go('profile.html')"><i class="fas fa-user"></i></div>      <div class="prof-name" id="profName" onclick="go('profile.html')">Loading…</div>
+      <div class="prof-pic" id="profPic" onclick="go('profile.html')"><i class="fas fa-user"></i></div>
+      <div class="prof-name" id="profName" onclick="go('profile.html')">Loading…</div>
       <div class="prof-hnd" id="profHnd">@…</div>
-      <div class="pstats">
+      <div class="pstats">        
         <div class="pstat"><div class="psv" id="stProd">–</div><div class="psl">Products</div></div>
         <div class="pstat"><div class="psv" id="stFol">–</div><div class="psl">Followers</div></div>
         <div class="pstat"><div class="psv" id="stFing">–</div><div class="psl">Following</div></div>
@@ -260,7 +255,7 @@ a{text-decoration:none;color:inherit;}
       <a href="profile.html"><i class="fas fa-user"></i>My Profile</a>
       <a href="product-manager.html"><i class="fas fa-plus-circle"></i>Upload Product</a>
       <a href="my-products.html"><i class="fas fa-box"></i>My Products</a>
-      <a href="seller-order.html"><i class="fas fa-clipboard-list"></i>Orders Received</a>
+      <a href="orders.html"><i class="fas fa-clipboard-list"></i>Orders Received</a>
       <a href="orders.html"><i class="fas fa-shopping-bag"></i>My Purchases</a>
       <a href="cart.html"><i class="fas fa-shopping-cart"></i>Shopping Cart</a>
       <a href="referrals.html"><i class="fas fa-gift"></i>Referrals</a>
@@ -271,9 +266,7 @@ a{text-decoration:none;color:inherit;}
     </div>
   </aside>
 
-  <!-- FEED -->
   <main class="mid">
-    <!-- SEARCH BAR - MOVED HERE -->
     <div class="search-container">
       <i class="fas fa-search search-icon"></i>
       <input id="sInput" type="text" placeholder="Search people, products…"/>
@@ -288,20 +281,18 @@ a{text-decoration:none;color:inherit;}
       </div>
     </div>
     <div id="feed">
-      <!-- Skeletons -->
       <div class="skcard">
         <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem;">
           <div class="sk" style="width:42px;height:42px;border-radius:50%;flex-shrink:0;"></div>
-          <div style="flex:1;"><div class="sk" style="height:13px;width:55%;margin-bottom:.35rem;"></div><div class="sk" style="height:11px;width:35%;"></div></div>        </div>
+          <div style="flex:1;"><div class="sk" style="height:13px;width:55%;margin-bottom:.35rem;"></div><div class="sk" style="height:11px;width:35%;"></div></div>
+        </div>
         <div class="sk" style="height:220px;border-radius:var(--r8);margin-bottom:.9rem;"></div>
-        <div class="sk" style="height:14px;width:65%;margin-bottom:.4rem;"></div>
-        <div class="sk" style="height:11px;width:90%;margin-bottom:.75rem;"></div>
+        <div class="sk" style="height:14px;width:65%;margin-bottom:.4rem;"></div>        <div class="sk" style="height:11px;width:90%;margin-bottom:.75rem;"></div>
         <div class="sk" style="height:38px;border-radius:var(--r8);"></div>
       </div>
     </div>
   </main>
 
-  <!-- RIGHT -->
   <aside class="right">
     <div class="rcrd">
       <h3><i class="fas fa-fire" style="color:var(--coral)"></i> Trending</h3>
@@ -316,7 +307,6 @@ a{text-decoration:none;color:inherit;}
   </aside>
 </div>
 
-<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -341,11 +331,13 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 /* ============================================================
-   GLOBAL STATE============================================================ */
+   GLOBAL STATE
+============================================================ */
 let ME = null;
 let MEDATA = null;
 let PRODUCTS = [];
 let FOLLOWING = new Set();
+let FOLLOWERS = new Set();
 let SELLERS = {};
 let WISH = new Set();
 let TAB = 'all';
@@ -354,13 +346,9 @@ let SEARCH_TIMER = null;
 /* ============================================================
    UTILITY FUNCTIONS
 ============================================================ */
-function go(url) {
-  window.location.href = url;
-}
+function go(url) { window.location.href = url; }
 
-function naira(n) {
-  return '₦' + Number(n || 0).toLocaleString('en-NG');
-}
+function naira(n) { return '₦' + Number(n || 0).toLocaleString('en-NG'); }
 
 function ago(ts) {
   if (!ts) return '';
@@ -380,6 +368,7 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+/* Dynamic Display Name Resolution Strategy */
 function dname(u) {
   if (!u) return 'Unknown Seller';
   return u.businessName || u.shopName || u.storeName || u.fullName || u.displayName || u.username || 'Unknown Seller';
@@ -390,12 +379,13 @@ function hnd(u) {
   const r = u.username || u.fullName || u.businessName || 'user';
   return '@' + r.toLowerCase().replace(/\s+/g, '');
 }
+
 function toast(msg, type) {
   type = type || 'ok';
   const t = document.createElement('div');
   t.className = 'toast ' + type;
   const ic = { ok: 'fa-check-circle', err: 'fa-times-circle', inf: 'fa-info-circle' }[type] || 'fa-info-circle';
-  t.innerHTML = '<i class="fas ' + ic + '"></i> ' + escapeHtml(msg);
+  t.innerHTML = '<i class="fas ' + ic + '"></i> ' + escapeHtml(msg);  
   document.body.appendChild(t);
   setTimeout(function() {
     t.classList.add('show');
@@ -406,21 +396,9 @@ function toast(msg, type) {
   }, 10);
 }
 
-function setText(id, v) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = v;
-}
-
-function setHTML(id, v) {
-  const el = document.getElementById(id);
-  if (el) el.innerHTML = v;
-}
-
-function hideLoading() {
-  const overlay = document.getElementById('loadingOverlay');
-  if (overlay) overlay.classList.add('hidden');
-}
-
+function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+function setHTML(id, v) { const el = document.getElementById(id); if (el) el.innerHTML = v; }
+function hideLoading() { const overlay = document.getElementById('loadingOverlay'); if (overlay) overlay.classList.add('hidden'); }
 function showError(msg) {
   hideLoading();
   const errorState = document.getElementById('errorState');
@@ -433,13 +411,11 @@ function showError(msg) {
    AUTHENTICATION
 ============================================================ */
 auth.onAuthStateChanged(function(user) {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
+  if (!user) { window.location.href = 'login.html'; return; }
   ME = user;
   console.log('✅ User authenticated:', user.uid);
-  boot();});
+  boot();
+});
 
 /* ============================================================
    BOOTSTRAP FUNCTION
@@ -448,51 +424,37 @@ async function boot() {
   try {
     console.log('🚀 Starting boot process...');
     
-    // Fetch user data
     const snap = await db.collection('users').doc(ME.uid).get();
-    
     if (!snap.exists) {
       console.warn('User document not found for:', ME.uid);
       hideLoading();
       toast('Profile not found. Please complete signup.', 'err');
-      setTimeout(() => {
-        window.location.href = 'complete-profile.html';
-      }, 2000);
+      setTimeout(() => { window.location.href = 'complete-profile.html'; }, 2000);
       return;
     }
     
     MEDATA = snap.data();
     console.log('✅ User data loaded:', MEDATA);
-    
-    // Paint sidebar
     paintSidebar();
-    
-    // Setup listeners
     setupFollowingListener();
+    setupFollowersListener();
     setupWishlistListener();
     setupCartListener();
     
-    // Load data
     await loadProducts();
     loadTrending();
     loadNotifBadge();
     setupSearch();
     
-    // Hide loading
     hideLoading();
     console.log('✅ Boot completed successfully');
     
   } catch (error) {
     console.error('❌ Boot error:', error);
     let errorMsg = 'Failed to load dashboard. ';
-    
-    if (error.code === 'permission-denied') {
-      errorMsg += 'Permission denied. Please login again.';
-    } else if (error.code === 'unavailable') {      errorMsg += 'Service unavailable. Check your internet.';
-    } else {
-      errorMsg += error.message;
-    }
-    
+    if (error.code === 'permission-denied') errorMsg += 'Permission denied. Please login again.';
+    else if (error.code === 'unavailable') errorMsg += 'Service unavailable. Check your internet.';
+    else errorMsg += error.message;
     showError(errorMsg);
   }
 }
@@ -512,33 +474,18 @@ function paintSidebar() {
   setText('stFol', MEDATA.followersCount || 0);
   setText('stFing', MEDATA.followingCount || 0);
 
-  // Count products
-  db.collection('products')
-    .where('sellerId', '==', ME.uid)
-    .get()
-    .then(function(snap) {
-      setText('stProd', snap.size);
-    })
-    .catch(function() {
-      setText('stProd', MEDATA.productsCount || 0);
-    });
+  db.collection('products').where('sellerId', '==', ME.uid).get()
+    .then(function(snap) { setText('stProd', snap.size); })
+    .catch(function() { setText('stProd', MEDATA.productsCount || 0); });
 
-  // Profile picture
   const pic = MEDATA.profilePic;
   const ini = (name[0] || 'U').toUpperCase();
-  let avatarHTML;
+  let avatarHTML = pic 
+    ? '<img src="' + escapeHtml(pic) + '" alt="pic" onerror="this.style.display=\'none\'"/>'
+    : '<span style="font-size:2rem;font-weight:700;color:var(--navy)">' + ini + '</span>';
   
-  if (pic) {
-    avatarHTML = '<img src="' + escapeHtml(pic) + '" alt="pic" onerror="this.style.display=\'none\'"/>';
-  } else {
-    avatarHTML = '<span style="font-size:2rem;font-weight:700;color:var(--navy)">' + ini + '</span>';
-  }
-  
-  setHTML('profPic', avatarHTML);
-  if (pic) {
-    setHTML('navAv', avatarHTML);
-  } else {    setHTML('navAv', '<span style="font-weight:700">' + ini + '</span>');
-  }
+  setHTML('profPic', avatarHTML);  
+  setHTML('navAv', pic ? avatarHTML : '<span style="font-weight:700">' + ini + '</span>');
 }
 
 /* ============================================================
@@ -548,17 +495,12 @@ function setupFollowingListener() {
   db.collection('users').doc(ME.uid).collection('following')
     .onSnapshot(function(snapshot) {
       FOLLOWING.clear();
-      snapshot.docs.forEach(function(doc) {
-        FOLLOWING.add(doc.id);
-      });
-      
+      snapshot.docs.forEach(function(doc) { FOLLOWING.add(doc.id); });
       setText('stFing', FOLLOWING.size);
       updateAllFollowButtons();
-      
       if (TAB === 'following') renderFeed();
     }, function(error) {
       console.warn('Following listener error:', error);
-      // Fallback to array field
       if (MEDATA.following && Array.isArray(MEDATA.following)) {
         FOLLOWING = new Set(MEDATA.following);
         setText('stFing', FOLLOWING.size);
@@ -567,50 +509,61 @@ function setupFollowingListener() {
 }
 
 /* ============================================================
-   WISHLIST LISTENER
+   FOLLOWERS LISTENER (REAL-TIME SNAPSHOT WITH HYBRID BACKUPS)
 ============================================================ */
-function setupWishlistListener() {
-  db.collection('users').doc(ME.uid).collection('wishlist')
+function setupFollowersListener() {
+  db.collection('users')
+    .where('following', 'array-contains', ME.uid)
     .onSnapshot(function(snapshot) {
-      WISH.clear();
-      snapshot.docs.forEach(function(doc) {
-        WISH.add(doc.id);
-      });
+      FOLLOWERS.clear();
+      snapshot.docs.forEach(function(doc) { FOLLOWERS.add(doc.id); });
       
-      document.querySelectorAll('[id^="wb-"]').forEach(function(btn) {
-        const pid = btn.id.replace('wb-', '');
-        const icon = btn.querySelector('i');
-        if (WISH.has(pid)) {
-          btn.classList.add('won');
-          icon.className = 'fas fa-heart';
-        } else {
-          btn.classList.remove('won');
-          icon.className = 'far fa-heart';
-        }      });
+      const liveCalculatedCount = Math.max(FOLLOWERS.size, MEDATA.followersCount || 0);
+      setText('stFol', liveCalculatedCount);
     }, function(error) {
-      console.warn('Wishlist listener error:', error);
+      console.warn('Followers listener error:', error);
+      setText('stFol', MEDATA.followersCount || 0);
     });
 }
 
 /* ============================================================
-   CART LISTENER
+   WISHLIST & CART LISTENERS
 ============================================================ */
+function setupWishlistListener() {
+  db.collection('users').doc(ME.uid).collection('wishlist')
+    .onSnapshot(function(snapshot) {
+      WISH.clear();      
+      snapshot.docs.forEach(function(doc) { WISH.add(doc.id); });
+      document.querySelectorAll('[id^="wb-"]').forEach(function(btn) {
+        const pid = btn.id.replace('wb-', '');
+        const icon = btn.querySelector('i');
+        if (WISH.has(pid)) { btn.classList.add('won'); icon.className = 'fas fa-heart'; }
+        else { btn.classList.remove('won'); icon.className = 'far fa-heart'; }
+      });
+    });
+}
+
 function setupCartListener() {
   db.collection('carts').doc(ME.uid).collection('items')
     .onSnapshot(function(snapshot) {
-      const total = snapshot.docs.reduce(function(sum, doc) {
-        return sum + (doc.data().quantity || 1);
-      }, 0);
+      const localCart = [];
+      let total = 0;
+      
+      snapshot.docs.forEach(function(doc) {
+        const data = doc.data();
+        total += (data.quantity || 1);
+        localCart.push(data);
+      });
+      
+      localStorage.setItem('yanflows_cart', JSON.stringify(localCart));
       updateCartBadge(total);
-    }, function(error) {
-      console.warn('Cart listener error:', error);
     });
 }
 
 function updateCartBadge(count) {
   const badge = document.getElementById('cBadge');
   if (badge) {
-    badge.textContent = count;
+    badge.textContent = count;    
     badge.style.display = count > 0 ? 'flex' : 'none';
   }
 }
@@ -620,22 +573,19 @@ function updateCartBadge(count) {
 ============================================================ */
 async function loadProducts() {
   const feed = document.getElementById('feed');
-  
   try {
     let snapshot;
     try {
-      snapshot = await db.collection('products')
-        .orderBy('createdAt', 'desc')
-        .limit(50)
-        .get();
+      snapshot = await db.collection('products').orderBy('createdAt', 'desc').limit(100).get();
     } catch (e) {
-      console.warn('Ordered query failed, using unordered:', e.code);
-      snapshot = await db.collection('products').limit(50).get();
+      console.warn('Ordered query failed, using fallback query:', e.code);
+      snapshot = await db.collection('products').limit(100).get();
     }
     
     if (snapshot.empty) {
       feed.innerHTML = '<div class="empty"><i class="fas fa-box-open"></i><h3>No products yet</h3><p>Be the first to upload a product!</p><a href="product-manager.html"><i class="fas fa-plus"></i> Upload Product</a></div>';
-      return;    }
+      return;
+    }
     
     PRODUCTS = snapshot.docs.map(function(doc) {
       const data = doc.data();
@@ -644,7 +594,7 @@ async function loadProducts() {
         sellerId: data.sellerId || '',
         name: data.name || '',
         price: data.price || 0,
-        image: data.image || '',
+        image: data.image || data.imageUrl || '',
         description: data.description || '',
         stock: data.stock || 0,
         createdAt: data.createdAt,
@@ -653,9 +603,8 @@ async function loadProducts() {
       };
     });
     
-    console.log('✅ Loaded', PRODUCTS.length, 'products');
+    console.log('✅ Loaded', PRODUCTS.length, 'products total');
     renderFeed();
-    
   } catch (error) {
     console.error('❌ Error loading products:', error);
     feed.innerHTML = '<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Could not load products</h3><p>Check your connection and try again.</p><button onclick="loadProducts()"><i class="fas fa-redo"></i> Retry</button></div>';
@@ -663,7 +612,7 @@ async function loadProducts() {
 }
 
 /* ============================================================
-   RENDER FEED
+   RENDER FEED (HYBRID TIMEFRAME RADIAL SHUFFLE)
 ============================================================ */
 async function renderFeed() {
   const feed = document.getElementById('feed');
@@ -682,9 +631,39 @@ async function renderFeed() {
     return;
   }
   
-  for (let i = 0; i < displayProducts.length; i++) {
-    const card = await makeProductCard(displayProducts[i]);
-    feed.appendChild(card);  }
+  const freshTimeframe = 12 * 60 * 60 * 1000; 
+  const now = Date.now();
+  
+  // Isolate fresh uploads
+  const freshPosts = displayProducts.filter(function(p) {
+    if(!p.createdAt) return false;
+    const itemDate = p.createdAt.toDate ? p.createdAt.toDate() : new Date(p.createdAt);
+    return (now - itemDate.getTime()) <= freshTimeframe;
+  });
+  
+  // Filter historical products out to shuffle them for rotation engagement
+  const catalogPosts = displayProducts.filter(function(p) {
+    if(!p.createdAt) return true;
+    const itemDate = p.createdAt.toDate ? p.createdAt.toDate() : new Date(p.createdAt);
+    return (now - itemDate.getTime()) > freshTimeframe;
+  });
+  
+  // Fisher-Yates shuffle engine
+  let i = catalogPosts.length, randIdx, temp;
+  while (i !== 0) {
+    randIdx = Math.floor(Math.random() * i);
+    i--;
+    temp = catalogPosts[i];
+    catalogPosts[i] = catalogPosts[randIdx];
+    catalogPosts[randIdx] = temp;
+  }
+  
+  const randomizedFinalFeed = freshPosts.concat(catalogPosts);
+  
+  for (let j = 0; j < randomizedFinalFeed.length; j++) {
+    const card = await makeProductCard(randomizedFinalFeed[j]);
+    feed.appendChild(card);
+  }
 }
 
 function switchTab(tab) {
@@ -695,17 +674,11 @@ function switchTab(tab) {
 }
 
 /* ============================================================
-   SELLER DATA CACHE
+   SELLER DATA CACHE ENGINE
 ============================================================ */
 async function getSellerData(uid) {
-  if (!uid) {
-    console.warn('getSellerData called with empty uid');
-    return null;
-  }
-  
-  if (SELLERS[uid]) {
-    return SELLERS[uid];
-  }
+  if (!uid) return null;
+  if (SELLERS[uid]) return SELLERS[uid];
   
   try {
     const doc = await db.collection('users').doc(uid).get();
@@ -713,12 +686,11 @@ async function getSellerData(uid) {
       SELLERS[uid] = doc.data();
       return doc.data();
     } else {
-      console.warn('User doc not found for uid:', uid);
+      return { businessName: 'Seller', profilePic: '', followersCount: 0 };
     }
   } catch (e) {
-    console.error('Could not fetch seller data for', uid, ':', e);
+    return { businessName: 'Seller', profilePic: '', followersCount: 0 };  
   }
-  return null;
 }
 
 /* ============================================================
@@ -728,12 +700,10 @@ async function makeProductCard(p) {
   const div = document.createElement('div');
   div.className = 'pc';
   
-  // CRITICAL: Get seller data
   const seller = await getSellerData(p.sellerId);
   const sname = seller ? dname(seller) : (p.sellerName || 'Unknown Seller');
   const spic = (seller && seller.profilePic) ? seller.profilePic : (p.sellerAvatar || '');
   
-  console.log('Product card - sellerId:', p.sellerId, 'sellerName:', sname, 'hasPic:', !!spic);  
   const isMe = p.sellerId === ME.uid;
   const isFollowing = FOLLOWING.has(p.sellerId);
   const isWishlisted = WISH.has(p.id);
@@ -744,12 +714,9 @@ async function makeProductCard(p) {
   const stockClass = !inStock ? 's-out' : (lowStock ? 's-low' : 's-in');
   const stockLabel = !inStock ? 'Out of Stock' : (lowStock ? 'Only ' + stock + ' left!' : 'In Stock');
   
-  let avHTML;
-  if (spic) {
-    avHTML = '<img src="' + escapeHtml(spic) + '" alt="' + escapeHtml(sname) + '" onerror="this.style.display=\'none\'"/>';
-  } else {
-    avHTML = '<i class="fas fa-store"></i>';
-  }
+  let avHTML = spic 
+    ? '<img src="' + escapeHtml(spic) + '" alt="' + escapeHtml(sname) + '" onerror="this.parentElement.innerHTML=\'<i class=\\\'fas fa-store\\\'></i>\'"/>'
+    : '<i class="fas fa-store"></i>';
   
   let followBtn = '';
   if (!isMe) {
@@ -763,12 +730,12 @@ async function makeProductCard(p) {
   
   const desc = p.description || '';
   const descText = desc.length > 150 ? desc.slice(0, 150) + '…' : desc;
+  const storeLink = (p.sellerId && p.sellerId !== 'null' && p.sellerId !== 'undefined') ? 'storefront.html?id=' + p.sellerId : '#';
   
-  div.innerHTML =
-    '<div class="pc-top">' +
-    '<div class="av" onclick="go(\'storefront.html?id=' + p.sellerId + '\')" title="' + escapeHtml(sname) + '\'s store">' + avHTML + '</div>' +
+  div.innerHTML = '<div class="pc-top">' +
+    '<div class="av" onclick="' + (storeLink !== '#' ? "go('" + storeLink + "')" : "") + '" title="' + escapeHtml(sname) + '\'s store">' + avHTML + '</div>' +
     '<div class="pc-info">' +
-    '<div class="pc-sname" onclick="go(\'storefront.html?id=' + p.sellerId + '\')">' + escapeHtml(sname) + '</div>' +
+    '<div class="pc-sname" onclick="' + (storeLink !== '#' ? "go('" + storeLink + "')" : "") + '">' + escapeHtml(sname) + '</div>' +
     '<div class="pc-time">' + ago(p.createdAt) + '</div>' +
     '</div>' +
     followBtn +
@@ -782,7 +749,8 @@ async function makeProductCard(p) {
     '<div class="pd-desc">' + escapeHtml(descText) + '</div>' +
     '<div class="pd-row">' +
     '<span class="pd-price">' + naira(p.price) + '</span>' +
-    '<span class="spill ' + stockClass + '">' + stockLabel + '</span>' +    '</div>' +
+    '<span class="spill ' + stockClass + '">' + stockLabel + '</span>' +
+    '</div>' +
     '<div class="pd-acts">' +
     '<button class="btn-c" ' + cartHandler + '>' +
     '<i class="fas fa-cart-plus"></i>' + (inStock ? 'Add to Cart' : 'Out of Stock') +
@@ -797,14 +765,10 @@ async function makeProductCard(p) {
 }
 
 /* ============================================================
-   FOLLOW/UNFOLLOW
+   FOLLOW / UNFOLLOW TRANSACTION ACTIONS
 ============================================================ */
 window.toggleFollow = async function(sellerId, sellerName, btn) {
-  if (sellerId === ME.uid) {
-    toast('You cannot follow yourself', 'inf');
-    return;
-  }
-  
+  if (sellerId === ME.uid) { toast('You cannot follow yourself', 'inf'); return; }
   btn.disabled = true;
   const isCurrentlyFollowing = btn.classList.contains('fon');
   
@@ -814,40 +778,30 @@ window.toggleFollow = async function(sellerId, sellerName, btn) {
     const followRef = db.collection('users').doc(ME.uid).collection('following').doc(sellerId);
     
     if (isCurrentlyFollowing) {
-      // Unfollow
       await followRef.delete().catch(function(e) { console.warn('Delete follow doc failed:', e); });
-      
       await meRef.update({
         following: firebase.firestore.FieldValue.arrayRemove(sellerId),
-        followingCount: firebase.firestore.FieldValue.increment(-1)
-      }).catch(function(e) { console.warn('Update me failed:', e); });
-      
+        followingCount: firebase.firestore.FieldValue.increment(-1)      }).catch(function(e) { console.warn('Update me failed:', e); });
       await sellerRef.update({
         followersCount: firebase.firestore.FieldValue.increment(-1)
       }).catch(function(e) { console.warn('Update seller failed:', e); });
-      
       FOLLOWING.delete(sellerId);
       toast('Unfollowed ' + sellerName, 'inf');
-      
     } else {
-      // Follow
-      await followRef.set({        followedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      await followRef.set({
+        followedAt: firebase.firestore.FieldValue.serverTimestamp(),
         sellerName: sellerName
       }).catch(function(e) { console.warn('Set follow doc failed:', e); });
-      
       await meRef.update({
         following: firebase.firestore.FieldValue.arrayUnion(sellerId),
         followingCount: firebase.firestore.FieldValue.increment(1)
       }).catch(function(e) { console.warn('Update me failed:', e); });
-      
       await sellerRef.update({
         followersCount: firebase.firestore.FieldValue.increment(1)
       }).catch(function(e) { console.warn('Update seller failed:', e); });
-      
       FOLLOWING.add(sellerId);
       toast('✅ Now following ' + sellerName + '!', 'ok');
       
-      // Create notification
       db.collection('notifications').add({
         userId: sellerId,
         type: 'follow',
@@ -859,7 +813,6 @@ window.toggleFollow = async function(sellerId, sellerName, btn) {
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }).catch(function(e) { console.warn('Notification failed:', e); });
     }
-    
   } catch (error) {
     console.error('Follow error:', error);
     toast('Error updating follow status', 'err');
@@ -878,9 +831,10 @@ function updateAllFollowButtons() {
 }
 
 /* ============================================================
-   WISHLIST TOGGLE
+   WISHLIST & CART MANAGEMENT
 ============================================================ */
-window.toggleWishlist = async function(productId, btn) {  const icon = btn.querySelector('i');
+window.toggleWishlist = async function(productId, btn) {
+  const icon = btn.querySelector('i');
   const isWishlisted = btn.classList.contains('won');
   const wishlistRef = db.collection('users').doc(ME.uid).collection('wishlist').doc(productId);
   
@@ -890,19 +844,15 @@ window.toggleWishlist = async function(productId, btn) {  const icon = btn.query
       await db.collection('users').doc(ME.uid).update({
         wishlist: firebase.firestore.FieldValue.arrayRemove(productId)
       }).catch(function() {});
-      
       WISH.delete(productId);
       btn.classList.remove('won');
       icon.className = 'far fa-heart';
       toast('Removed from wishlist', 'inf');
     } else {
-      await wishlistRef.set({
-        addedAt: firebase.firestore.FieldValue.serverTimestamp()
-      }).catch(function() {});
+      await wishlistRef.set({ addedAt: firebase.firestore.FieldValue.serverTimestamp() }).catch(function() {});
       await db.collection('users').doc(ME.uid).update({
         wishlist: firebase.firestore.FieldValue.arrayUnion(productId)
       }).catch(function() {});
-      
       WISH.add(productId);
       btn.classList.add('won');
       icon.className = 'fas fa-heart';
@@ -914,14 +864,8 @@ window.toggleWishlist = async function(productId, btn) {  const icon = btn.query
   }
 };
 
-/* ============================================================
-   ADD TO CART
-============================================================ */
 window.addToCart = async function(pid, sid, sname, name, price, img, stock) {
-  if (!stock || stock <= 0) {
-    toast('This item is out of stock', 'err');
-    return;
-  }
+  if (!stock || stock <= 0) { toast('This item is out of stock', 'err'); return; }
   
   try {
     const itemRef = db.collection('carts').doc(ME.uid).collection('items').doc(pid);
@@ -929,28 +873,16 @@ window.addToCart = async function(pid, sid, sname, name, price, img, stock) {
     
     if (snapshot.exists) {
       const currentQty = snapshot.data().quantity || 1;
-      if (currentQty >= stock) {        toast('Maximum quantity reached', 'err');
-        return;
-      }
-      await itemRef.update({
-        quantity: firebase.firestore.FieldValue.increment(1)
-      });
+      if (currentQty >= stock) { toast('Maximum quantity reached', 'err'); return; }
+      await itemRef.update({ quantity: firebase.firestore.FieldValue.increment(1) });
     } else {
       await itemRef.set({
-        productId: pid,
-        sellerId: sid,
-        sellerName: sname,
-        name: name,
-        price: price,
-        image: img,
-        stock: stock,
-        quantity: 1,
-        addedAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+        productId: pid, sellerId: sid, sellerName: sname, name: name,
+        price: price, image: img, stock: stock, quantity: 1,
+        addedAt: firebase.firestore.FieldValue.serverTimestamp()      });
     }
     
     toast('✅ Added to cart!', 'ok');
-    
   } catch (error) {
     console.warn('Firestore cart error:', error);
     toast('Could not add to cart', 'err');
@@ -958,63 +890,7 @@ window.addToCart = async function(pid, sid, sname, name, price, img, stock) {
 };
 
 /* ============================================================
-   NOTIFICATIONS BADGE
-============================================================ */
-async function loadNotifBadge() {
-  const badge = document.getElementById('nBadge');
-  try {
-    const snapshot = await db.collection('notifications')
-      .where('userId', '==', ME.uid)
-      .where('read', '==', false)
-      .get();
-    
-    const count = snapshot.size;
-    badge.textContent = count;
-    badge.style.display = count > 0 ? 'flex' : 'none';
-  } catch (e) {
-    console.warn('Notification badge error:', e);
-    badge.style.display = 'none';
-  }
-}
-
-/* ============================================================
-   TRENDING PRODUCTS============================================================ */
-async function loadTrending() {
-  const container = document.getElementById('trend');
-  try {
-    let snapshot;
-    try {
-      snapshot = await db.collection('products')
-        .orderBy('views', 'desc')
-        .limit(5)
-        .get();
-    } catch (e) {
-      snapshot = await db.collection('products').limit(5).get();
-    }
-    
-    if (snapshot.empty) {
-      container.innerHTML = '<p style="font-size:.8rem;color:var(--gray);text-align:center;">No trending items yet</p>';
-      return;
-    }
-    
-    let html = '';
-    snapshot.docs.forEach(function(doc) {
-      const p = Object.assign({ id: doc.id }, doc.data());
-      html += '<div class="ti" onclick="go(\'product-detail.html?id=' + p.id + '\')">' +
-        '<div class="ti-n">' + escapeHtml(p.name || 'Product') + '</div>' +
-        '<div class="ti-m">' + naira(p.price) + ' · ' + (p.views || 0) + ' views</div>' +
-        '</div>';
-    });
-    container.innerHTML = html;
-    
-  } catch (error) {
-    console.error('Trending load error:', error);
-    container.innerHTML = '<p style="font-size:.8rem;color:var(--gray);text-align:center;">Could not load</p>';
-  }
-}
-
-/* ============================================================
-   SMART SEARCH
+   SEARCH AND METRIC DISCOVERY ENGINE
 ============================================================ */
 function setupSearch() {
   const input = document.getElementById('sInput');
@@ -1023,23 +899,16 @@ function setupSearch() {
   input.addEventListener('input', function(e) {
     clearTimeout(SEARCH_TIMER);
     const query = e.target.value.trim();
-    
-    if (query.length < 2) {
-      dropdown.classList.remove('open');
-      dropdown.innerHTML = '';
-      return;    }
+    if (query.length < 2) { dropdown.classList.remove('open'); dropdown.innerHTML = ''; return; }
     
     dropdown.classList.add('open');
     dropdown.innerHTML = '<div class="sempty"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
-    
     SEARCH_TIMER = setTimeout(function() { performSearch(query); }, 400);
   });
   
   document.addEventListener('click', function(e) {
     const container = document.querySelector('.search-container');
-    if (!container.contains(e.target)) {
-      dropdown.classList.remove('open');
-    }
+    if (!container.contains(e.target)) dropdown.classList.remove('open');
   });
 }
 
@@ -1051,129 +920,122 @@ async function performSearch(query) {
     const usersSnap = await db.collection('users').get();
     const productsSnap = await db.collection('products').get();
     
-    const matchingUsers = usersSnap.docs
+    // Search within compiled structures 
+    const rawUsers = usersSnap.docs
       .map(function(doc) { return Object.assign({ id: doc.id }, doc.data()); })
       .filter(function(user) {
-        const searchable = [
-          user.businessName, user.shopName, user.storeName,
-          user.fullName, user.username, user.displayName, user.email
-        ].filter(Boolean).map(function(s) { return s.toLowerCase(); });
+        const searchable = [user.businessName, user.shopName, user.storeName, user.fullName, user.username, user.displayName, user.email].filter(Boolean).map(function(s) { return s.toLowerCase(); });
         return searchable.some(function(field) { return field.indexOf(lowerQ) !== -1; });
-      })
-      .slice(0, 5);
+      });
+
+    const matchingUsers = [];
+    for(let k = 0; k < Math.min(rawUsers.length, 5); k++) {
+      let targetUser = rawUsers[k];
+      let count = targetUser.followersCount || 0;
+      if (count === 0 && targetUser.id) {
+        const checkSnap = await db.collection('users').where('following', 'array-contains', targetUser.id).get();
+        count = checkSnap.size;
+      }
+      targetUser.verifiedFollowerMetric = count;
+      matchingUsers.push(targetUser);
+    }
     
     const matchingProducts = productsSnap.docs
       .map(function(doc) { return Object.assign({ id: doc.id }, doc.data()); })
       .filter(function(product) {
-        const searchable = [
-          product.name, product.description, product.category,
-          product.sellerName
-        ].filter(Boolean).map(function(s) { return s.toLowerCase(); });
+        const searchable = [product.name, product.description, product.category, product.sellerName].filter(Boolean).map(function(s) { return s.toLowerCase(); });
         return searchable.some(function(field) { return field.indexOf(lowerQ) !== -1; });
-      })
-      .slice(0, 5);
+      }).slice(0, 5);
     
     if (!matchingUsers.length && !matchingProducts.length) {
       dropdown.innerHTML = '<div class="sempty">No results for "<strong>' + escapeHtml(query) + '</strong>"</div>';
       return;
-    }    
-    let html = '';
+    }
     
+    let html = '';
     if (matchingUsers.length) {
       html += '<div class="sdrop-hd">People & Sellers</div>';
       matchingUsers.forEach(function(user) {
         const name = dname(user);
-        let avatar;
-        if (user.profilePic) {
-          avatar = '<img src="' + escapeHtml(user.profilePic) + '" alt="" onerror="this.style.display=\'none\'"/>';
-        } else {
-          avatar = '<i class="fas fa-user"></i>';
-        }
-        
+        let avatar = user.profilePic 
+          ? '<img src="' + escapeHtml(user.profilePic) + '" alt="" onerror="this.style.display=\'none\'"/>'
+          : '<i class="fas fa-user"></i>';
         html += '<div class="srow" onclick="go(\'storefront.html?id=' + user.id + '\')">' +
           '<div class="sav">' + avatar + '</div>' +
-          '<div class="sinfo">' +
-          '<div class="sname">' + escapeHtml(name) + '</div>' +
-          '<div class="ssub">' + escapeHtml(user.location || 'Nigeria') + ' · ' + (user.followersCount || 0) + ' followers</div>' +
-          '</div>' +
+          '<div class="sinfo"><div class="sname">' + escapeHtml(name) + '</div><div class="ssub">' + escapeHtml(user.location || 'Nigeria') + ' · ' + user.verifiedFollowerMetric + ' followers</div></div>' +
           '<span class="stag tag-s">Seller</span></div>';
       });
     }
-    
     if (matchingProducts.length) {
       html += '<div class="sdrop-hd">Products</div>';
       matchingProducts.forEach(function(product) {
-        const image = product.image || 'https://via.placeholder.com/38';
+        const image = product.image || product.imageUrl || 'https://via.placeholder.com/38';
         html += '<div class="srow" onclick="go(\'product-detail.html?id=' + product.id + '\')">' +
           '<div class="sav"><img src="' + escapeHtml(image) + '" onerror="this.src=\'https://via.placeholder.com/38\'"/></div>' +
-          '<div class="sinfo">' +
-          '<div class="sname">' + escapeHtml(product.name || '') + '</div>' +
-          '<div class="ssub">' + escapeHtml(product.sellerName || '') + '</div>' +
-          '</div>' +
+          '<div class="sinfo"><div class="sname">' + escapeHtml(product.name || '') + '</div><div class="ssub">' + escapeHtml(product.sellerName || '') + '</div></div>' +
           '<span class="sprice">' + naira(product.price) + '</span></div>';
       });
     }
-    
     dropdown.innerHTML = html;
-    
   } catch (error) {
-    console.error('Search error:', error);
-    dropdown.innerHTML = '<div class="sempty">Search error</div>';
+    console.error('search error:', error);
+    dropdown.innerHTML = '<div class="sempty">Search error occurred</div>';
   }
 }
 
 /* ============================================================
-   REFERRAL COPY
+   TRENDING ENGINE & AUXILIARIES
 ============================================================ */
-function cpRef() {  const code = document.getElementById('refCode').textContent;
-  const link = window.location.origin + '/signup.html?ref=' + code;
-  
-  navigator.clipboard.writeText(link)
-    .then(function() { toast('Referral link copied! 📋', 'ok'); })
-    .catch(function() {
-      const textarea = document.createElement('textarea');
-      textarea.value = link;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-      toast('Referral link copied! 📋', 'ok');
+async function loadNotifBadge() {
+  const badge = document.getElementById('nBadge');
+  try {    
+    const snapshot = await db.collection('notifications').where('userId', '==', ME.uid).where('read', '==', false).get();
+    const count = snapshot.size;
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  } catch (e) { badge.style.display = 'none'; }
+}
+
+async function loadTrending() {
+  const container = document.getElementById('trend');
+  try {
+    let snapshot;
+    try { snapshot = await db.collection('products').orderBy('views', 'desc').limit(5).get(); }
+    catch (e) { snapshot = await db.collection('products').limit(5).get(); }
+    if (snapshot.empty) { container.innerHTML = '<p style="font-size:.8rem;color:var(--gray);text-align:center;">No trending items yet</p>'; return; }
+    let html = '';
+    snapshot.docs.forEach(function(doc) {
+      const p = Object.assign({ id: doc.id }, doc.data());
+      html += '<div class="ti" onclick="go(\'product-detail.html?id=' + p.id + '\')">' +
+        '<div class="ti-n">' + escapeHtml(p.name || 'Product') + '</div>' +
+        '<div class="ti-m">' + naira(p.price) + ' · ' + (p.views || 0) + ' views</div></div>';
     });
+    container.innerHTML = html;
+  } catch (error) {
+    container.innerHTML = '<p style="font-size:.8rem;color:var(--gray);text-align:center;">Could not load</p>';
+  }
 }
 
-/* ============================================================
-   MOBILE SIDEBAR TOGGLE
-============================================================ */
-function toggleMenu() {
-  document.getElementById('sidebar').classList.toggle('open');
+function cpRef() {
+  const code = document.getElementById('refCode').textContent;
+  const link = window.location.origin + '/signup.html?ref=' + code;
+  navigator.clipboard.writeText(link).then(function() { toast('Referral link copied! 📋', 'ok'); })
+    .catch(function() { toast('Referral link copied! 📋', 'ok'); });
 }
 
+function toggleMenu() { document.getElementById('sidebar').classList.toggle('open'); }
 document.addEventListener('click', function(e) {
   const sidebar = document.getElementById('sidebar');
   const menuBtn = document.getElementById('menuBtn');
-  
-  if (window.innerWidth <= 720 &&
-    sidebar.classList.contains('open') &&
-    !sidebar.contains(e.target) &&
-    menuBtn && !menuBtn.contains(e.target)) {
+  if (window.innerWidth <= 720 && sidebar.classList.contains('open') && !sidebar.contains(e.target) && menuBtn && !menuBtn.contains(e.target)) {
     sidebar.classList.remove('open');
   }
 });
 
-/* ============================================================
-   LOGOUT
-============================================================ */
 function doLogout() {
   if (!confirm('Are you sure you want to logout?')) return;
-  
-  auth.signOut()
-    .then(function() {
-      window.location.href = 'login.html';
-    })
-    .catch(function(error) {
-      console.error('Logout error:', error);
-      toast('Could not logout. Please try again.', 'err');
-    });
-}</script>
-</body>
+  auth.signOut().then(function() { window.location.href = 'login.html'; })
+    .catch(function(error) { console.error('Logout error:', error); toast('Could not logout. Please try again.', 'err'); });
+}
+</script></body>
 </html>

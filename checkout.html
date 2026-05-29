@@ -20,120 +20,52 @@
     body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; padding: 2rem 1rem; }
 
     .checkout-container { max-width: 1000px; margin: 0 auto; }
-    .page-header {
-      display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
-    }
-    .back-btn {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--white); display: flex; align-items: center; justify-content: center;
-      color: var(--navy); text-decoration: none; box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
+    .page-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .back-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--navy); text-decoration: none; box-shadow: var(--shadow-sm); transition: var(--transition); }
     .back-btn:hover { transform: translateY(-2px); }
     .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); }
 
     .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 1.5rem; }
 
     /* Delivery Form */
-    .delivery-section {
-      background: var(--white); border-radius: var(--radius-md);
-      padding: 2rem; box-shadow: var(--shadow-sm);
-    }
-    .section-title {
-      font-size: 1.25rem; font-weight: 700; color: var(--navy);
-      margin-bottom: 1.5rem; padding-bottom: 0.75rem;
-      border-bottom: 2px solid var(--light-bg);
-    }
-    .form-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;
-    }
-    .form-group { margin-bottom: 0; }    .form-group.full { grid-column: 1 / -1; }
-    .form-label {
-      display: block; font-weight: 600; color: var(--navy);
-      margin-bottom: 0.5rem; font-size: 0.9rem;
-    }
-    .form-input, .form-textarea {
-      width: 100%; padding: 0.875rem 1rem;
-      border: 2px solid #E5E7EB; border-radius: var(--radius-sm);
-      font-size: 1rem; font-family: inherit;
-      transition: var(--transition); background: var(--white);
-    }
-    .form-input:focus, .form-textarea:focus {
-      outline: none; border-color: var(--teal);
-      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.15);
-    }
+    .delivery-section { background: var(--white); border-radius: var(--radius-md); padding: 2rem; box-shadow: var(--shadow-sm); }
+    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--light-bg); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 0; } .form-group.full { grid-column: 1 / -1; }
+    .form-label { display: block; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .form-input, .form-textarea { width: 100%; padding: 0.875rem 1rem; border: 2px solid #E5E7EB; border-radius: var(--radius-sm); font-size: 1rem; font-family: inherit; transition: var(--transition); background: var(--white); }
+    .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.15); }
     .form-textarea { resize: vertical; min-height: 80px; }
-    .checkbox-wrapper {
-      display: flex; align-items: center; gap: 0.5rem;
-      margin-top: 1rem; cursor: pointer;
-    }
+    .checkbox-wrapper { display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; cursor: pointer; }
     .checkbox-wrapper input { width: 18px; height: 18px; accent-color: var(--teal); }
     .checkbox-wrapper span { color: var(--gray); font-size: 0.9rem; }
 
     /* Order Review */
-    .review-section {
-      background: var(--white); border-radius: var(--radius-md);
-      padding: 2rem; box-shadow: var(--shadow-sm);
-      height: fit-content; position: sticky; top: 2rem;
-    }
-    .review-item {
-      display: flex; gap: 1rem; padding: 1rem 0;
-      border-bottom: 1px solid #E5E7EB;
-    }
+    .review-section { background: var(--white); border-radius: var(--radius-md); padding: 2rem; box-shadow: var(--shadow-sm); height: fit-content; position: sticky; top: 2rem; }
+    .review-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #E5E7EB; }
     .review-item:last-child { border-bottom: none; }
-    .review-img {
-      width: 60px; height: 60px; border-radius: var(--radius-sm);
-      background: var(--light-bg); overflow: hidden; flex-shrink: 0;
-    }
+    .review-img { width: 60px; height: 60px; border-radius: var(--radius-sm); background: var(--light-bg); overflow: hidden; flex-shrink: 0; }
     .review-img img { width: 100%; height: 100%; object-fit: cover; }
     .review-details { flex: 1; }
     .review-name { font-weight: 600; color: var(--navy); margin-bottom: 0.25rem; }
     .review-qty { font-size: 0.85rem; color: var(--gray); }
     .review-price { font-weight: 700; color: var(--teal); }
-    .summary-row {
-      display: flex; justify-content: space-between;
-      margin: 0.75rem 0; color: var(--gray);
-    }
-    .summary-row.total {
-      font-size: 1.25rem; font-weight: 800; color: var(--navy);
-      padding-top: 0.75rem; border-top: 2px solid var(--light-bg);      margin-top: 0.75rem;
-    }
-    .place-order-btn {
-      width: 100%; padding: 1.25rem;
-      background: linear-gradient(135deg, #25D366, #128C7E);
-      color: var(--white); border: none; border-radius: var(--radius-sm);
-      font-size: 1.1rem; font-weight: 700; margin-top: 1.5rem;
-      cursor: pointer; transition: var(--transition);
-      display: flex; align-items: center; justify-content: center; gap: 0.75rem;
-    }
+    .summary-row { display: flex; justify-content: space-between; margin: 0.75rem 0; color: var(--gray); }
+    .summary-row.total { font-size: 1.25rem; font-weight: 800; color: var(--navy); padding-top: 0.75rem; border-top: 2px solid var(--light-bg); margin-top: 0.75rem; }
+    
+    .place-order-btn { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, #25D366, #128C7E); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 1.1rem; font-weight: 700; margin-top: 1.5rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
     .place-order-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
     .place-order-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    .place-order-btn .spinner {
-      width: 20px; height: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: var(--white); border-radius: 50%;
-      animation: spin 0.8s linear infinite; display: none;
-    }
+    
+    .place-order-btn .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--white); border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
     .place-order-btn.loading .spinner { display: block; }
     .place-order-btn.loading .btn-text { display: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .payment-note {
-      background: rgba(37, 211, 102, 0.1);
-      border-left: 4px solid #25D366;
-      padding: 1rem; border-radius: var(--radius-sm);
-      margin-top: 1rem; font-size: 0.9rem; color: var(--gray);
-    }
+    
+    .payment-note { background: rgba(37, 211, 102, 0.1); border-left: 4px solid #25D366; padding: 1rem; border-radius: var(--radius-sm); margin-top: 1rem; font-size: 0.9rem; color: var(--gray); }
     .payment-note strong { color: #128C7E; display: block; margin-bottom: 0.25rem; }
 
-    /* Toast */
-    .yf-toast {
-      position: fixed; top: 80px; right: 2rem;
-      padding: 1rem 1.5rem; border-radius: var(--radius-sm);
-      display: flex; align-items: center; gap: 0.75rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 9999;
-      opacity: 0; transform: translateX(100%); transition: all 0.3s ease;
-      font-weight: 600; font-size: 0.9rem;
-    }
+    .yf-toast { position: fixed; top: 20px; right: 2rem; padding: 1rem 1.5rem; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 9999; opacity: 0; transform: translateX(100%); transition: all 0.3s ease; font-weight: 600; font-size: 0.9rem; }
     .yf-toast.show { opacity: 1; transform: translateX(0); }
     .yf-toast--success { background: #2ECC71; color: white; }
     .yf-toast--error { background: var(--coral); color: white; }
@@ -153,10 +85,9 @@
     </div>
 
     <div class="checkout-layout">
-      <!-- Delivery Details Form -->
       <div class="delivery-section">
         <h2 class="section-title">Delivery Information</h2>
-        <form id="checkoutForm">
+        <form id="checkoutForm" onsubmit="return false;">
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label">Full Name *</label>
@@ -168,11 +99,11 @@
             </div>
             <div class="form-group full">
               <label class="form-label">Address Line 1 *</label>
-              <input type="text" id="address1" class="form-input" placeholder="Street address, P.O. box" required/>
+              <input type="text" id="address1" class="form-input" placeholder="Street address" required/>
             </div>
             <div class="form-group full">
               <label class="form-label">Address Line 2</label>
-              <input type="text" id="address2" class="form-input" placeholder="Apartment, suite, unit, building, floor, etc."/>
+              <input type="text" id="address2" class="form-input" placeholder="Apartment, suite, unit, etc."/>
             </div>
             <div class="form-group">
               <label class="form-label">City *</label>
@@ -192,17 +123,15 @@
             </div>
           </div>
           <label class="checkbox-wrapper">
-            <input type="checkbox" id="saveAddress"/>
+            <input type="checkbox" id="saveAddress" checked/>
             <span>Save this address for next time</span>
-          </label>        </form>
+          </label>
+        </form>
       </div>
 
-      <!-- Order Review -->
       <div class="review-section">
         <h2 class="section-title">Order Summary</h2>
-        <div id="orderItems">
-          <!-- Items loaded via JS -->
-        </div>
+        <div id="orderItems"></div>
         <div class="summary-row">
           <span>Subtotal</span>
           <span id="subtotal">₦0</span>
@@ -222,28 +151,53 @@
           <div class="spinner"></div>
         </button>
         <div class="payment-note">
-          <strong><i class="fas fa-info-circle"></i> How it works:</strong>
-          Your order will be sent to the seller's WhatsApp with their bank details for payment.
+          <strong><i class="fas fa-info-circle"></i> Token Policy Info:</strong>
+          Sellers are charged exactly 1 coin per processing order stream. New sellers enjoy 10 free verification balance tokens upon signup.
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="app.js"></script>
 
   <script>
-    let cart = [];
+    const firebaseConfig = {
+      apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
+      authDomain: "yan-flow.firebaseapp.com",
+      projectId: "yan-flow",
+      storageBucket: "yan-flow.firebasestorage.app",
+      messagingSenderId: "373204559623",
+      appId: "1:373204559623:web:56e1c8abf07945c53187a2"
+    };
+    
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    function formatCurrency(amount) {
+      return '₦' + Number(amount).toLocaleString('en-NG');
+    }
+    
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `yf-toast yf-toast--${type}`;
+      toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${message}</span>`;
+      document.body.appendChild(toast);      
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    let processingItems = [];
     let currentUser = null;
     let sellerProfiles = {};
 
-    console.log('✅ Checkout page loaded');
-
-    // ===== Auth Check =====
-    auth.onAuthStateChanged(async (user) => {      currentUser = user;
+    auth.onAuthStateChanged(async (user) => {
+      currentUser = user;
       if (!user) {
         window.location.href = 'login.html';
         return;
@@ -251,81 +205,67 @@
       await loadCheckout();
     });
 
-    // ===== Load Checkout Data =====
     async function loadCheckout() {
       try {
-        // Get cart from localStorage
-        const cartData = localStorage.getItem('yanflows_cart');
-        if (cartData) {
-          try {
-            cart = JSON.parse(cartData);
-            console.log('📦 Cart loaded:', cart.length, 'items');
-          } catch (e) {
-            console.error('❌ Error parsing cart:', e);
-            cart = [];
-          }
+        const subsetPayload = localStorage.getItem('yanflows_checkout_processing_items');
+        if (subsetPayload) {
+          try { processingItems = JSON.parse(subsetPayload); } catch (e) { processingItems = []; }
         }
 
-        if (!cart || cart.length === 0) {
-          YF.showToast('Your cart is empty', 'error');
-          setTimeout(() => window.location.href = 'dashboard.html', 2000);
+        if (!processingItems || processingItems.length === 0) {
+          showToast('No active transaction processing items found.', 'error');
+          setTimeout(() => window.location.href = 'cart.html', 2000);
           return;
         }
 
-        // Load seller profiles for WhatsApp numbers
-        const sellerIds = [...new Set(cart.map(item => item.sellerId).filter(id => id))];
-        console.log('🔍 Loading seller profiles for:', sellerIds);
+        const sellerIds = [...new Set(processingItems.map(item => item.sellerId).filter(id => id))];
         
         for (const sellerId of sellerIds) {
           try {
             const profile = await db.collection('business_profiles').doc(sellerId).get();
             if (profile.exists) {
               sellerProfiles[sellerId] = profile.data();
-              console.log('✅ Seller profile loaded:', sellerId);
+            } else {
+              setFallbackProfile(sellerId);
             }
           } catch (err) {
-            console.warn('⚠️ Could not load seller profile:', sellerId);
-            // Fallback
-            const cartItem = cart.find(i => i.sellerId === sellerId);
-            if (cartItem) {
-              sellerProfiles[sellerId] = {
-                businessName: cartItem.sellerName,
-                whatsapp: '2348000000000',
-                bankDetails: { bankName: 'Unknown', accountNumber: '0000000000', accountName: 'Unknown' },
-                customMessage: 'Please pay before delivery.',                thankYouMessage: 'Thanks for patronage! 🙏'
-              };
-            }
+            setFallbackProfile(sellerId);
           }
         }
 
-        // Load saved address if exists
         if (currentUser) {
           try {
-            const userData = await YF.getUserData(currentUser.uid);
-            if (userData && userData.savedAddress) {
-              const addr = userData.savedAddress;
+            const userDoc = await db.collection('users').doc(currentUser.uid).get();
+            if (userDoc.exists && userDoc.data().savedAddress) {
+              const addr = userDoc.data().savedAddress;
               document.getElementById('fullName').value = addr.fullName || '';
-              document.getElementById('phoneNumber').value = addr.phone || '';
+              document.getElementById('phoneNumber').value = addr.phoneNumber || '';
               document.getElementById('address1').value = addr.address1 || '';
               document.getElementById('address2').value = addr.address2 || '';
               document.getElementById('city').value = addr.city || '';
               document.getElementById('state').value = addr.state || '';
               document.getElementById('country').value = addr.country || 'Nigeria';
-              console.log('✅ Saved address loaded');
             }
-          } catch (err) {
-            console.warn('⚠️ Could not load saved address');
-          }
+          } catch (err) {}
         }
 
         renderOrderSummary();
       } catch (error) {
-        console.error('❌ Error loading checkout:', error);
-        YF.showToast('Error loading checkout', 'error');
+        console.error('Checkout error:', error);
       }
     }
 
-    // ===== Render Order Summary =====
+    function setFallbackProfile(sellerId) {
+      const item = processingItems.find(i => i.sellerId === sellerId);
+      sellerProfiles[sellerId] = {
+        businessName: item ? (item.sellerName || 'Vendor Platform') : 'Vendor Platform',
+        whatsapp: '2348000000000',
+        bankDetails: { bankName: 'Zenith Bank', accountNumber: '1010000000', accountName: 'Store Merchant' },
+        customMessage: 'Please transfer context payment to verify shipping.',
+        thankYouMessage: 'Thanks for ordering! 🙌'
+      };
+    }
+
     function renderOrderSummary() {
       const container = document.getElementById('orderItems');
       if (!container) return;
@@ -333,50 +273,32 @@
       let html = '';
       let total = 0;
 
-      const itemsBySeller = {};
-      cart.forEach(item => {
-        if (!item.sellerId) return;
-        if (!itemsBySeller[item.sellerId]) itemsBySeller[item.sellerId] = [];
-        itemsBySeller[item.sellerId].push(item);
-        total += (item.price || 0) * (item.quantity || 1);
-      });
-
-      if (Object.keys(itemsBySeller).length === 0) {        container.innerHTML = '<p style="color:var(--coral)">No valid items in cart</p>';
-        return;
-      }
-
-      Object.keys(itemsBySeller).forEach(sellerId => {
-        itemsBySeller[sellerId].forEach(item => {
-          const itemTotal = (item.price || 0) * (item.quantity || 1);
-          html += `
-            <div class="review-item">
-              <div class="review-img">
-                <img src="${item.image || 'https://via.placeholder.com/60?text=No+Image'}" 
-                     alt="${item.name || 'Product'}"
-                     onerror="this.src='https://via.placeholder.com/60?text=No+Image'"/>
-              </div>
-              <div class="review-details">
-                <div class="review-name">${item.name || 'Unnamed Product'}</div>
-                <div class="review-qty">Qty: ${item.quantity || 1} × ${YF.formatCurrency(item.price || 0)}</div>
-              </div>
-              <div class="review-price">${YF.formatCurrency(itemTotal)}</div>
+      processingItems.forEach(item => {
+        const itemTotal = (item.price || 0) * (item.quantity || 1);
+        total += itemTotal;
+        
+        html += `
+          <div class="review-item">
+            <div class="review-img">
+              <img src="${item.image || 'https://via.placeholder.com/60?text=Product'}" onerror="this.src='https://via.placeholder.com/60?text=Product'"/>
             </div>
-          `;
-        });
+            <div class="review-details">
+              <div class="review-name">${item.name || 'Product'}</div>
+              <div class="review-qty">Qty: ${item.quantity || 1} × ${formatCurrency(item.price || 0)}</div>
+            </div>
+            <div class="review-price">${formatCurrency(itemTotal)}</div>
+          </div>
+        `;
       });
 
       container.innerHTML = html;
-      document.getElementById('subtotal').textContent = YF.formatCurrency(total);
-      document.getElementById('total').textContent = YF.formatCurrency(total);
-      
-      console.log('✅ Order summary rendered. Total:', YF.formatCurrency(total));
+      document.getElementById('subtotal').textContent = formatCurrency(total);
+      document.getElementById('total').textContent = formatCurrency(total);
     }
 
-    // ===== Place Order =====
     async function placeOrder() {
       const btn = document.getElementById('placeOrderBtn');
       
-      // Validate form
       const fullName = document.getElementById('fullName').value.trim();
       const phoneNumber = document.getElementById('phoneNumber').value.trim();
       const address1 = document.getElementById('address1').value.trim();
@@ -388,159 +310,132 @@
       const saveAddress = document.getElementById('saveAddress').checked;
 
       if (!fullName || !phoneNumber || !address1 || !city || !state || !country) {
-        YF.showToast('Please fill in all required fields', 'error');
-        return;
-      }
-      if (!currentUser) {
-        YF.showToast('Please login to place order', 'error');
-        window.location.href = 'login.html';
+        showToast('Please fill in required fields', 'error');
         return;
       }
 
       btn.classList.add('loading');
       btn.disabled = true;
-      YF.showLoading('Processing order...');
 
       try {
-        // Save address if requested
-        if (saveAddress) {
-          await db.collection('users').doc(currentUser.uid).update({
-            savedAddress: {
-              fullName, phoneNumber, address1, address2, city, state, country, instructions,
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }
-          });
-          console.log('✅ Address saved');
-        }
+        const targetSellerId = processingItems[0]?.sellerId;
+        if (!targetSellerId) throw new Error("No distinct seller identification inside parameters.");
 
-        // Group items by seller
-        const itemsBySeller = {};
-        cart.forEach(item => {
-          if (!item.sellerId) return;
-          if (!itemsBySeller[item.sellerId]) itemsBySeller[item.sellerId] = [];
-          itemsBySeller[item.sellerId].push(item);
+        const sellerCoinRef = db.collection('users').doc(targetSellerId);
+        let clearToProceed = false;
+
+        await db.runTransaction(async (transaction) => {
+          const sellerDoc = await transaction.get(sellerCoinRef);
+          let currentSellerCoins = 10;
+          if (sellerDoc.exists && sellerDoc.data().coins !== undefined) {
+            currentSellerCoins = sellerDoc.data().coins;
+          }
+
+          if (currentSellerCoins >= 1) {
+            transaction.set(sellerCoinRef, { coins: currentSellerCoins - 1 }, { merge: true });
+            clearToProceed = true;
+          }
         });
 
-        // Create order records
-        for (const [sellerId, items] of Object.entries(itemsBySeller)) {
-          const seller = sellerProfiles[sellerId];
-          if (!seller) {
-            console.warn('⚠️ No seller profile for:', sellerId);
-            continue;
-          }
-
-          const orderTotal = items.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
-          const orderData = {
-            orderId: 'ORD_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6).toUpperCase(),
-            buyerId: currentUser.uid,
-            buyerName: fullName,
-            buyerPhone: phoneNumber,
-            sellerId: sellerId,
-            sellerName: seller.businessName || 'Unknown Seller',
-            items: items,
-            total: orderTotal,
-            deliveryDetails: { fullName, phoneNumber, address1, address2, city, state, country, instructions },            status: 'pending',
-            paymentStatus: 'unpaid',
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          };
-
-          // Save to orders collection
-          await db.collection('orders').add(orderData);
-          console.log('✅ Order saved:', orderData.orderId);
+        if (!clearToProceed) {
+          btn.classList.remove('loading');
+          btn.disabled = false;
+          showToast('Order failed: The vendor account has run out of processing coins.', 'error');
+          return;
         }
 
-        // Generate WhatsApp message for first seller
-        const firstSellerId = Object.keys(itemsBySeller)[0];
-        const firstSeller = sellerProfiles[firstSellerId];
-        const firstSellerItems = itemsBySeller[firstSellerId];
+        await db.collection('transactions').add({
+          userId: targetSellerId,
+          type: 'order_charge',
+          amount: -1,
+          description: `Charged 1 coin for processing order from ${fullName}`,
+          date: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        if (saveAddress) {
+          await db.collection('users').doc(currentUser.uid).set({
+            savedAddress: { fullName, phoneNumber, address1, address2, city, state, country, instructions }
+          }, { merge: true }).catch(() => {});
+        }
+
+        const seller = sellerProfiles[targetSellerId];
+        const orderTotal = processingItems.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+        const systematicOrderId = 'ORD_' + Date.now();
         
-        if (firstSeller && firstSellerItems) {
-          const firstOrderTotal = firstSellerItems.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
-          const message = generateWhatsAppMessage(firstSeller, firstSellerItems, firstOrderTotal, {
-            fullName, phoneNumber, address1, address2, city, state, country, instructions
-          });
-          
-          const whatsappNumber = (firstSeller.whatsapp || '2348000000000').replace(/\D/g, '');
-          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-          
-          console.log('📱 Opening WhatsApp');
-          
-          // Clear cart
-          localStorage.removeItem('yanflows_cart');
-          if (currentUser) {
-            await db.collection('carts').doc(currentUser.uid).delete().catch(() => {});
+        const orderData = {
+          orderId: systematicOrderId,
+          buyerId: currentUser.uid,
+          buyerName: fullName,
+          buyerPhone: phoneNumber,
+          sellerId: targetSellerId,
+          sellerName: seller ? (seller.businessName || 'Merchant') : 'Merchant',
+          items: processingItems,
+          total: orderTotal,
+          deliveryDetails: { fullName, phoneNumber, address1, address2, city, state, country, instructions },
+          status: 'pending',
+          paymentStatus: 'unpaid',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        // 1. SAVE TO FIRESTORE FIRST
+        await db.collection('orders').add(orderData);
+
+        for (const item of processingItems) {
+          if (item.productId) {
+            await db.collection('carts').doc(currentUser.uid).collection('items').doc(item.productId).delete().catch(() => {});
           }
-
-          // Open WhatsApp
-          setTimeout(() => {
-            window.open(whatsappUrl, '_blank');
-          }, 500);
         }
+        
+        localStorage.removeItem('yanflows_checkout_processing_items');
 
-        YF.hideLoading();
-        YF.showToast('✅ Order placed! Opening WhatsApp...', 'success');
+        // 2. GENERATE WHATSAPP DEEP-LINK
+        const message = generateWhatsAppMessage(seller, processingItems, orderTotal, { fullName, phoneNumber, address1, address2, city, state, country, instructions });
+        const whatsappNumber = (seller.whatsapp || '2348000000000').replace(/\D/g, '');
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        
+        showToast('Order saved! Directing to WhatsApp...', 'success');
+        
+        // 3. LAUNCH WHATSAPP AND REDIRECT TO ORDERS DASHBOARD
+        window.open(whatsappUrl, '_blank');
+        setTimeout(() => { window.location.href = 'orders.html'; }, 800);
 
-        setTimeout(() => {
-          window.location.href = 'orders.html';
-        }, 3000);
-
-      } catch (error) {
-        console.error('❌ Order error:', error);
-        YF.hideLoading();
+      } catch (err) {
+        console.error(err);
         btn.classList.remove('loading');
-        btn.disabled = false;        
-        let errorMsg = error.message || 'Unknown error';
-        if (error.code === 'permission-denied') {
-          errorMsg = 'Permission denied. Please contact support.';
-        }
-        
-        YF.showToast('Error: ' + errorMsg, 'error');
+        btn.disabled = false;
+        showToast('Error finalizing transaction parameters.', 'error');
       }
     }
 
-    // ===== Generate WhatsApp Message =====
     function generateWhatsAppMessage(seller, items, total, delivery) {
       let message = `🛍️ *NEW ORDER from ${seller.businessName || 'YAN-FLOWS Seller'}*\n`;
       message += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-      
       message += `📦 *ITEMS:*\n`;
+      
       items.forEach(item => {
-        const itemTotal = (item.price || 0) * (item.quantity || 1);
-        message += `• ${item.name || 'Product'} ×${item.quantity || 1} = ${YF.formatCurrency(itemTotal)}\n`;
+        let itemTotal = (item.price || 0) * (item.quantity || 1);
+        message += `• ${item.name || 'Product'} ×${item.quantity || 1} = ${formatCurrency(itemTotal)}\n`;
       });
       
-      message += `\n💰 *TOTAL: ${YF.formatCurrency(total)}*\n`;
-      
+      message += `\n💰 *TOTAL: ${formatCurrency(total)}*\n`;
       message += `\n🚚 *DELIVERY DETAILS:*\n`;
       message += `Name: ${delivery.fullName}\n`;
       message += `Phone: ${delivery.phoneNumber}\n`;
-      if (delivery.address2) {
-        message += `Address: ${delivery.address1}, ${delivery.address2}\n`;
-      } else {
-        message += `Address: ${delivery.address1}\n`;
-      }
-      message += `City: ${delivery.city}\n`;
-      message += `State: ${delivery.state}\n`;
-      message += `Country: ${delivery.country}\n`;
-      if (delivery.instructions) {
-        message += `Instructions: ${delivery.instructions}\n`;
-      }
+      message += `Address: ${delivery.address1}${delivery.address2 ? ', ' + delivery.address2 : ''}\n`;
+      message += `City: ${delivery.city} | State: ${delivery.state}\n`;
+      if (delivery.instructions) message += `Instructions: ${delivery.instructions}\n`;
       
       message += `\n💳 *PAYMENT INFO:*\n`;
       if (seller.bankDetails) {
         message += `Bank: ${seller.bankDetails.bankName || 'N/A'}\n`;
         message += `Account: ${seller.bankDetails.accountNumber || 'N/A'}\n`;
         message += `Name: ${seller.bankDetails.accountName || 'N/A'}\n`;
-      } else {
-        message += `Contact seller for payment details\n`;
       }
       
       message += `\n📝 ${seller.customMessage || 'Please pay before delivery.'}\n`;
       message += `\n${seller.thankYouMessage || 'Thanks for patronage! 🙏'}`;
-            return message;
+      return message;
     }
-
-    console.log('✅ Checkout page fully initialized');
   </script>
 </body>
 </html>

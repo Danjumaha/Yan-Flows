@@ -7,126 +7,129 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
-    :root {
-      --navy: #1B3A5F; --navy-dark: #0F1F33; --navy-light: #2C5282;
-      --white: #FFFFFF; --light-bg: #F8F9FA; --gray: #6C757D; --light-gray: #ADB5BD;
-      --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
-      --shadow-sm: 0 2px 8px rgba(27, 58, 95, 0.08);
-      --shadow-md: 0 4px 20px rgba(27, 58, 95, 0.12);
-      --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px; --radius-full: 9999px;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    :root { 
+      --navy:#1B3A5F; 
+      --navy-dark:#0F1F33; 
+      --teal:#4ECDC4; 
+      --coral:#FF6B6B; 
+      --white:#fff; 
+      --light-bg:#F8F9FA; 
+      --gray:#6C757D; 
+      --radius-sm:8px; 
+      --radius-md:16px; 
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: var(--light-bg); min-height: 100vh; color: var(--navy-dark); }
-
-    .top-nav { background: var(--white); padding: 0.75rem 1.5rem; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-weight: 800; font-size: 1.25rem; color: var(--navy); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
-    .nav-actions { display: flex; gap: 1rem; }
-    .nav-btn { padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: var(--transition); cursor: pointer; border: none; }
-    .btn-outline { border: 2px solid var(--navy); color: var(--navy); background: transparent; }
-    .btn-outline:hover { background: var(--navy); color: var(--white); }
-    .btn-primary { background: var(--navy); color: var(--white); }
-    .btn-primary:hover { background: var(--navy-light); }
-    .cart-btn { position: relative; }
-    .cart-badge { position: absolute; top: -5px; right: -5px; background: var(--coral); color: white; font-size: 0.7rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .notif-btn { position: relative; }
-    .notif-badge { position: absolute; top: -5px; right: -5px; background: var(--teal); color: var(--navy-dark); font-size: 0.7rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-
-    .store-header { background: var(--white); border-bottom: 1px solid #E5E7EB; padding: 2rem 1.5rem; }
-    .store-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
-    .store-avatar { width: 120px; height: 120px; border-radius: 50%; background: var(--light-bg); border: 4px solid var(--white); box-shadow: var(--shadow-md); overflow: hidden; flex-shrink: 0; cursor: pointer; }
-    .store-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .store-info { flex: 1; min-width: 250px; }
-    .store-name { font-size: 2rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.25rem; }
-    .store-handle { color: var(--gray); font-size: 1rem; margin-bottom: 0.75rem; }
-    .store-bio { color: var(--gray); margin-bottom: 1rem; line-height: 1.6; font-size: 1rem; }
-    .store-meta { display: flex; gap: 2rem; margin-bottom: 1.5rem; font-size: 0.95rem; color: var(--navy); flex-wrap: wrap; }
-    .store-meta span { display: flex; align-items: center; gap: 0.5rem; }
-    .store-meta i { color: var(--teal); }
-    .store-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .btn-whatsapp { background: #25D366; color: white; padding: 0.875rem 1.5rem; border-radius: var(--radius-sm); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: var(--transition); border: none; cursor: pointer; font-size: 0.95rem; }
-    .btn-whatsapp:hover { background: #128C7E; transform: translateY(-2px); }
-    .btn-follow { background: var(--light-bg); color: var(--navy); padding: 0.875rem 1.5rem; border-radius: var(--radius-sm); font-weight: 600; border: 2px solid var(--navy); cursor: pointer; transition: var(--transition); font-size: 0.95rem; }
-    .btn-follow:hover { background: var(--navy); color: white; }    .btn-follow.following { background: var(--teal); border-color: var(--teal); color: var(--navy-dark); }
-
-    .products-section { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
-    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
-    .section-title { font-size: 1.5rem; font-weight: 700; color: var(--navy); }
-    .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .filter-tab { padding: 0.5rem 1.25rem; border-radius: var(--radius-full); background: var(--white); color: var(--gray); font-size: 0.9rem; font-weight: 600; cursor: pointer; border: 2px solid #E5E7EB; transition: var(--transition); }
-    .filter-tab.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
-    .filter-tab:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
-
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
-    .product-card { background: var(--white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; }
-    .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-    .product-img { width: 100%; aspect-ratio: 1/1; background: var(--light-bg); overflow: hidden; position: relative; cursor: pointer; }
-    .product-img img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-    .product-card:hover .product-img img { transform: scale(1.05); }
-    .product-badge { position: absolute; top: 10px; left: 10px; background: var(--coral); color: white; padding: 0.25rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 700; }
-    .product-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
-    .product-cat { font-size: 0.85rem; color: var(--teal); font-weight: 600; margin-bottom: 0.375rem; text-transform: uppercase; letter-spacing: 0.5px; }
-    .product-name { font-weight: 700; color: var(--navy-dark); margin-bottom: 0.5rem; line-height: 1.3; font-size: 1.05rem; }
-    .product-price { font-size: 1.25rem; font-weight: 800; color: var(--navy); margin-bottom: 1rem; }
-    .product-footer { margin-top: auto; display: flex; gap: 0.5rem; }
-    .btn-cart { flex: 1; padding: 0.75rem; background: var(--light-bg); color: var(--navy); border: none; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.375rem; font-size: 0.9rem; }
-    .btn-cart:hover { background: #E5E7EB; }
-    .btn-cart:disabled { opacity: 0.6; cursor: not-allowed; }
-    .btn-buy { flex: 1; padding: 0.75rem; background: var(--navy); color: white; border: none; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.375rem; font-size: 0.9rem; }
-    .btn-buy:hover { background: var(--navy-light); }
-    .btn-buy:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    .empty-state { text-align: center; padding: 4rem 2rem; background: var(--white); border-radius: var(--radius-md); grid-column: 1 / -1; }
-    .empty-state i { font-size: 3rem; color: var(--light-gray); margin-bottom: 1rem; }
-    .empty-state h3 { color: var(--navy); margin-bottom: 0.5rem; }
-    .empty-state p { color: var(--gray); margin-bottom: 1.5rem; }
-
-    .yf-toast { position: fixed; top: 80px; right: 2rem; padding: 1rem 1.5rem; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 9999; opacity: 0; transform: translateX(100%); transition: all 0.3s ease; font-weight: 600; font-size: 0.9rem; max-width: 350px; }
-    .yf-toast.show { opacity: 1; transform: translateX(0); }
-    .yf-toast--success { background: #2ECC71; color: white; }
-    .yf-toast--error { background: var(--coral); color: white; }
-    .yf-toast--info { background: var(--navy); color: white; }
-
-    .loading-skeleton { background: linear-gradient(90deg, var(--light-bg) 25%, #E5E7EB 50%, var(--light-bg) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: var(--radius-sm); }
-    @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-    @media (max-width: 768px) {
-      .store-container { flex-direction: column; align-items: center; text-align: center; }
-      .store-meta, .store-actions { justify-content: center; }
-      .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-      .section-header { flex-direction: column; align-items: flex-start; }
-      .yf-toast { right: 1rem; left: 1rem; max-width: none; }
-    }  </style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:var(--light-bg); min-height:100vh; color:var(--navy-dark); }
+    
+    .top-nav { background:var(--white); padding:.75rem 1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.08); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+    .nav-logo { font-weight:800; font-size:1.25rem; color:var(--navy); text-decoration:none; display:flex; align-items:center; gap:.5rem; }
+    .nav-actions { display:flex; gap:1rem; align-items:center; }
+    .nav-btn { padding:.5rem 1rem; border-radius:var(--radius-sm); font-weight:600; font-size:.9rem; text-decoration:none; cursor:pointer; border:none; }
+    .btn-outline { border:2px solid var(--navy); color:var(--navy); background:transparent; }
+    .btn-outline:hover { background:var(--navy); color:var(--white); }
+    .btn-primary { background:var(--navy); color:var(--white); }
+    .cart-btn { position:relative; display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:var(--light-bg); color:var(--navy); }
+    .cart-badge { position:absolute; top:-5px; right:-5px; background:var(--coral); color:white; font-size:.7rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    
+    .store-header { background:var(--white); border-bottom:1px solid #E5E7EB; padding:2.5rem 1.5rem; }
+    .store-container { max-width:1200px; margin:0 auto; display:flex; gap:2.5rem; align-items:center; flex-wrap:wrap; }
+    .store-avatar { width:130px; height:130px; border-radius:50%; background:var(--light-bg); border:4px solid var(--white); overflow:hidden; flex-shrink:0; box-shadow:0 4px 12px rgba(0,0,0,0.1); position:relative; display:flex; align-items:center; justify-content:center; }
+    .store-avatar img { width:100%; height:100%; object-fit:cover; }
+    .store-avatar .placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--navy),var(--teal)); color:white; font-size:3rem; font-weight:700; }
+    .store-info { flex:1; min-width:250px; }
+    .store-name { font-size:2.25rem; font-weight:800; color:var(--navy-dark); margin-bottom:.25rem; letter-spacing:-0.5px; }
+    .store-handle { color:var(--gray); font-size:1.05rem; margin-bottom:.75rem; font-weight:500; }
+    .store-bio { color:#4A5568; margin-bottom:1.25rem; line-height:1.6; font-size:1rem; max-width:700px; }
+    .store-meta { display:flex; gap:2rem; margin-bottom:1.5rem; font-size:.95rem; color:var(--navy); flex-wrap:wrap; font-weight:600; }
+    .store-meta span { display:flex; align-items:center; gap:.5rem; }
+    .store-meta i { color:var(--teal); }
+    .store-actions { display:flex; gap:.75rem; flex-wrap:wrap; }
+    .btn-whatsapp { background:#25D366; color:white; padding:.875rem 1.5rem; border-radius:var(--radius-sm); font-weight:600; text-decoration:none; display:flex; align-items:center; gap:.5rem; transition: background 0.2s; }
+    .btn-whatsapp:hover { background:#20ba5a; }
+    .btn-follow { background:var(--white); color:var(--navy); padding:.875rem 1.5rem; border-radius:var(--radius-sm); font-weight:700; border:2px solid var(--navy); cursor:pointer; transition: all 0.2s; }
+    .btn-follow:hover { background:var(--navy); color:var(--white); }
+    .btn-follow.following { background:var(--teal); border-color:var(--teal); color:var(--navy-dark); }
+    
+    .products-section { max-width:1200px; margin:2.5rem auto; padding:0 1.5rem; }
+    .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.75rem; flex-wrap:wrap; gap:1rem; border-bottom:2px solid #E5E7EB; padding-bottom:1rem; }
+    .section-title { font-size:1.6rem; font-weight:800; color:var(--navy); }
+    .filter-tabs { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .filter-tab { padding:.5rem 1.25rem; border-radius:9999px; background:var(--white); color:var(--gray); font-size:.9rem; font-weight:600; cursor:pointer; border:2px solid #E5E7EB; transition: all 0.2s; }
+    .filter-tab.active, .filter-tab:hover { background:var(--navy); color:var(--white); border-color:var(--navy); }
+    
+    .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.75rem; }
+    .product-card { background:var(--white); border-radius:var(--radius-md); overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,.05); transition:transform .2s, box-shadow .2s; border:1px solid #E5E7EB; }
+    .product-card:hover { transform:translateY(-6px); box-shadow:0 8px 25px rgba(0,0,0,.12); }
+    .product-img { width:100%; aspect-ratio:4/3; background:var(--light-bg); cursor:pointer; position:relative; overflow:hidden; }    
+    .product-img img { width:100%; height:100%; object-fit:cover; transition: transform 0.3s; }
+    .product-card:hover .product-img img { transform:scale(1.05); }
+    .product-badge { position:absolute; top:12px; left:12px; background:var(--coral); color:white; padding:.3rem .8rem; border-radius:var(--radius-sm); font-size:.75rem; font-weight:700; z-index:2; }
+    .product-body { padding:1.25rem; }
+    .product-cat { font-size:.8rem; color:var(--teal); font-weight:700; margin-bottom:.5rem; text-transform:uppercase; letter-spacing:0.5px; }
+    .product-name { font-weight:700; color:var(--navy-dark); margin-bottom:.5rem; font-size:1.1rem; line-height:1.4; height:2.8rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .product-price { font-size:1.35rem; font-weight:800; color:var(--navy); margin-bottom:1.25rem; }
+    .product-footer { display:flex; gap:.5rem; }
+    .btn-cart { flex:1; padding:.75rem; background:var(--light-bg); color:var(--navy); border:none; border-radius:var(--radius-sm); font-weight:700; cursor:pointer; transition: background 0.2s; font-size:0.85rem; }
+    .btn-cart:hover:not(:disabled) { background:var(--border); color:var(--navy-dark); }
+    .btn-cart:disabled { opacity:.6; cursor:not-allowed; }
+    .btn-buy { flex:1; padding:.75rem; background:var(--navy); color:white; border:none; border-radius:var(--radius-sm); font-weight:700; cursor:pointer; transition: opacity 0.2s; font-size:0.85rem; }
+    .btn-buy:hover:not(:disabled) { opacity:0.9; }
+    .btn-buy:disabled { opacity:.6; cursor:not-allowed; }
+    
+    .empty-state { text-align:center; padding:5rem 2rem; background:var(--white); border-radius:var(--radius-md); grid-column:1/-1; color:var(--gray); border:1px solid #E5E7EB; }
+    .empty-state i { font-size:3.5rem; margin-bottom:1.25rem; color:var(--navy); opacity:.4; }
+    .empty-state h3 { font-size:1.25rem; color:var(--navy-dark); margin-bottom:0.5rem; }
+    
+    .yf-toast { position:fixed; top:80px; right:2rem; padding:1rem 1.5rem; border-radius:var(--radius-sm); background:#2ECC71; color:white; display:flex; align-items:center; gap:.75rem; box-shadow:0 4px 15px rgba(0,0,0,.15); z-index:9999; opacity:0; transform:translateX(100%); transition:all .3s ease; font-weight:600; }
+    .yf-toast.show { opacity:1; transform:translateX(0); }
+    .yf-toast.error { background:var(--coral); }
+    
+    .loading-state { text-align:center; padding:4rem; grid-column:1/-1; }
+    .loading-state i { font-size:3rem; color:var(--teal); margin-bottom:1rem; }
+    
+    @media(max-width:768px) { 
+      .store-container { flex-direction:column; align-items:center; text-align:center; gap:1.5rem; } 
+      .products-grid { grid-template-columns:repeat(auto-fill,minmax(165px,1fr)); gap:1rem; } 
+      .store-meta { justify-content:center; gap:1rem; }
+      .store-actions { justify-content:center; }
+      .store-name { font-size:1.75rem; }
+    }
+  </style>
 </head>
 <body>
   <nav class="top-nav">
     <a href="dashboard.html" class="nav-logo">
-      <div style="width:32px;height:32px;background:linear-gradient(135deg,var(--navy),var(--teal));border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">YF</div>
+      <div style="width:32px;height:32px;background:linear-gradient(135deg,var(--navy),var(--teal));border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.9rem;">YF</div>
       YAN-FLOWS
     </a>
     <div class="nav-actions">
-      <a href="dashboard.html" class="nav-btn btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
-      <a href="notification.html" class="nav-btn nav-icon notif-btn"><i class="fas fa-bell"></i><span class="notif-badge" id="notifBadge" style="display:none;">0</span></a>
-      <a href="cart.html" class="nav-btn btn-primary cart-btn" id="cartBtn"><i class="fas fa-shopping-cart"></i><span class="cart-badge" id="cartBadge" style="display:none;">0</span></a>
+      <a href="dashboard.html" class="nav-btn btn-outline">← Home</a>
+      <a href="cart.html" class="cart-btn">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+      </a>
     </div>
   </nav>
 
   <header class="store-header">
-    <div class="store-container" id="storeHeader">
-      <div class="store-avatar" id="storeAvatar"><div class="loading-skeleton" style="width:100%;height:100%;"></div></div>
+    <div class="store-container">
+      <div class="store-avatar" id="storeAvatar">
+        <div class="placeholder" id="avatarPlaceholder">?</div>
+      </div>
       <div class="store-info">
-        <h1 class="store-name" id="storeName">Loading...</h1>
-        <div class="store-handle" id="storeHandle">@storename</div>
-        <p class="store-bio" id="storeBio">Loading store information...</p>
+        <h1 class="store-name" id="storeName">Loading storefront...</h1>
+        <div class="store-handle" id="storeHandle">@username</div>
+        <p class="store-bio" id="storeBio">Gathering market data...</p>
         <div class="store-meta">
-          <span><i class="fas fa-map-marker-alt"></i> <span id="storeLocation">Loading...</span></span>
+          <span><i class="fas fa-map-marker-alt"></i> <span id="storeLocation">Nigeria</span></span>
           <span><i class="fas fa-box"></i> <span id="productCount">0</span> Products</span>
           <span><i class="fas fa-users"></i> <span id="followerCount">0</span> Followers</span>
-          <span><i class="fas fa-star" style="color:var(--gold);"></i> <span id="storeRating">New Seller</span></span>
         </div>
         <div class="store-actions">
-          <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank"><i class="fab fa-whatsapp"></i> Chat</a>
-          <button class="btn-follow" id="followBtn" onclick="toggleFollow()"><i class="fas fa-plus"></i> <span id="followText">Follow</span></button>
+          <a href="#" class="btn-whatsapp" id="whatsappBtn" style="display:none;" target="_blank">
+            <i class="fab fa-whatsapp"></i> WhatsApp Shop
+          </a>
+          <button class="btn-follow" id="followBtn" style="display:none;" onclick="toggleFollow()">+ Follow Seller</button>
         </div>
       </div>
     </div>
@@ -134,19 +137,23 @@
 
   <section class="products-section">
     <div class="section-header">
-      <h2 class="section-title">📦 All Products</h2>
+      <h2 class="section-title">📦 Showcase</h2>
       <div class="filter-tabs" id="filterTabs">
-        <button class="filter-tab active" data-category="all">All</button>
+        <button class="filter-tab active" data-category="all">All Items</button>
       </div>
     </div>
     <div class="products-grid" id="productsGrid">
-      <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h3>Loading products...</h3></div>
+      <div class="loading-state">
+        <i class="fas fa-circle-notch fa-spin"></i>
+        <h3>Loading dynamic inventory...</h3>
+      </div>
     </div>
   </section>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBJ4t5SDaryYcjIzG737tLPNIwXRnL9Qlc",
@@ -156,392 +163,355 @@
       messagingSenderId: "373204559623",
       appId: "1:373204559623:web:56e1c8abf07945c53187a2"
     };
+    
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    
+    let currentUser = null;
+    let sellerId = null;
+    let allProducts = [];
+    let userData = {};
+    let sellerMergedData = {};
 
-    function formatCurrency(amount) { return '₦' + Number(amount).toLocaleString('en-NG'); }
-
-    function showToast(message, type) {
-      type = type || 'success';
-      const toast = document.createElement('div');
-      toast.className = 'yf-toast yf-toast--' + type;
-      toast.innerHTML = '<i class="fas ' + (type==='success'?'fa-check-circle':type==='error'?'fa-exclamation-circle':'fa-info-circle') + '"></i><span>' + message + '</span>';
-      document.body.appendChild(toast);
-      setTimeout(function() { toast.classList.add('show'); }, 10);
-      setTimeout(function() { toast.classList.remove('show'); setTimeout(function() { toast.remove(); }, 300); }, 3000);
+    function formatCurrency(n) { return '₦' + Number(n||0).toLocaleString('en-NG'); }
+    
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    function getDisplayName(user) {
+      if (!user) return 'Verified Merchant';
+      return user.businessName || user.shopName || user.storeName || user.fullName || user.displayName || user.username || 'Verified Merchant';
+    }
+    
+    function getUsername(user) {
+      if (!user) return 'merchant';
+      const name = user.username || user.fullName || user.businessName || 'merchant';
+      return '@' + name.toLowerCase().replace(/\s+/g, '');
+    }
+    
+    function showToast(msg, isError) {
+      const t = document.createElement('div');
+      t.className = 'yf-toast' + (isError ? ' error' : '');
+      t.innerHTML = '<i class="fas ' + (isError ? 'fa-exclamation-circle' : 'fa-check-circle') + '"></i> ' + msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.classList.add('show'), 10);
+      setTimeout(() => {
+        t.classList.remove('show');
+        setTimeout(() => t.remove(), 300);
+      }, 3000);
     }
 
-    let currentUser = null, sellerId = null, allProducts = [], currentFilter = 'all', cart = [], userData = {};
+    function getSellerIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      let id = params.get('id');
+      if (!id) return null;
+      id = id.trim();
+      return (id === '' || id === 'null' || id === 'undefined') ? null : id;
+    }
 
-    // Get sellerId from URL - CRITICAL FIX
-    const urlParams = new URLSearchParams(window.location.search);
-    sellerId = urlParams.get('id');
-    
-    console.log('Storefront loaded - sellerId from URL:', sellerId);
-    console.log('Current URL:', window.location.href);
+    function refreshCartUI() {
+      try {
+        const localCart = JSON.parse(localStorage.getItem('yanflows_cart') || '[]');
+        const badge = document.getElementById('cartBadge');
+        if (badge) {
+          const totalCount = localCart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+          badge.textContent = totalCount;
+          badge.style.display = totalCount > 0 ? 'flex' : 'none';
+        }
+      } catch(e) { console.error(e); }
+    }
+    refreshCartUI();
 
-    // Load cart immediately
-    try {
-      cart = JSON.parse(localStorage.getItem('yanflows_cart') || '[]');
-    } catch(e) { cart = []; }
-    updateCartBadge();
-
-    auth.onAuthStateChanged(async function(user) {
+    // Global Initialization Loop
+    auth.onAuthStateChanged(async (user) => {
       currentUser = user;
-      const btn = document.getElementById('cartBtn');
       if (user) {
-        btn.href = 'cart.html';
-        try { cart = JSON.parse(localStorage.getItem('yanflows_cart') || '[]'); } catch(e) { cart = []; }
-        updateCartBadge();
-        await loadUserData();        loadNotificationCount();
-      } else {
-        btn.href = 'login.html';
+        try {
+          const doc = await db.collection('users').doc(user.uid).get();
+          if (doc.exists) userData = doc.data();
+        } catch(e) { console.warn('Viewer context collection skipped.', e); }
+      }
+      
+      sellerId = getSellerIdFromURL();
+      if (sellerId) { 
+        loadStorefrontRealtimePipeline(); 
+      } else { 
+        showError('Invalid Query URL', 'This storefront requires an active account reference ID.'); 
       }
     });
 
-    async function loadUserData() {
-      try {
-        if (!currentUser) return;
-        const doc = await db.collection('users').doc(currentUser.uid).get();
-        if (doc.exists) userData = doc.data();
-      } catch(e) { console.error('Load user error:', e); }
-    }
-
-    async function loadNotificationCount() {
-      try {
-        if (!currentUser) return;
-        const snap = await db.collection('notifications')
-          .where('userId', '==', currentUser.uid)
-          .where('read', '==', false).get();
-        const badge = document.getElementById('notifBadge');
-        if (badge) { badge.textContent = snap.size; badge.style.display = snap.size > 0 ? 'flex' : 'none'; }
-      } catch(e) { console.error('Notif count error:', e); }
-    }
-
-    function updateCartBadge() {
-      const badge = document.getElementById('cartBadge');
-      if (badge) {
-        const count = cart.reduce(function(s,i) { return s + (i.quantity||1); }, 0);
-        badge.textContent = count;
-        badge.style.display = count > 0 ? 'flex' : 'none';
-      }
-    }
-
-    async function loadStorefront() {
-      try {
-        // CRITICAL: Validate sellerId
-        if (!sellerId || sellerId === 'null' || sellerId === 'undefined' || sellerId.trim() === '') {
-          console.error('Invalid sellerId:', sellerId);
-          showError('No seller specified', 'Please provide a valid seller ID in the URL. Example: storefront.html?id=abc123');
+    // REBUILT: Unified Realtime Data Aggregator Engine
+    function loadStorefrontRealtimePipeline() {
+      // Listen to 'users' collection updates
+      db.collection('users').doc(sellerId).onSnapshot(async (userSnapshot) => {
+        if (!userSnapshot.exists) {
+          showError('Profile Not Registered', 'The merchant matching this identification key does not exist on YAN-FLOWS.');
           return;
         }
+        const uData = userSnapshot.data();
 
-        console.log('Loading storefront for sellerId:', sellerId);
-
-        const userDoc = await db.collection('users').doc(sellerId).get();
-        
-        if (!userDoc.exists) {
-          console.error('User document not found for ID:', sellerId);
-          showError('Seller not found', 'This seller does not exist or has been removed. Seller ID: ' + sellerId);          return;
-        }
-        
-        const user = userDoc.data();
-        console.log('Seller data loaded:', user);
-
-        const storeName = user.businessName || user.shopName || user.storeName || user.fullName || user.displayName || user.username || 'Store';
-        document.getElementById('pageTitle').textContent = storeName + ' | YAN-FLOWS';
-        document.getElementById('storeName').textContent = storeName;
-        document.getElementById('storeHandle').textContent = '@' + (user.username || storeName.toLowerCase().replace(/\s+/g, ''));
-        document.getElementById('storeBio').textContent = user.bio || user.description || user.about || 'No description provided.';
-        document.getElementById('storeLocation').textContent = user.location || user.city || user.state || 'Nigeria';
-
-        const rating = user.rating || user.averageRating || user.avgRating || null;
-        document.getElementById('storeRating').textContent = rating ? rating.toFixed(1) + ' ★' : 'New Seller';
-
-        const followers = user.followersCount || user.followers || 0;
-        document.getElementById('followerCount').textContent = followers;
-
-        // Avatar
-        if (user.profilePic || user.avatar || user.photoURL) {
-          const pic = user.profilePic || user.avatar || user.photoURL;
-          document.getElementById('storeAvatar').innerHTML = '<img src="' + pic + '" alt="' + storeName + '" onerror="this.parentElement.innerHTML=\'<div style=\\\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy),var(--teal));color:white;font-size:2.5rem;font-weight:700;\\\">' + storeName.charAt(0).toUpperCase() + '</div>\'"/>';
-        } else {
-          document.getElementById('storeAvatar').innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy),var(--teal));color:white;font-size:2.5rem;font-weight:700;">' + storeName.charAt(0).toUpperCase() + '</div>';
-        }
-
-        // WhatsApp
-        const waNumber = user.whatsapp || user.phone || user.phoneNumber || '';
-        if (waNumber) {
-          const cleanWa = waNumber.replace(/\D/g, '');
-          const waText = encodeURIComponent('Hi ' + storeName + ', I saw your store on YAN-FLOWS.');
-          document.getElementById('whatsappBtn').href = 'https://wa.me/' + cleanWa + '?text=' + waText;
-        } else {
-          document.getElementById('whatsappBtn').style.display = 'none';
-        }
-
-        // Check follow status
-        if (currentUser && currentUser.uid !== sellerId) {
-          try {
-            const followDoc = await db.collection('users').doc(currentUser.uid).collection('following').doc(sellerId).get();
-            if (followDoc.exists) {
-              document.getElementById('followBtn').classList.add('following');
-              document.getElementById('followText').textContent = 'Following';
-              document.querySelector('#followBtn i').className = 'fas fa-check';
-            }
-          } catch(e) {
-            try {
-              const uDoc = await db.collection('users').doc(currentUser.uid).get();
-              if (uDoc.exists && (uDoc.data().following || []).includes(sellerId)) {                document.getElementById('followBtn').classList.add('following');
-                document.getElementById('followText').textContent = 'Following';
-                document.querySelector('#followBtn i').className = 'fas fa-check';
-              }
-            } catch(e2) {}
-          }
-        } else if (currentUser && currentUser.uid === sellerId) {
-          document.getElementById('followBtn').style.display = 'none';
-        }
-
-        await loadProducts();
-
-      } catch (error) {
-        console.error('Storefront error:', error);
-        showError('Error loading store', error.message || 'Unknown error');
-      }
-    }
-
-    function showError(title, message) {
-      document.getElementById('productsGrid').innerHTML =
-        '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-exclamation-triangle" style="color:var(--coral)"></i>' +
-        '<h3>' + title + '</h3><p>' + message + '</p>' +
-        '<a href="dashboard.html" class="btn-buy" style="display:inline-flex;text-decoration:none;margin-top:1rem;padding:0.75rem 1.5rem;border-radius:8px;">' +
-        '<i class="fas fa-home"></i> Back to Dashboard</a></div>';
-      document.getElementById('storeName').textContent = 'Store Not Found';
-      document.getElementById('storeHandle').textContent = '';
-      document.getElementById('storeBio').textContent = '';
-    }
-
-    async function loadProducts() {
-      const grid = document.getElementById('productsGrid');
-      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i><h3>Loading products...</h3></div>';
-
-      try {
-        let products = [];
-
+        // Fetch corresponding profile document from 'business_profiles'
         try {
-          const snapshot = await db.collection('products')
-            .where('sellerId', '==', sellerId)
-            .get();
-          products = snapshot.docs.map(function(doc) { return Object.assign({ id: doc.id }, doc.data()); });
-          console.log('Products loaded:', products.length);
-        } catch(queryErr) {
-          console.warn('Query failed, trying fallback...');
-          throw queryErr;
+          const bpDoc = await db.collection('business_profiles').doc(sellerId).get();
+          const bpData = bpDoc.exists ? bpDoc.data() : {};
+
+          // Cross-merge attributes cleanly
+          sellerMergedData = { ...uData, ...bpData };
+          renderStorefrontHeader();
+        } catch (err) {
+          console.error("Error cross-referencing files:", err);
         }
+      }, (error) => {
+        showError('Network Interruption', 'Could not sync real-time storefront modifications.');
+      });
 
-        if (products.length === 0) {
-          grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-box-open"></i><h3>No products yet</h3><p>This seller hasn\'t uploaded any items.</p></div>';
-          document.getElementById('productCount').textContent = '0';          return;
-        }
+      // Dynamic Active Inventory Pulling Engine
+      loadSellerProducts();
 
-        allProducts = products;
-        document.getElementById('productCount').textContent = allProducts.length;
+      // Dynamic Real-time Follower Calculation Framework (Sourced from profile layout)
+      db.collection('users').where('following', 'array-contains', sellerId)
+        .onSnapshot((snap) => {
+          document.getElementById('followerCount').textContent = snap.size;
+        });
+    }
 
-        const categories = [...new Set(allProducts.map(function(p) { return p.category || 'Other'; }))];
-        const filterTabs = document.getElementById('filterTabs');
-        filterTabs.innerHTML = '<button class="filter-tab active" data-category="all">All (' + allProducts.length + ')</button>';
-        categories.forEach(function(cat) {
-          if (cat) {
-            const count = allProducts.filter(function(p) { return (p.category || 'Other') === cat; }).length;
-            filterTabs.innerHTML += '<button class="filter-tab" data-category="' + cat + '">' + cat + ' (' + count + ')</button>';
+    function renderStorefrontHeader() {
+      const name = getDisplayName(sellerMergedData);
+      const handle = getUsername(sellerMergedData);
+      
+      document.getElementById('pageTitle').textContent = name + ' | YAN-FLOWS';
+      document.getElementById('storeName').textContent = name;
+      document.getElementById('storeHandle').textContent = handle;
+      
+      // FIX: Falls back seamlessly through all business profile variations
+      document.getElementById('storeBio').textContent = sellerMergedData.description || sellerMergedData.bio || sellerMergedData.about || 'Welcome to my digital marketplace catalog!';
+      document.getElementById('storeLocation').textContent = sellerMergedData.location || sellerMergedData.city || sellerMergedData.state || 'Nigeria';
+      
+      // Dynamic Profile Media Update Pipeline
+      const pic = sellerMergedData.profilePic || sellerMergedData.avatar || sellerMergedData.photoURL;
+      const avatarEl = document.getElementById('storeAvatar');
+      if (pic) {
+        avatarEl.innerHTML = '<img src="' + escapeHtml(pic) + '" alt="Merchant Pic"/>';
+      } else {
+        avatarEl.innerHTML = '<div class="placeholder">' + name.charAt(0).toUpperCase() + '</div>';
+      }
+      
+      // WhatsApp Gateway Setup
+      const wa = sellerMergedData.whatsapp || sellerMergedData.phone || '';
+      const waBtn = document.getElementById('whatsappBtn');
+      if (wa) {
+        waBtn.href = 'https://wa.me/' + wa.replace(/\D/g, '');
+        waBtn.style.display = 'inline-flex';
+      } else {
+        waBtn.style.display = 'none';
+      }
+      
+      setupFollowUI();
+    }
+
+    function setupFollowUI() {
+      const btn = document.getElementById('followBtn');
+      if (!currentUser || currentUser.uid === sellerId) {
+        btn.style.display = 'none';
+        return;
+      }
+      btn.style.display = 'inline-block';
+      
+      db.collection('users').doc(currentUser.uid).collection('following').doc(sellerId).get()
+        .then(doc => {
+          if (doc.exists) {
+            btn.classList.add('following');
+            btn.textContent = '✓ Following';
+          } else {
+            btn.classList.remove('following');
+            btn.textContent = '+ Follow Seller';
+          }
+        }).catch(() => {
+          if (userData.following && userData.following.includes(sellerId)) {
+            btn.classList.add('following');
+            btn.textContent = '✓ Following';
           }
         });
-        filterTabs.querySelectorAll('.filter-tab').forEach(function(btn) {
-          btn.addEventListener('click', function(e) {
-            filterTabs.querySelectorAll('.filter-tab').forEach(function(b) { b.classList.remove('active'); });
-            e.target.classList.add('active');
-            currentFilter = e.target.dataset.category;
-            renderProducts();
-          });
-        });
-
-        renderProducts();
-
-      } catch (error) {
-        console.error('Load products error:', error);
-        grid.innerHTML =
-          '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-exclamation-triangle" style="color:var(--coral)"></i>' +
-          '<h3>Could not load products</h3>' +
-          '<p>' + (error.message || 'Permission denied or network error. Please try again.') + '</p>' +
-          '<button onclick="loadProducts()" class="btn-buy" style="display:inline-flex;margin-top:1rem;padding:0.75rem 1.5rem;border-radius:8px;border:none;cursor:pointer;">' +
-          '<i class="fas fa-redo"></i> Retry</button></div>';
-      }
     }
 
-    function renderProducts() {
+    async function loadSellerProducts() {
       const grid = document.getElementById('productsGrid');
-      const filtered = currentFilter === 'all'
-        ? allProducts
-        : allProducts.filter(function(p) { return (p.category || 'Other') === currentFilter; });
-
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-search"></i><h3>No products</h3><p>No products in this category.</p></div>';
-        return;
-      }
-      grid.innerHTML = '';
-      filtered.forEach(function(product) { grid.appendChild(createProductCard(product)); });
-    }
-    function createProductCard(product) {
-      const div = document.createElement('div');
-      div.className = 'product-card';
-      const productId = product.id;
-      const sellerName = document.getElementById('storeName').textContent;
-      const isOutOfStock = product.stock === 0;
-      const isLowStock   = product.stock > 0 && product.stock <= 5;
-
-      div.innerHTML =
-        '<div class="product-img" onclick="window.location.href=\'product-detail.html?id=' + productId + '\'">' +
-          '<img src="' + (product.image || product.imageUrl || 'https://via.placeholder.com/400?text=No+Image') + '" alt="' + (product.name||'') + '" onerror="this.src=\'https://via.placeholder.com/400?text=Image+Not+Found\'"/>' +
-          (isLowStock ? '<span class="product-badge">Low Stock</span>' : '') +
-          (isOutOfStock ? '<span class="product-badge" style="background:var(--gray)">Out of Stock</span>' : '') +
-        '</div>' +
-        '<div class="product-body">' +
-          '<div class="product-cat">' + (product.category || 'General') + '</div>' +
-          '<div class="product-name">' + (product.name || 'Unnamed') + '</div>' +
-          '<div class="product-price">' + formatCurrency(product.price) + '</div>' +
-          '<div class="product-footer">' +
-            '<button class="btn-cart" onclick="addToCart(\'' + productId + '\',\'' + (sellerName).replace(/'/g, "\\'") + '\',\'' + (product.name||'').replace(/'/g, "\\'") + '\',' + (product.price||0) + ',\'' + (product.image||product.imageUrl||'') + '\',' + (product.stock||0) + ')" ' + (isOutOfStock ? 'disabled' : '') + '>' +
-              '<i class="fas fa-cart-plus"></i> ' + (isOutOfStock ? 'Out of Stock' : 'Add') +
-            '</button>' +
-            '<button class="btn-buy" onclick="buyNow(\'' + productId + '\')" ' + (isOutOfStock ? 'disabled' : '') + '>' +
-              '<i class="fas fa-bolt"></i> Buy' +
-            '</button>' +
-          '</div>' +
-        '</div>';
-      return div;
-    }
-
-    window.addToCart = function(productId, sellerName, productName, price, image, stock) {
-      if (!currentUser) {
-        showToast('Please login to add to cart', 'info');
-        setTimeout(function() { window.location.href = 'login.html'; }, 1500);
-        return;
-      }
-      if (stock === 0) { showToast('Out of stock', 'error'); return; }
-
-      try { cart = JSON.parse(localStorage.getItem('yanflows_cart') || '[]'); } catch(e) { cart = []; }
-
-      const idx = cart.findIndex(function(i) { return i.productId === productId; });
-      if (idx >= 0) {
-        if (cart[idx].quantity >= stock) { showToast('Max quantity reached', 'error'); return; }
-        cart[idx].quantity++;
-      } else {
-        cart.push({
-          productId: productId, sellerId: sellerId,
-          sellerName: sellerName, name: productName,
-          price: parseFloat(price) || 0, image: image,          stock: stock, quantity: 1
+      // Set a realtime snapshot listener for listed items so additions/deletions update instantly
+      db.collection('products').where('sellerId', '==', sellerId)
+        .onSnapshot((snap) => {
+          allProducts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          document.getElementById('productCount').textContent = allProducts.length;
+          
+          if (allProducts.length === 0) {
+            grid.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><h3>Catalog Empty</h3><p>This seller hasn\'t updated their storefront listings yet.</p></div>';
+            return;
+          }
+          
+          const categories = [...new Set(allProducts.map(p => p.category || 'General'))];
+          const tabsContainer = document.getElementById('filterTabs');
+          tabsContainer.innerHTML = '<button class="filter-tab active" data-category="all">All ('+allProducts.length+')</button>';
+          
+          categories.forEach(cat => {
+            const count = allProducts.filter(p => (p.category || 'General') === cat).length;
+            tabsContainer.innerHTML += '<button class="filter-tab" data-category="'+escapeHtml(cat)+'">'+escapeHtml(cat)+' ('+count+')</button>';
+          });
+          
+          tabsContainer.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.onclick = (e) => {
+              tabsContainer.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+              tab.classList.add('active');
+              renderProductGrid(tab.dataset.category);
+            };
+          });
+          
+          renderProductGrid('all');
+        }, (err) => {
+          grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Failed to load collection</h3></div>';
         });
-      }
-      localStorage.setItem('yanflows_cart', JSON.stringify(cart));
-      updateCartBadge();
-      showToast('✅ Added to cart!', 'success');
+    }
 
-      if (currentUser) {
-        createNotification(sellerId, 'cart_add',
-          (userData.fullName || 'A user') + ' added "' + productName + '" to cart',
-          { productId: productId, productName: productName, price: price }
-        );
+    function renderProductGrid(category) {
+      const grid = document.getElementById('productsGrid');
+      const filtered = category === 'all' ? allProducts : allProducts.filter(p => (p.category || 'General') === category);
+      
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><h3>No matches in this filter group</h3></div>';
+        return;
+      }
+      
+      grid.innerHTML = '';
+      filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        const stock = Number(p.stock) || 0;
+        const inStock = stock > 0;
+        
+        const stringifiedJSON = JSON.stringify({
+          id: p.id,
+          name: p.name || 'Product',
+          price: p.price || 0,
+          image: p.image || p.imageUrl || '',
+          stock: stock
+        }).replace(/"/g, '&quot;');
+
+        card.innerHTML = `
+          <div class="product-img" onclick="window.location.href='product-detail.html?id=${p.id}'">
+            <img src="${escapeHtml(p.image || p.imageUrl || 'https://via.placeholder.com/400?text=No+Image')}" onerror="this.src='https://via.placeholder.com/400?text=Image+Missing'"/>
+            ${!inStock ? '<span class="product-badge" style="background:#6C757D;">Sold Out</span>' : (stock <= 5 ? '<span class="product-badge">Low Stock</span>' : '')}
+          </div>
+          <div class="product-body">
+            <div class="product-cat">${escapeHtml(p.category || 'General')}</div>
+            <div class="product-name">${escapeHtml(p.name || 'Unnamed Product')}</div>
+            <div class="product-price">${formatCurrency(p.price)}</div>
+            <div class="product-footer">
+              <button class="btn-cart" ${inStock ? `onclick="addToCartEngine('${p.id}', ${stringifiedJSON})"` : 'disabled'}>Add to Cart</button>
+              <button class="btn-buy" ${inStock ? `onclick="buyNowEngine('${p.id}', ${stringifiedJSON})"` : 'disabled'}>Buy Now</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    window.addToCartEngine = async function(pid, productObj) {
+      if (!currentUser) {
+        showToast('Account tracking requires an authentication signature.', true);
+        setTimeout(() => window.location.href = 'login.html', 1500);
+        return;
+      }
+      
+      try {
+        const cartRef = db.collection('carts').doc(currentUser.uid).collection('items').doc(pid);
+        const snap = await cartRef.get();
+        
+        if (snap.exists) {
+          const nextQty = (snap.data().quantity || 1) + 1;
+          if (nextQty > productObj.stock) {
+            showToast('Selected balance limits exceeded available merchant reserves.', true);
+            return;
+          }
+          await cartRef.update({ quantity: nextQty });
+        } else {
+          await cartRef.set({
+            productId: pid,
+            sellerId: sellerId,
+            sellerName: getDisplayName(sellerMergedData),
+            name: productObj.name,
+            price: productObj.price,
+            image: productObj.image,
+            stock: productObj.stock,
+            quantity: 1,
+            addedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+        
+        let local = JSON.parse(localStorage.getItem('yanflows_cart') || '[]');
+        let fIdx = local.findIndex(i => i.productId === pid);
+        if (fIdx >= 0) local[fIdx].quantity = (local[fIdx].quantity || 1) + 1;
+        else local.push({ productId: pid, sellerId: sellerId, sellerName: getDisplayName(sellerMergedData), ...productObj, quantity: 1 });
+        
+        localStorage.setItem('yanflows_cart', JSON.stringify(local));
+        refreshCartUI();
+        showToast('🛒 Product committed to your cart context!');
+      } catch(e) {
+        showToast('Transaction validation failed.', true);
       }
     };
 
-    window.buyNow = function(productId) {
-      if (!currentUser) {
-        showToast('Please login to buy', 'info');
-        setTimeout(function() { window.location.href = 'login.html'; }, 1500);
-        return;
-      }
-      const product = allProducts.find(function(p) { return p.id === productId; });
-      if (product) {
-        addToCart(productId, document.getElementById('storeName').textContent,
-          product.name, product.price, product.image || product.imageUrl || '', product.stock || 0);
-        setTimeout(function() { window.location.href = 'checkout.html'; }, 500);
-      }
+    window.buyNowEngine = function(pid, productObj) {
+      window.addToCartEngine(pid, productObj);
+      setTimeout(() => window.location.href = 'checkout.html', 600);
     };
 
     window.toggleFollow = async function() {
-      if (!currentUser) {
-        showToast('Please login to follow', 'info');
-        setTimeout(function() { window.location.href = 'login.html'; }, 1500);
-        return;
-      }
-      const btn  = document.getElementById('followBtn');
-      const text = document.getElementById('followText');
-      const icon = btn.querySelector('i');
+      if (!currentUser) return;
+      const btn = document.getElementById('followBtn');
       const isFollowing = btn.classList.contains('following');
-
       btn.disabled = true;
+      
       try {
-        const followRef = db.collection('users').doc(currentUser.uid).collection('following').doc(sellerId);
+        const meRef = db.collection('users').doc(currentUser.uid);
+        const sellerRef = db.collection('users').doc(sellerId);
+        
         if (isFollowing) {
-          try { await followRef.delete(); } catch(e) {}
-          await db.collection('users').doc(currentUser.uid).update({
-            following: firebase.firestore.FieldValue.arrayRemove(sellerId),
-            followingCount: firebase.firestore.FieldValue.increment(-1)
-          }).catch(function(){});
-          await db.collection('users').doc(sellerId).update({            followersCount: firebase.firestore.FieldValue.increment(-1)
-          }).catch(function(){});
-
-          btn.classList.remove('following');
-          text.textContent = 'Follow';
-          icon.className = 'fas fa-plus';
-          const countEl = document.getElementById('followerCount');
-          if (countEl) countEl.textContent = Math.max(0, parseInt(countEl.textContent || '0') - 1);
-          showToast('Unfollowed', 'info');
-
+          await meRef.collection('following').doc(sellerId).delete();
+          await meRef.update({ following: firebase.firestore.FieldValue.arrayRemove(sellerId), followingCount: firebase.firestore.FieldValue.increment(-1) });
+          await sellerRef.update({ followersCount: firebase.firestore.FieldValue.increment(-1) });
         } else {
-          await followRef.set({
-            followedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            sellerName: document.getElementById('storeName').textContent
+          await meRef.collection('following').doc(sellerId).set({ followedAt: firebase.firestore.FieldValue.serverTimestamp(), sellerName: getDisplayName(sellerMergedData) });
+          await meRef.update({ following: firebase.firestore.FieldValue.arrayUnion(sellerId), followingCount: firebase.firestore.FieldValue.increment(1) });
+          await sellerRef.update({ followersCount: firebase.firestore.FieldValue.increment(1) });
+          
+          db.collection('notifications').add({
+            userId: sellerId,
+            type: 'follow',
+            from: currentUser.uid,
+            fromName: getDisplayName(userData),
+            message: getDisplayName(userData) + ' navigated into your community ring!',
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
-          await db.collection('users').doc(currentUser.uid).update({
-            following: firebase.firestore.FieldValue.arrayUnion(sellerId),
-            followingCount: firebase.firestore.FieldValue.increment(1)
-          }).catch(function(){});
-          await db.collection('users').doc(sellerId).update({
-            followersCount: firebase.firestore.FieldValue.increment(1)
-          }).catch(function(){});
-
-          btn.classList.add('following');
-          text.textContent = 'Following';
-          icon.className = 'fas fa-check';
-          const countEl = document.getElementById('followerCount');
-          if (countEl) countEl.textContent = parseInt(countEl.textContent || '0') + 1;
-          showToast('✅ Now following!', 'success');
-
-          createNotification(sellerId, 'new_follower',
-            (userData.fullName || 'Someone') + ' started following you'
-          );
         }
-      } catch(e) {
-        console.error('Follow error:', e);
-        showToast('Error: ' + (e.message || 'Please try again'), 'error');
-      }
+      } catch(e) { console.error(e); }
       btn.disabled = false;
     };
 
-    async function createNotification(userId, type, message, extra) {
-      extra = extra || {};
-      try {
-        await db.collection('notifications').add(Object.assign({
-          userId: userId, type: type, message: message,
-          read: false, createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          fromUserId: currentUser ? currentUser.uid : null,
-          fromUserName: userData.fullName || 'Someone'
-        }, extra));      } catch(e) { console.error('Notification error:', e); }
+    function showError(title, msg) {
+      document.getElementById('storeName').textContent = title;
+      document.getElementById('storeBio').textContent = msg;
+      document.getElementById('productsGrid').innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-store-slash"></i>
+          <h3>${escapeHtml(title)}</h3>
+          <p>${escapeHtml(msg)}</p>
+          <button class="btn-primary nav-btn" style="margin-top:1rem;" onclick="window.location.href='dashboard.html'">Return to News Feed</button>
+        </div>`;
     }
-
-    // Load storefront
-    loadStorefront();
   </script>
 </body>
 </html>
